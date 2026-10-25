@@ -188,11 +188,32 @@ PY
 1. **T1 (MetaMask Add Network & Quoted Fee)**: Open `vestorin_app.html` on a Tailnet device with MetaMask installed. Click **Generate Real BIP-39 Phrase**, import the 24 words into MetaMask, verify the address matches Step 02 character-for-character, click **+ Add Vestorin to MetaMask**, and click **Request Claim Transfer**. After 5 seconds (1 Clique block), confirm `21,000,000 VST` appears in MetaMask.
 2. **T2 (Remote `gasPrice = 0` vs `1 wei` floor)**: In MetaMask, send `1 VST` back to `0x3b4b3bf0c3f417ec1beb87476e5bb7c50a219f3b`. First test with default gas (`1 gwei` = `0.000021 VST`), then test with advanced gas settings (`gasPrice = 0`). If `geth 1.13.14` rejects remote `0` due to its `--txpool.pricelimit 1` floor, set `VESTORIN_OVERRIDE_GASPRICE="0x1"` (1 wei) or keep default `1 gwei`.
 
-### Check 4: Optional Public HTTPS Tunnel (When Owner Taps Decision D1)
-Once the owner approves public HTTPS exposure (Decision D1), run `caddy` or `cloudflared` in front of `100.77.188.3:8546`:
-```caddyfile
-rpc-staging.vestorin.com {
-    reverse_proxy 127.0.0.1:8546
-}
-```
-Then update `STAGING_CHAIN.rpcUrl` in `vestorin_app.html` from `http://100.77.188.3:8546` to `https://rpc-staging.vestorin.com` so HTTPS-hosted pages (Google Sites / GitHub Pages) have zero Mixed-Content browser blocks.
+### Check 4: Tailnet HTTPS Serving & Real TLS Certificate (MIN-227, D1-Gated)
+
+Under ticket **MIN-227**, both frontend and relayer RPC are served over TLS using a genuine Let's Encrypt certificate obtained via DNS-01 challenge, while maintaining strict Tailnet-only isolation (Decision D1 remains untapped; zero public reachability):
+
+1. **Certificate Details**:
+   - **Issuer**: Let's Encrypt (`YE1`)
+   - **Common Name**: `app-staging.vestorin.com`
+   - **Subject Alternative Names (SANs)**: `app-staging.vestorin.com`, `rpc-staging.vestorin.com`, `staging.vestorin.com`
+   - **Validity**: 90 days (Oct 25, 2026 to Jan 23, 2027)
+   - **Challenge Mechanism**: Automated DNS-01 challenge via Cloudflare Authoritative DNS API (Zone ID `6de3ec21775db2e33445ac33446660bd`)
+
+2. **DNS & Routing Architecture**:
+   - Cloudflare authoritative DNS A records (unproxied `proxied: false`) resolve:
+     - `app-staging.vestorin.com` -> `100.77.188.3`
+     - `rpc-staging.vestorin.com` -> `100.77.188.3`
+     - `staging.vestorin.com` -> `100.77.188.3`
+   - The IP `100.77.188.3` is Wolfram's Tailscale CGNAT address (`100.64.0.0/10`), strictly unreachable from the general public internet.
+
+3. **Server Configuration**:
+   - `vestorin_wolfram_relayer.py` dual-listens on `100.77.188.3`:
+     - **HTTPS Port 8443**: `https://app-staging.vestorin.com:8443` (Frontend & RPC), `https://rpc-staging.vestorin.com:8443` (RPC & PoUW API)
+     - **HTTP Port 8546**: `http://100.77.188.3:8546` (Plain-HTTP safety net with Pure-JS fallback)
+   - LaunchAgent configuration: `com.vestorin.staging.relayer.plist` specifies `VESTORIN_TLS_CERT`, `VESTORIN_TLS_KEY`, and `VESTORIN_TLS_PORT=8443`.
+
+4. **Security & Browser Guarantees**:
+   - `window.isSecureContext === true` on all Tailnet browser devices.
+   - Native Web Cryptography API (`window.crypto.subtle`) hardware acceleration active.
+   - Mixed-content errors eliminated: both frontend and RPC share encrypted TLS context.
+   - Decision D1 (public internet exposure) remains strictly untapped.

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.vestorin.staging.relayer</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/bin/python3</string>
+    <string>/Users/pavelcherkashin/vestorin-chain/vestorin_wolfram_relayer.py</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PYTHONUNBUFFERED</key>
+    <string>1</string>
+    <key>VESTORIN_GETH_RPC</key>
+    <string>http://127.0.0.1:8545</string>
+    <key>VESTORIN_BIND_HOST</key>
+    <string>100.77.188.3</string>
+    <key>VESTORIN_BIND_PORT</key>
+    <string>8546</string>
+    <key>VESTORIN_DB_PATH</key>
+    <string>/Users/pavelcherkashin/vestorin-chain/vestorin_relayer_state.db</string>
+    <key>VESTORIN_FAUCET_KEYSTORE</key>
+    <string>/Users/pavelcherkashin/vestorin-chain/data113/keystore/UTC--2026-10-24T23-30-40.934076000Z--1821dc3f0974339db7c7146037b40f54a2e222c3</string>
+    <key>VESTORIN_FAUCET_PASSWORD_FILE</key>
+    <string>/Users/pavelcherkashin/vestorin-chain/faucet_password.txt</string>
+    <key>VESTORIN_HMAC_SECRET_FILE</key>
+    <string>/Users/pavelcherkashin/vestorin-chain/hmac_secret.txt</string>
+    <key>VESTORIN_POUW_BITS</key>
+    <string>12</string>
+    <key>VESTORIN_COOLDOWN_SECONDS</key>
+    <string>86400</string>
+    <key>VESTORIN_APP_HTML</key>
+    <string>/Users/pavelcherkashin/vestorin-chain/vestorin_app.html</string>
+    <key>VESTORIN_TLS_CERT</key>
+    <string>/Users/pavelcherkashin/.certbot/config/live/app-staging.vestorin.com/fullchain.pem</string>
+    <key>VESTORIN_TLS_KEY</key>
+    <string>/Users/pavelcherkashin/.certbot/config/live/app-staging.vestorin.com/privkey.pem</string>
+    <key>VESTORIN_TLS_PORT</key>
+    <string>8443</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/Users/pavelcherkashin/vestorin-chain/relayer.stdout.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/pavelcherkashin/vestorin-chain/relayer.stderr.log</string>
+</dict>
+</plist>

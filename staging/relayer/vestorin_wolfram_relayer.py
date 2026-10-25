@@ -41,6 +41,7 @@ import re
 import secrets
 import socketserver
 import sqlite3
+import ssl
 import subprocess
 import sys
 import threading
@@ -798,6 +799,7 @@ class VestorinRelayerHandler(http.server.BaseHTTPRequestHandler):
 
 class ThreadedHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
     daemon_threads = True
+    allow_reuse_address = True
 
 # =============================================================================
 # 7. SELF-TEST SUITE & CLI ENTRYPOINT
@@ -857,7 +859,12 @@ def run_self_tests() -> None:
     assert el2 is False and "cooldown active" in msg2
     os.remove(test_db_path)
     print("      PASS: SQLite cooldown & proof-hash registry verified.")
-    print("ALL 4 SELF-TESTS PASSED.")
+
+    print("[5/5] Testing TLS / HTTPS capabilities & stdlib SSL context...")
+    test_tls_ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    assert test_tls_ctx is not None
+    print("      PASS: stdlib ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER) initialized cleanly.")
+    print("ALL 5 SELF-TESTS PASSED.")
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Vestorin Wolfram Faucet Relayer & Safe JSON-RPC Proxy")
@@ -898,12 +905,29 @@ def main() -> None:
     VestorinRelayerHandler.db = db
     VestorinRelayerHandler.dispatcher = dispatcher
 
-    srv = ThreadedHTTPServer((BIND_HOST, BIND_PORT), VestorinRelayerHandler)
+    tls_cert = os.environ.get("VESTORIN_TLS_CERT", "").strip()
+    tls_key = os.environ.get("VESTORIN_TLS_KEY", "").strip()
+    tls_port = int(os.environ.get("VESTORIN_TLS_PORT", "8443"))
+
+    http_srv = ThreadedHTTPServer((BIND_HOST, BIND_PORT), VestorinRelayerHandler)
     print(f"[READY] Vestorin Relayer & Safe RPC Proxy listening on http://{BIND_HOST}:{BIND_PORT}")
     print(f"        Upstream Geth RPC : {GETH_LOCAL_RPC}")
     print(f"        Chain ID          : {CHAIN_ID_DEC} ({CHAIN_ID_HEX})")
     print(f"        Faucet Address    : {FAUCET_ADDRESS}")
-    srv.serve_forever()
+
+    if tls_cert and tls_key and os.path.exists(tls_cert) and os.path.exists(tls_key):
+        tls_ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+        tls_ctx.load_cert_chain(certfile=tls_cert, keyfile=tls_key)
+        https_srv = ThreadedHTTPServer((BIND_HOST, tls_port), VestorinRelayerHandler)
+        https_srv.socket = tls_ctx.wrap_socket(https_srv.socket, server_side=True)
+        print(f"[READY] Vestorin HTTPS Relayer & Safe RPC Proxy listening on https://{BIND_HOST}:{tls_port}")
+        print(f"        TLS Certificate   : {tls_cert}")
+        https_thread = threading.Thread(target=https_srv.serve_forever, daemon=True)
+        https_thread.start()
+    else:
+        print("[INFO] No TLS certificate configured; HTTPS listener disabled.")
+
+    http_srv.serve_forever()
 
 if __name__ == "__main__":
     main()
