@@ -1,0 +1,84 @@
+{
+  "timestamp": "2026-10-25T18:27:14Z",
+  "url": "https://app-staging.vestorin.com:8443/",
+  "origin": "https://app-staging.vestorin.com:8443",
+  "protocol": "https:",
+  "isSecureContext": true,
+  "hasCryptoSubtle": true,
+  "bannerVerification": {
+    "title": "Secure Context Verified (window.isSecureContext === true)",
+    "strictCheck": "window.isSecureContext === true",
+    "verifiedActive": true
+  },
+  "activeRpcUrl": "https://app-staging.vestorin.com:8443",
+  "tlsHandshake": {
+    "status": "secure",
+    "protocol": "TLS 1.3",
+    "cipher": "TLS_AES_256_GCM_SHA384",
+    "subject": "CN=app-staging.vestorin.com",
+    "issuer": "C=US, O=Let's Encrypt, CN=YE1",
+    "sans": [
+      "app-staging.vestorin.com",
+      "rpc-staging.vestorin.com",
+      "staging.vestorin.com"
+    ],
+    "validUntil": "2027-01-23T16:46:44Z"
+  },
+  "claimFlow": {
+    "recipientAddress": "0x8E035f6A0C8E3cD4c3c641a58bE99c16FFD7D82d",
+    "dosageVST": 21000000,
+    "proofHash": "0x539bf302d93e157777174db5b3e52818c64c784f1073e658ec35c5c938d21c76",
+    "txHash": "0xf23715f0d49c4202590e31ada122e81f518a26b43f252497e9f3af4d3432609f",
+    "minedInBlock": 12976,
+    "status": "confirmed"
+  },
+  "consoleAudit": {
+    "totalEntries": 4,
+    "errors": 0,
+    "warnings": 0,
+    "mixedContentViolations": 0,
+    "messages": [
+      "[INFO] Navigated to https://app-staging.vestorin.com:8443/",
+      "[INFO] window.isSecureContext === true verified",
+      "[INFO] Web Cryptography API window.crypto.subtle active",
+      "[INFO] Faucet claim submitted and confirmed"
+    ]
+  },
+  "networkAudit": {
+    "totalRequests": 5,
+    "failedRequests": 0,
+    "mixedContentRequests": 0,
+    "requests": [
+      {
+        "url": "https://app-staging.vestorin.com:8443/",
+        "method": "GET",
+        "status": 200,
+        "type": "document"
+      },
+      {
+        "url": "https://app-staging.vestorin.com:8443/assets/vestorin-mark.svg",
+        "method": "GET",
+        "status": 200,
+        "type": "image"
+      },
+      {
+        "url": "https://app-staging.vestorin.com:8443/api/v1/challenge?address=0x8e035f6a0c8e3cd4c3c641a58be99c16ffd7d82d",
+        "method": "GET",
+        "status": 200,
+        "type": "fetch"
+      },
+      {
+        "url": "https://app-staging.vestorin.com:8443/api/v1/claim",
+        "method": "POST",
+        "status": 200,
+        "type": "fetch"
+      },
+      {
+        "url": "https://app-staging.vestorin.com:8443/api/v1/faucet-status",
+        "method": "GET",
+        "status": 200,
+        "type": "fetch"
+      }
+    ]
+  }
+}

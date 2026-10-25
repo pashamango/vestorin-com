@@ -651,6 +651,58 @@ class VestorinRelayerHandler(http.server.BaseHTTPRequestHandler):
             )
             return
 
+        if parsed.path in ("/api/v1/faucet-status", "/api/v1/faucet/stats"):
+            total_claims = 0
+            recent_1h = 0
+            recent_24h = 0
+            now_ts = int(time.time())
+            if self.db:
+                with self.db.lock, sqlite3.connect(self.db.db_path) as conn:
+                    total_claims = conn.execute("SELECT COUNT(*) FROM claims").fetchone()[0]
+                    recent_1h = conn.execute("SELECT COUNT(*) FROM claims WHERE claimed_at > ?", (now_ts - 3600,)).fetchone()[0]
+                    recent_24h = conn.execute("SELECT COUNT(*) FROM claims WHERE claimed_at > ?", (now_ts - 86400,)).fetchone()[0]
+
+            faucet_bal_vst = None
+            faucet_bal_hex = None
+            try:
+                bal_resp = call_local_geth("eth_getBalance", [FAUCET_ADDRESS, "latest"])
+                faucet_bal_hex = bal_resp.get("result", "0x0")
+                faucet_bal_vst = int(faucet_bal_hex, 16) / (10**18)
+            except Exception:
+                pass
+
+            remaining_claims = int(faucet_bal_vst // MAX_CLAIM_VST) if faucet_bal_vst else 1000000 - total_claims
+
+            self._send_json(
+                200,
+                {
+                    "status": "healthy" if (faucet_bal_vst is None or faucet_bal_vst > 100000000) else "warning",
+                    "faucetAddress": FAUCET_ADDRESS,
+                    "faucetBalanceVST": faucet_bal_vst,
+                    "faucetBalanceHex": faucet_bal_hex,
+                    "maxDosagePerClaimVST": MAX_CLAIM_VST,
+                    "cooldownSeconds": COOLDOWN_SECONDS,
+                    "baseDifficultyBits": BASE_POUW_DIFFICULTY_BITS,
+                    "adaptiveDifficultyScaling": "active (+1 bit per 5 claims/hr from /24 subnet)",
+                    "claimMetrics": {
+                        "lifetimeClaims": total_claims,
+                        "claimsLast1Hour": recent_1h,
+                        "claimsLast24Hours": recent_24h,
+                        "claimVelocityPerHour": recent_1h,
+                        "remainingCapacityClaims": remaining_claims,
+                    },
+                    "abuseMitigations": [
+                        "Per-address 24h cooldown registry",
+                        "SPEC-04 strictly descending poset rank verification",
+                        "Carlström Wheel W(Q) non-trivial evaluation witness",
+                        "Stateless HMAC-SHA256 challenge bound to block number & time bucket",
+                        "Sliding-window /24 subnet adaptive PoUW difficulty scaling (+0 to +6 bits)",
+                        "Single-use proof_hash replay elimination"
+                    ]
+                }
+            )
+            return
+
         if parsed.path == "/api/v1/challenge":
             qs = urllib.parse.parse_qs(parsed.query)
             addr = (qs.get("address") or [""])[0].strip()
@@ -805,7 +857,7 @@ class ThreadedHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
 # 7. SELF-TEST SUITE & CLI ENTRYPOINT
 # =============================================================================
 def run_self_tests() -> None:
-    print("[1/4] Testing Keccak-256 & secp256k1 address derivation...")
+    print("[1/5] Testing Keccak-256 & secp256k1 address derivation...")
     empty_k = keccak256(b"").hex()
     assert empty_k == "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470", f"Keccak mismatch: {empty_k}"
     test_priv = int("4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318", 16)
@@ -813,7 +865,7 @@ def run_self_tests() -> None:
     assert derived_addr.lower() == "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23", f"Address mismatch: {derived_addr}"
     print(f"      PASS: Keccak-256 & secp256k1 verified ({derived_addr})")
 
-    print("[2/4] Testing Legacy EIP-155 Transaction Signing (Chain ID 202627 / gasPrice 0)...")
+    print("[2/5] Testing Legacy EIP-155 Transaction Signing (Chain ID 202627 / gasPrice 0)...")
     raw_tx, tx_hash = sign_legacy_eip155_tx(
         priv_int=test_priv,
         nonce=0,
@@ -826,7 +878,7 @@ def run_self_tests() -> None:
     assert raw_tx.startswith("0xf8") and len(tx_hash) == 66
     print(f"      PASS: EIP-155 raw tx = {raw_tx[:42]}... | txHash = {tx_hash}")
 
-    print("[3/4] Testing Deterministic PoUW Challenge & SPEC-04 / Wheel W(Q) Verifier...")
+    print("[3/5] Testing Deterministic PoUW Challenge & SPEC-04 / Wheel W(Q) Verifier...")
     sample_addr = "0x9858EfFD232B4033E47d90003D41EC34EcaEda94"
     now_ts = int(time.time())
     token = make_challenge_token(sample_addr, 105, 8, now_ts)
@@ -846,7 +898,7 @@ def run_self_tests() -> None:
     assert not bad_ok and "SPEC-04 violation" in bad_msg
     print(f"      PASS: Non-descending SPEC-04 sequence rejected ({bad_msg})")
 
-    print("[4/4] Testing SQLite Quota, Cooldown & Proof-Hash Replay Prevention...")
+    print("[4/5] Testing SQLite Quota, Cooldown & Proof-Hash Replay Prevention...")
     test_db_path = "/tmp/test_vestorin_relayer.db"
     if os.path.exists(test_db_path):
         os.remove(test_db_path)
@@ -860,10 +912,54 @@ def run_self_tests() -> None:
     os.remove(test_db_path)
     print("      PASS: SQLite cooldown & proof-hash registry verified.")
 
-    print("[5/5] Testing TLS / HTTPS capabilities & stdlib SSL context...")
+    print("[5/5] Testing TLS / HTTPS capabilities, cert loading & live TLS handshake...")
     test_tls_ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-    assert test_tls_ctx is not None
-    print("      PASS: stdlib ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER) initialized cleanly.")
+    cert_path = "/tmp/test_self_tls_cert.pem"
+    key_path = "/tmp/test_self_tls_key.pem"
+    staging_cert = "/Users/pavelcherkashin/.certbot/config/live/app-staging.vestorin.com/fullchain.pem"
+    staging_key = "/Users/pavelcherkashin/.certbot/config/live/app-staging.vestorin.com/privkey.pem"
+    using_staging = os.path.exists(staging_cert) and os.path.exists(staging_key)
+
+    if using_staging:
+        test_tls_ctx.load_cert_chain(certfile=staging_cert, keyfile=staging_key)
+    else:
+        subprocess.run(
+            ["openssl", "req", "-x509", "-newkey", "rsa:2048", "-keyout", key_path, "-out", cert_path, "-days", "1", "-nodes", "-subj", "/CN=localhost"],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+        test_tls_ctx.load_cert_chain(certfile=cert_path, keyfile=key_path)
+
+    client_ctx = ssl.create_default_context()
+    client_ctx.check_hostname = False
+    client_ctx.verify_mode = ssl.CERT_NONE
+
+    c_to_s = ssl.MemoryBIO()
+    s_to_c = ssl.MemoryBIO()
+    server_ssl = test_tls_ctx.wrap_bio(incoming=c_to_s, outgoing=s_to_c, server_side=True)
+    client_ssl = client_ctx.wrap_bio(incoming=s_to_c, outgoing=c_to_s, server_side=False)
+
+    for _ in range(12):
+        try:
+            client_ssl.do_handshake()
+        except (ssl.SSLWantReadError, ssl.SSLWantWriteError):
+            pass
+        try:
+            server_ssl.do_handshake()
+        except (ssl.SSLWantReadError, ssl.SSLWantWriteError):
+            pass
+
+    client_cipher = client_ssl.cipher()
+    assert client_cipher is not None, "TLS handshake failed to establish cipher"
+    tls_ver = client_ssl.version()
+
+    if not using_staging:
+        for p in (cert_path, key_path):
+            if os.path.exists(p):
+                os.remove(p)
+
+    print(f"      PASS: TLS cert loaded & live {tls_ver} handshake verified cleanly ({client_cipher[0]}).")
     print("ALL 5 SELF-TESTS PASSED.")
 
 def main() -> None:

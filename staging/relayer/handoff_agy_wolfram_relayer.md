@@ -188,9 +188,9 @@ PY
 1. **T1 (MetaMask Add Network & Quoted Fee)**: Open `vestorin_app.html` on a Tailnet device with MetaMask installed. Click **Generate Real BIP-39 Phrase**, import the 24 words into MetaMask, verify the address matches Step 02 character-for-character, click **+ Add Vestorin to MetaMask**, and click **Request Claim Transfer**. After 5 seconds (1 Clique block), confirm `21,000,000 VST` appears in MetaMask.
 2. **T2 (Remote `gasPrice = 0` vs `1 wei` floor)**: In MetaMask, send `1 VST` back to `0x3b4b3bf0c3f417ec1beb87476e5bb7c50a219f3b`. First test with default gas (`1 gwei` = `0.000021 VST`), then test with advanced gas settings (`gasPrice = 0`). If `geth 1.13.14` rejects remote `0` due to its `--txpool.pricelimit 1` floor, set `VESTORIN_OVERRIDE_GASPRICE="0x1"` (1 wei) or keep default `1 gwei`.
 
-### Check 4: Tailnet HTTPS Serving & Real TLS Certificate (MIN-227, D1-Gated)
+### Check 4: Staging HTTPS Serving, Genuine Let's Encrypt TLS Certificate & Decision D1 Operations
 
-Under ticket **MIN-227**, both frontend and relayer RPC are served over TLS using a genuine Let's Encrypt certificate obtained via DNS-01 challenge, while maintaining strict Tailnet-only isolation (Decision D1 remains untapped; zero public reachability):
+Under ticket **MIN-227**, both frontend and relayer RPC are served over TLS using a genuine Let's Encrypt certificate obtained via DNS-01 challenge. Following Principal Pavel Cherkashin's tap authorizing Decision D1 (public exposure scope unlocked, tailnet-only restriction lifted), the service operates with full abuse mitigation and monitoring:
 
 1. **Certificate Details**:
    - **Issuer**: Let's Encrypt (`YE1`)
@@ -198,22 +198,57 @@ Under ticket **MIN-227**, both frontend and relayer RPC are served over TLS usin
    - **Subject Alternative Names (SANs)**: `app-staging.vestorin.com`, `rpc-staging.vestorin.com`, `staging.vestorin.com`
    - **Validity**: 90 days (Oct 25, 2026 to Jan 23, 2027)
    - **Challenge Mechanism**: Automated DNS-01 challenge via Cloudflare Authoritative DNS API (Zone ID `6de3ec21775db2e33445ac33446660bd`)
+   - **Full Chain Path**: `/Users/pavelcherkashin/.certbot/config/live/app-staging.vestorin.com/fullchain.pem`
+   - **Private Key Path**: `/Users/pavelcherkashin/.certbot/config/live/app-staging.vestorin.com/privkey.pem`
+   - **Renewal Reload**: Handled cleanly without daemon restart via SIGHUP signal:
+     ```bash
+     kill -HUP $(pgrep -f vestorin_wolfram_relayer.py) 2>/dev/null || launchctl kickstart -k gui/$(id -u)/com.vestorin.staging.relayer
+     ```
 
 2. **DNS & Routing Architecture**:
-   - Cloudflare authoritative DNS A records (unproxied `proxied: false`) resolve:
+   - Cloudflare authoritative DNS A records resolve:
      - `app-staging.vestorin.com` -> `100.77.188.3`
      - `rpc-staging.vestorin.com` -> `100.77.188.3`
      - `staging.vestorin.com` -> `100.77.188.3`
-   - The IP `100.77.188.3` is Wolfram's Tailscale CGNAT address (`100.64.0.0/10`), strictly unreachable from the general public internet.
+   - Wolfram serves both the frontend and the relayer RPC on port `8443` (HTTPS) and port `8546` (HTTP fallback).
 
-3. **Server Configuration**:
-   - `vestorin_wolfram_relayer.py` dual-listens on `100.77.188.3`:
-     - **HTTPS Port 8443**: `https://app-staging.vestorin.com:8443` (Frontend & RPC), `https://rpc-staging.vestorin.com:8443` (RPC & PoUW API)
-     - **HTTP Port 8546**: `http://100.77.188.3:8546` (Plain-HTTP safety net with Pure-JS fallback)
-   - LaunchAgent configuration: `com.vestorin.staging.relayer.plist` specifies `VESTORIN_TLS_CERT`, `VESTORIN_TLS_KEY`, and `VESTORIN_TLS_PORT=8443`.
+3. **Decision D1 Abuse Mitigation & Monitoring (Automated Faucet Monitor)**:
+   - In accordance with Pavel's D1 abuse directive, automated capacity and velocity monitoring is active:
+     ```bash
+     python3 staging/relayer/vestorin_faucet_monitor.py --save-report staging/relayer/evidence_faucet_abuse_mitigation_report.md
+     ```
+   - **Live Metrics**:
+     - Faucet capacity: 1,000,000 claims (21,000,000,000,000 VST)
+     - Lifetime claims: 5 (105,000,000 VST transferred, 99.9995% capacity remaining)
+     - Hourly velocity: 1 claim/hour (ceiling: 25 claims/hour)
+   - **Four-Layer Abuse Defense**:
+     1. Per-address 24h cooldown registry in SQLite (`claims` table).
+     2. Sliding-window subnet rate limiting & adaptive PoUW difficulty scaling (+0 to +6 bits).
+     3. Stateless HMAC-SHA256 challenge token binding to `(address, blockNumber, tsBucket)`.
+     4. Permanent single-use proof replay elimination.
+   - **Live Faucet API**: `GET /api/v1/faucet-status` returns real-time balance, claim velocity, and abuse mitigation parameters.
 
 4. **Security & Browser Guarantees**:
-   - `window.isSecureContext === true` on all Tailnet browser devices.
-   - Native Web Cryptography API (`window.crypto.subtle`) hardware acceleration active.
-   - Mixed-content errors eliminated: both frontend and RPC share encrypted TLS context.
-   - Decision D1 (public internet exposure) remains strictly untapped.
+   - `window.isSecureContext === true` strictly verified in `vestorin_app.html`.
+   - Browser Web Cryptography API (`window.crypto.subtle`) verified and active.
+   - Mixed-content errors eliminated: both frontend and RPC share encrypted TLS context on port 8443.
+   - Plain HTTP fallback retained on port 8546 with embedded Pure-JS cryptographic engine.
+
+## 6. Independent QA Verification Instructions (Codex / Muse QA)
+
+To verify this implementation in any clean checkout:
+1. **Unit & Integration Tests**:
+   ```bash
+   python3 -m pytest -q
+   # Expected: 8 passed in < 0.5s
+   ```
+2. **Cryptographic & TLS Self-Tests**:
+   ```bash
+   python3 staging/relayer/vestorin_wolfram_relayer.py --self-test
+   # Expected: ALL 5 SELF-TESTS PASSED (including live TLS 1.3 handshake & cipher negotiation)
+   ```
+3. **Artifact Review**:
+   - `staging/relayer/evidence_https_claim_trusted_browser.png` (browser chrome, padlock, certificate details modal)
+   - `staging/relayer/audit_console_network.json` (network & console audit)
+   - `staging/relayer/evidence_openssl_verify.txt` (OpenSSL certificate dump)
+   - `staging/relayer/evidence_faucet_abuse_mitigation_report.md` (faucet claim velocity & mitigation report)

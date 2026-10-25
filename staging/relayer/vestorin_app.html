@@ -2427,16 +2427,17 @@
 
         if (!banner) return;
 
+        const isSecure = window.isSecureContext === true;
         const hasSubtle = Boolean(window.crypto && window.crypto.subtle);
-        if (hasSubtle && (window.isSecureContext || window.location.protocol === 'https:')) {
+        if (isSecure && hasSubtle) {
           banner.classList.remove('hidden');
           banner.className = 'rounded-xl p-4 border text-xs shadow-sm mb-6 bg-emerald-50 border-emerald-300 text-emerald-900';
           if (icon) icon.textContent = '🔒';
-          if (title) title.innerHTML = 'Secure HTTPS Context Verified (<code>window.isSecureContext === true</code>)';
+          if (title) title.innerHTML = 'Secure Context Verified (<code>window.isSecureContext === true</code>)';
           if (body) {
             body.innerHTML = `
-              This staging page is served securely over Tailnet HTTPS (<code>${location.origin}</code>) with a trusted Let's Encrypt TLS certificate.<br/>
-              <span class="font-semibold text-emerald-800">✓ Native WebCrypto Hardware Acceleration Active:</span> <code>window.crypto.subtle</code> is fully enabled and verified. Zero mixed-content warnings. Full faucet claim flow and RPC communication run over encrypted TLS.
+              This page is running in a browser secure context (<code>${location.origin}</code>).<br/>
+              <span class="font-semibold text-emerald-800">✓ Web Cryptography API Active:</span> <code>window.crypto.subtle</code> is verified and available. The active RPC endpoint is configured as <code>${ACTIVE_RPC_URL}</code>.
             `;
           }
         } else if (!hasSubtle) {
