@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vestorin.com — Sovereign Placebo &amp; Testnet Staging (Chain ID 202627)</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            surface: {
+              bg: '#F8FAFC',
+              card: '#FFFFFF',
+              subtle: '#F1F5F9',
+              border: '#E2E8F0',
+              ink: '#0F172A',
+              muted: '#475569',
+              accent: '#0F766E',
+              accentHover: '#115E59',
+              warnBg: '#FFFBEB',
+              warnBorder: '#F59E0B',
+              warnText: '#92400E'
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+    }
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-teal-700 selection:text-white">
+
+  <!-- PERSISTENT SAFE-HARBOR & NON-SECURITY DISCLAIMER BAR (REQUIRED ON EVERY SCREEN) -->
+  <div class="bg-slate-900 text-slate-200 text-xs py-2.5 px-4 border-b border-slate-800">
+    <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 font-mono font-semibold text-[11px]">
+          STAGING TESTNET · CHAIN ID 202627 (0x31783)
+        </span>
+        <span>
+          <strong>Regulatory Disclaimer:</strong> Testnet coins (VST) have zero monetary value, are NOT securities, and are NOT legal tender.
+        </span>
+      </div>
+      <a href="https://www.sec.gov/comments/S7-2026-27/s7202627-1097819-3863206.pdf" target="_blank" rel="noopener noreferrer" class="font-mono text-[11px] text-teal-300 hover:underline">
+        SEC File No. S7-2026-27 (USTN-001) ↗
+      </a>
+    </div>
+  </div>
+
+  <!-- TOP NAVIGATION & STEPPER HEADER -->
+  <header class="bg-white/90 backdrop-blur border-b border-slate-200 sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-4 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-sm">
+          V∞
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-base tracking-tight text-slate-900">vestorin.com</span>
+            <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
+              Staging v2 · Real BIP-39 / BIP-44 EVM
+            </span>
+          </div>
+          <p class="text-xs text-slate-500">
+            Sovereign Placebo &amp; Testnet Claim · W(ℚ) Transition: ⊥ (0/0) → ∞ (1/0)
+          </p>
+        </div>
+      </div>
+
+      <!-- View Switcher -->
+      <nav class="flex flex-wrap items-center gap-1.5 text-xs">
+        <button type="button" id="navFlowBtn" class="px-3 py-1.5 rounded-md font-medium bg-slate-900 text-white transition">
+          1. Onboarding &amp; Claim Flow
+        </button>
+        <button type="button" id="navStatusBtn" class="px-3 py-1.5 rounded-md font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+          2. Live Chain Status
+        </button>
+        <button type="button" id="navLeanBtn" class="px-3 py-1.5 rounded-md font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+          3. Formal Appendix (Demo)
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT AREA -->
+  <main class="max-w-4xl w-full mx-auto px-4 py-8 flex-1 space-y-8">
+
+    <!-- =================================================================== -->
+    <!-- VIEW 1: ONE-SCREEN-PER-STEP WIZARD FLOW                             -->
+    <!-- =================================================================== -->
+    <div id="viewFlow" class="space-y-6">
+
+      <!-- Progress Stepper Bar -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+        <div class="grid grid-cols-4 gap-2 text-xs">
+          <button type="button" id="stepTab1" class="text-left p-2 rounded-lg bg-slate-900 text-white font-medium transition">
+            <div class="font-mono text-[10px] opacity-75">STEP 01</div>
+            <div class="truncate">Diagnosis &amp; Setup</div>
+          </button>
+          <button type="button" id="stepTab2" class="text-left p-2 rounded-lg bg-slate-50 text-slate-500 font-medium transition" disabled>
+            <div class="font-mono text-[10px] opacity-75">STEP 02</div>
+            <div class="truncate">One-Time Seed Phrase</div>
+          </button>
+          <button type="button" id="stepTab3" class="text-left p-2 rounded-lg bg-slate-50 text-slate-500 font-medium transition" disabled>
+            <div class="font-mono text-[10px] opacity-75">STEP 03</div>
+            <div class="truncate">Add Network &amp; Claim</div>
+          </button>
+          <button type="button" id="stepTab4" class="text-left p-2 rounded-lg bg-slate-50 text-slate-500 font-medium transition" disabled>
+            <div class="font-mono text-[10px] opacity-75">STEP 04</div>
+            <div class="truncate">Balance &amp; Receipt</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- SCREEN 1: CLINICAL BASELINE, DOSAGE BOUNDS & WALLET MODE -->
+      <section id="screenStep1" class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div class="space-y-2 border-b border-slate-100 pb-5">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-xs font-mono uppercase tracking-wider text-teal-700 font-semibold">
+              STEP 01 OF 04 · CLINICAL BASELINE &amp; CLAIM PARAMETERS
+            </span>
+            <span class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700">
+              Carlström Wheel W(ℚ): <strong id="baselineWheelBadge">⊥ = (0, 0)</strong>
+            </span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+            The Anti-Poverty Digital Pill
+          </h1>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            You came, pressed a button, got real BIP-39 words, entered them into a wallet, and saw a non-zero balance — with all disclaimers and limitations stated.
+          </p>
+        </div>
+
+        <!-- Clinical Symptom Sliders (Teaching Device: ⊥ -> ∞) -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-xs font-semibold uppercase tracking-wide text-slate-700">
+              Baseline Self-Assessment (Moneylessness Syndrome Indicators)
+            </span>
+            <span id="symptomSummaryTag" class="text-xs font-mono text-slate-600">
+              Baseline Self-Esteem Index: 19% (State ⊥ = 0/0)
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+            <div class="bg-white p-3.5 rounded-lg border border-slate-200">
+              <div class="flex justify-between font-medium text-slate-800 mb-1.5">
+                <span>1. Vanity Depletion</span>
+                <span id="slider1Val" class="font-mono text-teal-700">82%</span>
+              </div>
+              <input id="slider1" type="range" min="0" max="100" value="82" class="w-full accent-teal-700 cursor-pointer" />
+              <p class="text-[11px] text-slate-500 mt-1">Drop in self-regard below threshold V_min</p>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-lg border border-slate-200">
+              <div class="flex justify-between font-medium text-slate-800 mb-1.5">
+                <span>2. Systemic Friction</span>
+                <span id="slider2Val" class="font-mono text-teal-700">88%</span>
+              </div>
+              <input id="slider2" type="range" min="0" max="100" value="88" class="w-full accent-teal-700 cursor-pointer" />
+              <p class="text-[11px] text-slate-500 mt-1">Fatigue from legacy gatekeepers &amp; dry faucets</p>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-lg border border-slate-200">
+              <div class="flex justify-between font-medium text-slate-800 mb-1.5">
+                <span>3. Meaning Nullity (⊥)</span>
+                <span id="slider3Val" class="font-mono text-teal-700">73%</span>
+              </div>
+              <input id="slider3" type="range" min="0" max="100" value="73" class="w-full accent-teal-700 cursor-pointer" />
+              <p class="text-[11px] text-slate-500 mt-1">Division of zero agency by zero liquidity (0/0)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Validated Dosage Input & Network Target -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label for="claimDosageInput" class="block text-xs font-semibold uppercase tracking-wide text-slate-700">
+              Validated Claim Dosage (VST Test Units)
+            </label>
+            <div class="relative">
+              <input
+                id="claimDosageInput"
+                type="number"
+                min="1"
+                max="21000000"
+                step="1"
+                value="21000000"
+                class="w-full font-mono text-base font-semibold px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-teal-700"
+              />
+              <span class="absolute right-3 top-2.5 font-mono text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700">
+                VST
+              </span>
+            </div>
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              <button type="button" data-dose-val="1000" class="dose-quick-btn text-xs font-mono px-2.5 py-1 rounded border border-slate-200 hover:border-teal-700 bg-slate-50">
+                1,000 VST
+              </button>
+              <button type="button" data-dose-val="1000000" class="dose-quick-btn text-xs font-mono px-2.5 py-1 rounded border border-slate-200 hover:border-teal-700 bg-slate-50">
+                1,000,000 VST
+              </button>
+              <button type="button" data-dose-val="21000000" class="dose-quick-btn text-xs font-mono px-2.5 py-1 rounded border border-teal-700 bg-teal-50 text-teal-900 font-semibold">
+                21,000,000 VST (Standard Staging Quota)
+              </button>
+            </div>
+            <p id="dosageValidationMsg" class="text-[11px] font-mono text-slate-500">
+              Bounds: integer from 1 to 21,000,000 VST per claim (faucet reserve: 21,000,000,000,000 VST).
+            </p>
+          </div>
+
+          <div class="space-y-2">
+            <label for="existingAddressInput" class="block text-xs font-semibold uppercase tracking-wide text-slate-700">
+              Recipient EVM Address (Optional)
+            </label>
+            <input
+              id="existingAddressInput"
+              type="text"
+              placeholder="Leave blank to generate a new 24-word BIP-39 wallet..."
+              class="w-full font-mono text-xs px-3.5 py-3 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-teal-700"
+            />
+            <p class="text-[11px] text-slate-500 leading-relaxed">
+              <strong>No wallet yet?</strong> Leave this blank. On the next screen, your browser will generate a real 24-word BIP-39 phrase (`m/44'/60'/0'/0/0`) that imports directly into MetaMask or Rabby.
+            </p>
+            <p id="addressValidationMsg" class="text-[11px] font-mono text-teal-700">
+              Mode: Generate fresh 24-word BIP-39 phrase on explicit user click.
+            </p>
+          </div>
+        </div>
+
+        <!-- Primary Action Button -->
+        <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+          <div class="text-xs text-slate-500 max-w-md">
+            No keys are generated on page load. Clicking the button on the right invokes browser CSPRNG (`crypto.getRandomValues`) and `PBKDF2-HMAC-SHA512`.
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              id="testVectorVerifyBtn"
+              class="px-3.5 py-2.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 text-xs font-mono font-medium transition"
+            >
+              Verify BIP-39 Test Vector
+            </button>
+            <button
+              type="button"
+              id="startStep1Btn"
+              class="px-5 py-2.5 rounded-lg bg-slate-900 hover:bg-teal-800 text-white font-semibold text-sm shadow-sm transition"
+            >
+              Generate Real BIP-39 Phrase →
+            </button>
+          </div>
+        </div>
+
+        <!-- Collapsible Self-Test Output -->
+        <div id="selfTestBox" class="hidden bg-slate-900 text-slate-100 rounded-xl p-4 font-mono text-xs space-y-1.5">
+          <div class="text-teal-300 font-semibold">BIP-39 / BIP-32 / secp256k1 / Keccak-256 Self-Test Vector:</div>
+          <div id="selfTestOutput" class="text-[11px] text-slate-300 break-all"></div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: ONE-TIME 24-WORD DISPLAY & SEED SAFETY WARNING -->
+      <section id="screenStep2" class="hidden bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div class="space-y-2 border-b border-slate-100 pb-5">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-xs font-mono uppercase tracking-wider text-amber-700 font-semibold">
+              STEP 02 OF 04 · ONE-TIME SECRET RECOVERY PHRASE DISPLAY
+            </span>
+            <span class="text-xs font-mono px-2.5 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
+              Derivation Path: <strong>m/44'/60'/0'/0/0</strong>
+            </span>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-900">
+            Write Down Your 24-Word Recovery Phrase
+          </h2>
+          <p class="text-sm text-slate-600">
+            This phrase is shown <strong>once</strong> and is wiped from memory as soon as you leave this step. It is never included in any receipt, log, or file download.
+          </p>
+        </div>
+
+        <!-- Mandatory Plain-Language Seed Safety Warning -->
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl space-y-1.5">
+          <div class="text-xs font-bold uppercase tracking-wide text-amber-900">
+            ⚠️ Seed Phrase Safety Warning (Read Carefully)
+          </div>
+          <ul class="text-xs text-amber-900 space-y-1 list-disc list-inside leading-relaxed">
+            <li><strong>Never share these 24 words</strong> with anyone and never type them into arbitrary websites.</li>
+            <li>Anyone with these 24 words controls the derived wallet across all EVM networks.</li>
+            <li>Only import this phrase into your own wallet extension (MetaMask or Rabby) as a dedicated test account.</li>
+            <li>The receipt on Step 04 will contain <strong>only your public address</strong> (`0x...`), never this phrase or its raw entropy.</li>
+          </ul>
+        </div>
+
+        <!-- Large 24-Word Mnemonic Display Grid -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-xs font-mono uppercase text-slate-500">
+              Canonical BIP-39 English Wordlist (256-bit Entropy + 8-bit SHA-256 Checksum)
+            </span>
+            <button
+              type="button"
+              id="copyPhraseOnceBtn"
+              class="px-3 py-1.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-800 font-mono text-xs font-medium transition"
+            >
+              Copy 24 Words to Clipboard
+            </button>
+          </div>
+
+          <div id="oneTimeWordsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 font-mono text-sm">
+          </div>
+        </div>
+
+        <!-- Derived Address Verification Box -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-xs font-semibold uppercase text-slate-600">
+              Derived EVM Account #1 (`m/44'/60'/0'/0/0` · EIP-55 Checksummed)
+            </span>
+            <span id="derivationTimeBadge" class="text-[11px] font-mono text-slate-500">
+              PBKDF2-HMAC-SHA512 (2048 iter) + secp256k1 + Keccak-256
+            </span>
+          </div>
+          <div id="step2DerivedAddress" class="font-mono text-base sm:text-lg font-bold text-slate-900 break-all">
+            0x...
+          </div>
+          <p class="text-xs text-slate-500">
+            When you import the 24 words above into MetaMask or Rabby, Account 1 will match this address character-for-character.
+          </p>
+        </div>
+
+        <!-- Confirmation Gate -->
+        <div class="pt-4 border-t border-slate-100 space-y-4">
+          <label class="flex items-start gap-3 cursor-pointer select-none">
+            <input type="checkbox" id="confirmSavedPhraseChk" class="mt-1 w-4 h-4 accent-slate-900 rounded" />
+            <span class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              I have saved my 24 words in a safe place (or imported them into MetaMask/Rabby) and understand that clicking <strong>Continue</strong> permanently clears the words from this browser tab.
+            </span>
+          </label>
+
+          <div class="flex items-center justify-between gap-4">
+            <button
+              type="button"
+              id="backToStep1Btn"
+              class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 text-xs font-medium transition"
+            >
+              ← Back
+            </button>
+            <button
+              type="button"
+              id="proceedToStep3Btn"
+              disabled
+              class="px-5 py-2.5 rounded-lg bg-slate-900 hover:bg-teal-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-semibold text-sm transition"
+            >
+              Wipe Phrase from Screen &amp; Continue to Claim →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: ADD VESTORIN TO METAMASK (EIP-3085) & CLAIM EXECUTION -->
+      <section id="screenStep3" class="hidden bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div class="space-y-2 border-b border-slate-100 pb-5">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-xs font-mono uppercase tracking-wider text-teal-700 font-semibold">
+              STEP 03 OF 04 · NETWORK ADDITION (EIP-3085) &amp; FAUCET CLAIM
+            </span>
+            <span class="text-xs font-mono px-2.5 py-0.5 rounded bg-slate-100 text-slate-700">
+              Mnemonic Memory Status: <strong class="text-emerald-700">WIPED (0 bytes retained)</strong>
+            </span>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-900">
+            Connect Wallet to Vestorin Staging &amp; Request Claim
+          </h2>
+          <p class="text-sm text-slate-600">
+            Add the Vestorin EVM staging network to MetaMask in one click, then submit your public address for the operator faucet transfer.
+          </p>
+        </div>
+
+        <!-- Confirmed Recipient & Dosage Summary -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 border border-slate-200 rounded-xl p-4 font-mono text-xs">
+          <div>
+            <div class="text-slate-500 text-[10px] uppercase">Confirmed Recipient Address</div>
+            <div id="step3AddressDisplay" class="font-bold text-slate-900 break-all mt-1">0x...</div>
+          </div>
+          <div>
+            <div class="text-slate-500 text-[10px] uppercase">Validated Claim Dosage</div>
+            <div id="step3DosageDisplay" class="font-bold text-teal-700 text-sm mt-1">21,000,000 VST</div>
+          </div>
+        </div>
+
+        <!-- Action 3A: Add Vestorin to MetaMask (EIP-3085) -->
+        <div class="border border-slate-200 rounded-xl p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="text-base font-bold text-slate-900">
+                A. Add Vestorin Network to MetaMask / Rabby (`wallet_addEthereumChain`)
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">
+                No manual RPC typing required. Sends exact staging parameters from Section 4 via EIP-3085.
+              </p>
+            </div>
+            <button
+              type="button"
+              id="addNetworkMetaMaskBtn"
+              class="px-4 py-2.5 rounded-lg bg-slate-900 hover:bg-teal-800 text-white font-semibold text-xs font-mono transition"
+            >
+              + Add Vestorin to MetaMask
+            </button>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 font-mono text-xs bg-slate-50 p-3 rounded-lg border border-slate-200">
+            <div>
+              <div class="text-[10px] text-slate-500">CHAIN NAME</div>
+              <div class="font-semibold text-slate-900">Vestorin</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-500">CHAIN ID (DEC / HEX)</div>
+              <div class="font-semibold text-slate-900">202627 / 0x31783</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-500">CURRENCY / DECIMALS</div>
+              <div class="font-semibold text-slate-900">VST (18)</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-500">STAGING RPC (TAILNET)</div>
+              <div class="font-semibold text-slate-900 truncate" title="http://100.77.188.3:8546">http://100.77.188.3:8546</div>
+            </div>
+          </div>
+
+          <div id="metaMaskStatusBox" class="text-xs font-mono text-slate-600 bg-slate-100 px-3 py-2 rounded">
+            Status: Ready to invoke `window.ethereum.request({ method: 'wallet_addEthereumChain' })`.
+          </div>
+        </div>
+
+        <!-- Action 3B: Operator Faucet Claim & Honest Gas / Overload Disclosures -->
+        <div class="border border-slate-200 rounded-xl p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="text-base font-bold text-slate-900">
+                B. Request Operator Faucet Transfer
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">
+                Faucet account (`0x1821dc3f0974339db7c7146037b40f54a2e222c3`) transfers native VST to your address.
+              </p>
+            </div>
+            <button
+              type="button"
+              id="executeClaimBtn"
+              class="px-5 py-2.5 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs font-mono transition"
+            >
+              Request Claim Transfer →
+            </button>
+          </div>
+
+          <!-- Mandatory Honest Gas Disclosure -->
+          <div class="bg-slate-50 border border-slate-200 rounded-lg p-3.5 text-xs space-y-1.5 text-slate-700 leading-relaxed">
+            <div class="font-mono font-bold text-slate-900">
+              ⛽ Honest Gas &amp; Fee Disclosure (Staging Geth 1.13.14 Pre-London / Berlin)
+            </div>
+            <p>
+              • <strong>Initial Claim Transfer:</strong> The operator faucet account sponsors and signs the initial transfer (`gasPrice = 0` proven on-chain for operator transfers in block 82; the recipient pays nothing and needs zero gas in advance).
+            </p>
+            <p>
+              • <strong>Subsequent MetaMask Transfers:</strong> Legacy `geth 1.13.14` sanitizes `--miner.gasprice 0` to `1 gwei` and `--txpool.pricelimit 0` to `1 wei`. Because `eth_gasPrice` returns `1 gwei`, MetaMask will quote `1 gwei` (`0.000021 VST` for a standard 21,000-gas transfer) by default. A remote MetaMask transaction with manually set `gasPrice = 0` is still untested (see Open Item T2) and may hit the txpool `1 wei` floor.
+            </p>
+          </div>
+
+          <!-- Mandatory Verbatim Anti-Abuse & Overload Wording -->
+          <div class="bg-amber-50 border border-amber-300 rounded-lg p-3 text-xs text-amber-900 font-medium">
+            <strong>Anti-Abuse &amp; Queue Policy:</strong> One basic claim per address per period. Under overload, transactions wait or are rejected; immediate execution is never promised.
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 4: MAIN POST-CLAIM SCREEN (BALANCE, EXPLORER & RECEIPT) -->
+      <section id="screenStep4" class="hidden bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div class="space-y-2 border-b border-slate-100 pb-5">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-xs font-mono uppercase tracking-wider text-teal-700 font-semibold">
+              STEP 04 OF 04 · ACCOUNT BALANCE, CLAIM STATUS &amp; PUBLIC RECEIPT
+            </span>
+            <span id="step4WheelBadge" class="text-xs font-mono px-2.5 py-0.5 rounded bg-teal-50 text-teal-800 border border-teal-200 font-semibold">
+              W(ℚ) State: ∞ = (1, 0)
+            </span>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-900">
+            Wallet Balance &amp; Public Claim Receipt
+          </h2>
+          <p class="text-sm text-slate-600">
+            Your recovery phrase was wiped in Step 02. This screen and the downloadable receipt contain <strong>only public data</strong> (address, chain parameters, claim status, and disclaimers).
+          </p>
+        </div>
+
+        <!-- Primary Balance & Claim Backend Status Card -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="bg-slate-900 text-white rounded-xl p-5 space-y-3 flex flex-col justify-between">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+              <span>LIVE ON-CHAIN BALANCE (`eth_getBalance`)</span>
+              <button type="button" id="refreshBalanceBtn" class="text-teal-300 hover:underline">
+                ↻ Refresh RPC
+              </button>
+            </div>
+            <div>
+              <div id="liveBalanceValue" class="font-mono text-2xl sm:text-3xl font-bold text-white">
+                Checking RPC...
+              </div>
+              <div id="liveBalanceSourceNote" class="text-[11px] font-mono text-slate-400 mt-1">
+                Source: querying http://100.77.188.3:8546
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-xs font-mono">
+              <span class="text-slate-400">Requested Claim Quota:</span>
+              <span id="step4RequestedQuota" class="text-teal-300 font-semibold">21,000,000 VST</span>
+            </div>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3 flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono uppercase font-bold text-slate-700">
+                FAUCET CLAIM DISPATCH STATUS
+              </span>
+              <span id="claimDispatchBadge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-semibold">
+                CLAIM BACKEND PENDING
+              </span>
+            </div>
+            <p id="claimDispatchExplanation" class="text-xs text-slate-600 leading-relaxed">
+              The frontend never fakes a transaction hash or balance. When connected to the operator claim relayer on Wolfram (`http://100.77.188.3:8546`), the faucet (`0x1821...22c3`) dispatches the transfer on-chain.
+            </p>
+            <div class="text-[11px] font-mono text-slate-500 border-t border-slate-200 pt-2">
+              <div>Verified Staging Reference Claim TX (Block 82/83):</div>
+              <div class="truncate text-slate-800 font-semibold" title="0x0baf4683207575b20cb9330073e032ae544274799e655301e9ae89f29412a7cd">
+                0x0baf4683207575b20cb9330073e032ae544274799e655301e9ae89f29412a7cd
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Public Receipt Card -->
+        <div class="border border-slate-200 rounded-xl p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div>
+              <h3 class="text-sm font-bold uppercase tracking-wide text-slate-900">
+                Public Claim Receipt (Safe to Share · Contains Zero Private Keys or Words)
+              </h3>
+              <p class="text-xs text-slate-500">
+                Audited compliance with Acceptance Rule C: no mnemonic phrase and no entropy hex exist in this receipt.
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                type="button"
+                id="copyPublicReceiptBtn"
+                class="px-3 py-1.5 rounded-md border border-slate-300 hover:bg-slate-100 text-xs font-mono font-medium transition"
+              >
+                Copy JSON
+              </button>
+              <button
+                type="button"
+                id="downloadPublicReceiptBtn"
+                class="px-3.5 py-1.5 rounded-md bg-slate-900 hover:bg-teal-800 text-white text-xs font-mono font-medium transition"
+              >
+                ⬇ Download Public Receipt (.json)
+              </button>
+            </div>
+          </div>
+
+          <pre id="publicReceiptPre" class="bg-slate-900 text-slate-100 p-4 rounded-lg font-mono text-xs overflow-x-auto leading-relaxed"></pre>
+
+          <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
+            <button
+              type="button"
+              id="resetFlowBtn"
+              class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 text-xs font-medium transition"
+            >
+              ← Start New Onboarding Session
+            </button>
+            <button
+              type="button"
+              id="goToStatusFromStep4Btn"
+              class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-mono font-medium transition"
+            >
+              Inspect Live Staging Chain Status →
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 2: HONEST LIVE CHAIN STATUS PAGE                               -->
+    <!-- =================================================================== -->
+    <div id="viewStatus" class="hidden space-y-6">
+      <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-5">
+          <div>
+            <span class="text-xs font-mono uppercase tracking-wider text-teal-700 font-semibold">
+              SECTION 4 &amp; DELIVERABLE 5 · LIVE STAGING TELEMETRY
+            </span>
+            <h2 class="text-2xl font-bold text-slate-900 mt-0.5">
+              Vestorin EVM Staging Network Status
+            </h2>
+          </div>
+          <button
+            type="button"
+            id="pollRpcBtn"
+            class="px-4 py-2 rounded-lg bg-slate-900 hover:bg-teal-800 text-white text-xs font-mono font-semibold transition"
+          >
+            ↻ Poll Staging RPC Now
+          </button>
+        </div>
+
+        <!-- Verbatim Mandatory Overload Banner -->
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl text-xs sm:text-sm text-amber-900 font-medium">
+          Under overload, transactions wait or are rejected; immediate execution is never promised.
+        </div>
+
+        <!-- Live RPC Connection Indicator -->
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+          <div class="flex items-center gap-2.5">
+            <span id="rpcDot" class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+            <span id="rpcConnStatusText" class="font-semibold text-slate-800">
+              RPC Endpoint: http://100.77.188.3:8546 (Tailnet Staging)
+            </span>
+          </div>
+          <span id="rpcLatencyText" class="text-slate-500">Not polled yet</span>
+        </div>
+
+        <!-- Verified Staging Chain Parameters Table -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+          <div class="p-4 rounded-xl border border-slate-200 space-y-1">
+            <div class="text-[10px] text-slate-500 uppercase">Chain Name / Native Currency</div>
+            <div class="text-sm font-bold text-slate-900">Vestorin · VST (18 decimals)</div>
+            <div class="text-[11px] text-slate-500">Source: Genesis config (Wolfram host)</div>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 space-y-1">
+            <div class="text-[10px] text-slate-500 uppercase">Chain ID (Decimal / Hex)</div>
+            <div class="text-sm font-bold text-slate-900">202627 / 0x31783</div>
+            <div class="text-[11px] text-slate-500">Source: SEC File No. S7-2026-27 reference</div>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 space-y-1">
+            <div class="text-[10px] text-slate-500 uppercase">Live Block Number (`eth_blockNumber`)</div>
+            <div id="statusBlockNumber" class="text-sm font-bold text-teal-700">
+              Baseline ≥ 105 (Click Poll RPC on Tailnet for live tip)
+            </div>
+            <div id="statusBlockSource" class="text-[11px] text-slate-500">
+              Source: Verified staging snapshot (105+ blocks across restarts)
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 space-y-1">
+            <div class="text-[10px] text-slate-500 uppercase">Client &amp; Consensus Engine</div>
+            <div class="text-sm font-bold text-slate-900">Geth v1.13.14 (Go 1.21.13) · Clique PoA (5s period)</div>
+            <div class="text-[11px] text-slate-500">Pre-London (forks up to Berlin; gasLimit 8,000,000)</div>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 space-y-1 md:col-span-2">
+            <div class="text-[10px] text-slate-500 uppercase">Verified Genesis Hash</div>
+            <div class="text-xs font-bold text-slate-900 break-all">
+              0x0ab605a3cf46aab8ac3b38dd111e54f8c5ba458a4144c186bf8d0d0de95ca793
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 space-y-1">
+            <div class="text-[10px] text-slate-500 uppercase">Bootstrap Signer Address (Alloc: 1,000,000 VST)</div>
+            <div class="text-xs font-bold text-slate-900 break-all">
+              0x0e5fde73cfd2e7fb4d164b5d6487dea645832401
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 space-y-1">
+            <div class="text-[10px] text-slate-500 uppercase">Operator Faucet Address (Alloc: 21,000,000,000,000 VST)</div>
+            <div class="text-xs font-bold text-teal-700 break-all">
+              0x1821dc3f0974339db7c7146037b40f54a2e222c3
+            </div>
+          </div>
+        </div>
+
+        <!-- On-Chain Proven Transactions Reference -->
+        <div class="border border-slate-200 rounded-xl p-4 space-y-2.5 text-xs font-mono">
+          <div class="font-bold text-slate-900 uppercase">
+            Verified On-Chain Staging Transactions (Wolfram Host)
+          </div>
+          <div class="p-3 rounded bg-slate-50 border border-slate-200 space-y-1 break-all">
+            <div class="text-slate-500">1. Signer → Test Recipient (`0x3b4b3bf0c3f417ec1beb87476e5bb7c50a219f3b`) · 1,000 VST · gasPrice 0 · Block 82:</div>
+            <div class="text-slate-900 font-semibold">tx: 0x2abd3d3573e75123f2366e12ca1a36b4504012053f70 (gasUsed: 21000, status: 0x1)</div>
+          </div>
+          <div class="p-3 rounded bg-slate-50 border border-slate-200 space-y-1 break-all">
+            <div class="text-slate-500">2. Faucet → Test Recipient · 21,000,000 VST Claim Simulation · gasPrice 0:</div>
+            <div class="text-slate-900 font-semibold">tx: 0x0baf4683207575b20cb9330073e032ae544274799e655301e9ae89f29412a7cd (status: 0x1)</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 3: FORMAL APPENDIX (DEMO ONLY — NOT CONSENSUS)                 -->
+    <!-- =================================================================== -->
+    <div id="viewLean" class="hidden space-y-6">
+      <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div class="space-y-2 border-b border-slate-100 pb-5">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-xs font-mono uppercase tracking-wider text-amber-700 font-semibold">
+              DELIVERABLE 6 · EDUCATIONAL &amp; VALIDITY DEMO (NOT CONSENSUS)
+            </span>
+            <span class="text-xs font-mono px-2.5 py-0.5 rounded bg-amber-100 text-amber-900 font-semibold">
+              Consensus = Clique PoA · Lean = Proof of Validity Demo
+            </span>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-900">
+            Carlström Wheel Arithmetic W(ℚ), SPEC-04 Rank Descent &amp; Exact Boolean Evaluator
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Per PoRL separation: <strong>Proof of Validity ≠ Proof of Consensus ≠ Proof of Availability ≠ Proof of Recoverability</strong>. The Rust/WASM Lean proof-checker and ERC-721 Capsule minting contract are separate workstreams (currently marked <code>NOT YET IMPLEMENTED ON-CHAIN</code>). Below are the exact mathematical models used as teaching devices.
+          </p>
+        </div>
+
+        <!-- Part A: Exact Carlström Wheel W(ℚ) Calculator -->
+        <div class="border border-slate-200 rounded-xl p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="text-base font-bold text-slate-900">
+                1. Exact Carlström Wheel Arithmetic W(ℚ) Evaluator
+              </h3>
+              <p class="text-xs text-slate-500">
+                Computes exact fraction-pair equivalence classes <code>(n, d)</code> under Carlström (2004): <code>1/0 = ∞</code> (unsigned pole), <code>0/0 = ⊥</code>, <code>∞ + ∞ = ⊥</code>, <code>0 · ∞ = ⊥</code>.
+              </p>
+            </div>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
+              Computed Live in JS (Exact BigInt GCD)
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 font-mono text-xs items-end">
+            <div>
+              <label class="block text-[10px] text-slate-500 mb-1">OPERAND X (n₁ / d₁)</label>
+              <select id="wheelXSelect" class="w-full p-2.5 rounded-lg border border-slate-300 bg-white">
+                <option value="0,0">⊥ = (0, 0) [Nullity]</option>
+                <option value="0,1">0 = (0, 1) [Zero]</option>
+                <option value="1,1">1 = (1, 1) [Unit Will]</option>
+                <option value="21000000,1">21M = (21000000, 1)</option>
+                <option value="1,0">∞ = (1, 0) [Unsigned Pole]</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-500 mb-1">WHEEL OPERATION</label>
+              <select id="wheelOpSelect" class="w-full p-2.5 rounded-lg border border-slate-300 bg-white">
+                <option value="add">x + y (Addition)</option>
+                <option value="sub">x - y (Difference)</option>
+                <option value="mul">x · y (Multiplication)</option>
+                <option value="div">x / y (Wheel Division x · /y)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-500 mb-1">OPERAND Y (n₂ / d₂)</label>
+              <select id="wheelYSelect" class="w-full p-2.5 rounded-lg border border-slate-300 bg-white">
+                <option value="1,0">∞ = (1, 0) [Unsigned Pole]</option>
+                <option value="0,1">0 = (0, 1) [Zero]</option>
+                <option value="0,0">⊥ = (0, 0) [Nullity]</option>
+                <option value="1,1">1 = (1, 1) [Unit Will]</option>
+              </select>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900 text-white">
+              <div class="text-[10px] text-slate-400">EXACT WHEEL RESULT</div>
+              <div id="wheelCalcOutput" class="text-sm font-bold text-teal-300 mt-0.5">⊥ = (0, 0)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Part B: Exact 9-Variable Predicate Evaluator -->
+        <div class="border border-slate-200 rounded-xl p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="text-base font-bold text-slate-900">
+                2. Statutory Legality vs. QSA Constitutionality Predicate Evaluator
+              </h3>
+              <p class="text-xs text-slate-500">
+                Fixes Audit Item #10: exposes all 5 <code>StatutoryContext</code> fields and all 4 <code>ConstitutionalContext</code> fields so the boolean evaluation matches the formal definition without collapsing any prong.
+              </p>
+            </div>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-amber-100 text-amber-900">
+              In-Browser Lean Kernel: NOT YET IMPLEMENTED (Exact JS Predicate Mirror)
+            </span>
+          </div>
+
+          <div class="flex flex-wrap gap-2 text-xs font-mono">
+            <button type="button" data-preset="vestorin" class="pred-preset-btn px-3 py-1.5 rounded bg-slate-900 text-white font-medium">
+              Preset 1: vestorinPill (Legal ∧ Constitutional)
+            </button>
+            <button type="button" data-preset="panopticon" class="pred-preset-btn px-3 py-1.5 rounded bg-slate-100 text-slate-800 hover:bg-slate-200 font-medium">
+              Preset 2: panopticonSandbox (Legal ∧ ¬Constitutional)
+            </button>
+            <button type="button" data-preset="thought" class="pred-preset-btn px-3 py-1.5 rounded bg-slate-100 text-slate-800 hover:bg-slate-200 font-medium">
+              Preset 3: unlabeledThought (¬Legal ∧ Constitutional)
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+            <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-2">
+              <div class="font-bold text-slate-800 uppercase">StatutoryContext (5 Exact Fields)</div>
+              <label class="flex items-center justify-between cursor-pointer">
+                <span>1. investmentOfMoney</span>
+                <input type="checkbox" id="p_invMoney" class="pred-chk w-4 h-4 accent-slate-900" />
+              </label>
+              <label class="flex items-center justify-between cursor-pointer">
+                <span>2. commonEnterprise</span>
+                <input type="checkbox" id="p_commonEnt" class="pred-chk w-4 h-4 accent-slate-900" />
+              </label>
+              <label class="flex items-center justify-between cursor-pointer">
+                <span>3. expectationOfProfits</span>
+                <input type="checkbox" id="p_expProfits" class="pred-chk w-4 h-4 accent-slate-900" />
+              </label>
+              <label class="flex items-center justify-between cursor-pointer">
+                <span>4. effortsOfOthers</span>
+                <input type="checkbox" id="p_efforts" class="pred-chk w-4 h-4 accent-slate-900" />
+              </label>
+              <label class="flex items-center justify-between cursor-pointer pt-1 border-t border-slate-200">
+                <span>5. explicitTestnetLabel</span>
+                <input type="checkbox" id="p_label" checked class="pred-chk w-4 h-4 accent-teal-700" />
+              </label>
+            </div>
+
+            <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-2">
+              <div class="font-bold text-slate-800 uppercase">ConstitutionalContext (4 Exact Fields)</div>
+              <label class="flex items-center justify-between cursor-pointer">
+                <span>1. localComputeSovereignty</span>
+                <input type="checkbox" id="p_localComp" checked class="pred-chk w-4 h-4 accent-teal-700" />
+              </label>
+              <label class="flex items-center justify-between cursor-pointer">
+                <span>2. cognitiveSelfEsteemRight</span>
+                <input type="checkbox" id="p_cogRight" checked class="pred-chk w-4 h-4 accent-teal-700" />
+              </label>
+              <label class="flex items-center justify-between cursor-pointer">
+                <span>3. noCoerciveExternalHarm</span>
+                <input type="checkbox" id="p_noHarm" checked class="pred-chk w-4 h-4 accent-teal-700" />
+              </label>
+              <label class="flex items-center justify-between cursor-pointer pt-1 border-t border-slate-200">
+                <span>4. coerciveSurveillanceMandate (Must be false)</span>
+                <input type="checkbox" id="p_surveillance" class="pred-chk w-4 h-4 accent-red-600" />
+              </label>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-lg bg-slate-900 text-white font-mono text-xs grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <div class="text-[10px] text-slate-400">isInvestmentContract(c)</div>
+              <div id="outIsSecurity" class="font-bold text-sm text-teal-300 mt-0.5">false</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">StatutorilyLegal(c)</div>
+              <div id="outStatLegal" class="font-bold text-sm text-teal-300 mt-0.5">true</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">QSAConstitutional(q)</div>
+              <div id="outQsaConst" class="font-bold text-sm text-teal-300 mt-0.5">true</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Part B2: SPEC-04 Rank-Descent Delegation Tree Evaluator (Real Computation + Honest Label) -->
+        <div class="border border-slate-200 rounded-xl p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="text-base font-bold text-slate-900">
+                3. SPEC-04 Poset Rank-Descent Evaluator (<code>∀ i, ρ(Tᵢ) &lt; ρ(T)</code>)
+              </h3>
+              <p class="text-xs text-slate-500">
+                Fixes Audit Defect #2: computes whether a candidate delegation chain <code>[ρ₀, ρ₁, ..., ρₖ]</code> in ℕ satisfies strict well-founded rank descent to atomic task <code>ρ = 0</code>, and hashes the resulting witness DAG via WebCrypto SHA-256.
+              </p>
+            </div>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
+              Live Rank Checker (On-Chain Verifier: NOT YET IMPLEMENTED)
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs items-end">
+            <div class="md:col-span-2">
+              <label for="spec04RankInput" class="block text-[10px] text-slate-500 mb-1">
+                CANDIDATE DELEGATION RANK SEQUENCE (COMMA-SEPARATED NATURAL NUMBERS ρ₀, ρ₁, ..., ρₖ)
+              </label>
+              <input
+                id="spec04RankInput"
+                type="text"
+                value="4, 3, 2, 1, 0"
+                class="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900"
+              />
+            </div>
+            <div class="flex gap-2">
+              <button type="button" id="spec04ValidPresetBtn" class="px-3 py-2 rounded-lg bg-slate-900 text-white font-medium">
+                Valid (4→3→2→1→0)
+              </button>
+              <button type="button" id="spec04CyclePresetBtn" class="px-3 py-2 rounded-lg bg-slate-100 text-slate-800 hover:bg-slate-200 font-medium">
+                Invalid Cycle (4→2→2→0)
+              </button>
+            </div>
+          </div>
+
+          <div id="spec04ResultBox" class="p-3.5 rounded-lg bg-slate-900 text-slate-100 font-mono text-xs space-y-1">
+            Evaluating SPEC-04 rank descent...
+          </div>
+        </div>
+
+        <!-- Part C: Audit Status of Pending Workstreams -->
+        <div class="border border-slate-200 rounded-xl p-5 space-y-3 text-xs">
+          <div class="font-mono font-bold uppercase text-slate-800">
+            Explicit Workstream Status (Honest Engineering Ledger)
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-3 font-mono">
+            <div class="p-3 rounded bg-slate-50 border border-slate-200">
+              <div class="text-amber-700 font-bold">1. Faucet Claim Backend</div>
+              <div class="text-slate-600 mt-1">Status: <strong>PENDING RELAYER</strong> (<code>POST /api/v1/claim</code> &amp; HTTPS RPC proxy D1).</div>
+            </div>
+            <div class="p-3 rounded bg-slate-50 border border-slate-200">
+              <div class="text-amber-700 font-bold">2. Rust/WASM Lean Checker</div>
+              <div class="text-slate-600 mt-1">Status: <strong>NOT YET IMPLEMENTED</strong> (Separate workstream per Section 7).</div>
+            </div>
+            <div class="p-3 rounded bg-slate-50 border border-slate-200">
+              <div class="text-amber-700 font-bold">3. ERC-721 Capsule Contract</div>
+              <div class="text-slate-600 mt-1">Status: <strong>NOT YET DEPLOYED</strong> (Dual-mint phase 2; native VST first).</div>
+            </div>
+            <div class="p-3 rounded bg-slate-50 border border-slate-200">
+              <div class="text-amber-700 font-bold">4. KYA / did:web Resolver</div>
+              <div class="text-slate-600 mt-1">Status: <strong>SPECIFICATION ONLY</strong> (Browser JS cannot read TLS leaf/root certs directly).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <!-- PERMANENT FOOTER WITH MANDATORY DISCLAIMERS -->
+  <footer class="bg-white border-t border-slate-200 py-6 px-4 text-xs text-slate-500 mt-12">
+    <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="space-y-1">
+        <div class="font-semibold text-slate-800">
+          Vestorin.com Staging Frontend (Chain ID 202627 / 0x31783)
+        </div>
+        <p>
+          Test network only. VST tokens have no monetary value, are not securities, and are not legal tender. Under overload, transactions wait or are rejected; immediate execution is never promised.
+        </p>
+      </div>
+      <div class="font-mono text-[11px] text-right">
+        <div>Genesis: <code>0x0ab605a3...de95ca793</code></div>
+        <div>Faucet: <code>0x1821dc3f...2e222c3</code></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastEl" class="fixed bottom-5 right-5 z-50 hidden px-4 py-2.5 rounded-lg bg-slate-900 text-white font-mono text-xs shadow-lg">
+    <span id="toastText">Copied</span>
+  </div>
+
+  <script>
+    const BIP39_WORDLIST = ["abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident", "account", "accuse", "achieve", "acid", "acoustic", "acquire", "across", "act", "action", "actor", "actress", "actual", "adapt", "add", "addict", "address", "adjust", "admit", "adult", "advance", "advice", "aerobic", "affair", "afford", "afraid", "again", "age", "agent", "agree", "ahead", "aim", "air", "airport", "aisle", "alarm", "album", "alcohol", "alert", "alien", "all", "alley", "allow", "almost", "alone", "alpha", "already", "also", "alter", "always", "amateur", "amazing", "among", "amount", "amused", "analyst", "anchor", "ancient", "anger", "angle", "angry", "animal", "ankle", "announce", "annual", "another", "answer", "antenna", "antique", "anxiety", "any", "apart", "apology", "appear", "apple", "approve", "april", "arch", "arctic", "area", "arena", "argue", "arm", "armed", "armor", "army", "around", "arrange", "arrest", "arrive", "arrow", "art", "artefact", "artist", "artwork", "ask", "aspect", "assault", "asset", "assist", "assume", "asthma", "athlete", "atom", "attack", "attend", "attitude", "attract", "auction", "audit", "august", "aunt", "author", "auto", "autumn", "average", "avocado", "avoid", "awake", "aware", "away", "awesome", "awful", "awkward", "axis", "baby", "bachelor", "bacon", "badge", "bag", "balance", "balcony", "ball", "bamboo", "banana", "banner", "bar", "barely", "bargain", "barrel", "base", "basic", "basket", "battle", "beach", "bean", "beauty", "because", "become", "beef", "before", "begin", "behave", "behind", "believe", "below", "belt", "bench", "benefit", "best", "betray", "better", "between", "beyond", "bicycle", "bid", "bike", "bind", "biology", "bird", "birth", "bitter", "black", "blade", "blame", "blanket", "blast", "bleak", "bless", "blind", "blood", "blossom", "blouse", "blue", "blur", "blush", "board", "boat", "body", "boil", "bomb", "bone", "bonus", "book", "boost", "border", "boring", "borrow", "boss", "bottom", "bounce", "box", "boy", "bracket", "brain", "brand", "brass", "brave", "bread", "breeze", "brick", "bridge", "brief", "bright", "bring", "brisk", "broccoli", "broken", "bronze", "broom", "brother", "brown", "brush", "bubble", "buddy", "budget", "buffalo", "build", "bulb", "bulk", "bullet", "bundle", "bunker", "burden", "burger", "burst", "bus", "business", "busy", "butter", "buyer", "buzz", "cabbage", "cabin", "cable", "cactus", "cage", "cake", "call", "calm", "camera", "camp", "can", "canal", "cancel", "candy", "cannon", "canoe", "canvas", "canyon", "capable", "capital", "captain", "car", "carbon", "card", "cargo", "carpet", "carry", "cart", "case", "cash", "casino", "castle", "casual", "cat", "catalog", "catch", "category", "cattle", "caught", "cause", "caution", "cave", "ceiling", "celery", "cement", "census", "century", "cereal", "certain", "chair", "chalk", "champion", "change", "chaos", "chapter", "charge", "chase", "chat", "cheap", "check", "cheese", "chef", "cherry", "chest", "chicken", "chief", "child", "chimney", "choice", "choose", "chronic", "chuckle", "chunk", "churn", "cigar", "cinnamon", "circle", "citizen", "city", "civil", "claim", "clap", "clarify", "claw", "clay", "clean", "clerk", "clever", "click", "client", "cliff", "climb", "clinic", "clip", "clock", "clog", "close", "cloth", "cloud", "clown", "club", "clump", "cluster", "clutch", "coach", "coast", "coconut", "code", "coffee", "coil", "coin", "collect", "color", "column", "combine", "come", "comfort", "comic", "common", "company", "concert", "conduct", "confirm", "congress", "connect", "consider", "control", "convince", "cook", "cool", "copper", "copy", "coral", "core", "corn", "correct", "cost", "cotton", "couch", "country", "couple", "course", "cousin", "cover", "coyote", "crack", "cradle", "craft", "cram", "crane", "crash", "crater", "crawl", "crazy", "cream", "credit", "creek", "crew", "cricket", "crime", "crisp", "critic", "crop", "cross", "crouch", "crowd", "crucial", "cruel", "cruise", "crumble", "crunch", "crush", "cry", "crystal", "cube", "culture", "cup", "cupboard", "curious", "current", "curtain", "curve", "cushion", "custom", "cute", "cycle", "dad", "damage", "damp", "dance", "danger", "daring", "dash", "daughter", "dawn", "day", "deal", "debate", "debris", "decade", "december", "decide", "decline", "decorate", "decrease", "deer", "defense", "define", "defy", "degree", "delay", "deliver", "demand", "demise", "denial", "dentist", "deny", "depart", "depend", "deposit", "depth", "deputy", "derive", "describe", "desert", "design", "desk", "despair", "destroy", "detail", "detect", "develop", "device", "devote", "diagram", "dial", "diamond", "diary", "dice", "diesel", "diet", "differ", "digital", "dignity", "dilemma", "dinner", "dinosaur", "direct", "dirt", "disagree", "discover", "disease", "dish", "dismiss", "disorder", "display", "distance", "divert", "divide", "divorce", "dizzy", "doctor", "document", "dog", "doll", "dolphin", "domain", "donate", "donkey", "donor", "door", "dose", "double", "dove", "draft", "dragon", "drama", "drastic", "draw", "dream", "dress", "drift", "drill", "drink", "drip", "drive", "drop", "drum", "dry", "duck", "dumb", "dune", "during", "dust", "dutch", "duty", "dwarf", "dynamic", "eager", "eagle", "early", "earn", "earth", "easily", "east", "easy", "echo", "ecology", "economy", "edge", "edit", "educate", "effort", "egg", "eight", "either", "elbow", "elder", "electric", "elegant", "element", "elephant", "elevator", "elite", "else", "embark", "embody", "embrace", "emerge", "emotion", "employ", "empower", "empty", "enable", "enact", "end", "endless", "endorse", "enemy", "energy", "enforce", "engage", "engine", "enhance", "enjoy", "enlist", "enough", "enrich", "enroll", "ensure", "enter", "entire", "entry", "envelope", "episode", "equal", "equip", "era", "erase", "erode", "erosion", "error", "erupt", "escape", "essay", "essence", "estate", "eternal", "ethics", "evidence", "evil", "evoke", "evolve", "exact", "example", "excess", "exchange", "excite", "exclude", "excuse", "execute", "exercise", "exhaust", "exhibit", "exile", "exist", "exit", "exotic", "expand", "expect", "expire", "explain", "expose", "express", "extend", "extra", "eye", "eyebrow", "fabric", "face", "faculty", "fade", "faint", "faith", "fall", "false", "fame", "family", "famous", "fan", "fancy", "fantasy", "farm", "fashion", "fat", "fatal", "father", "fatigue", "fault", "favorite", "feature", "february", "federal", "fee", "feed", "feel", "female", "fence", "festival", "fetch", "fever", "few", "fiber", "fiction", "field", "figure", "file", "film", "filter", "final", "find", "fine", "finger", "finish", "fire", "firm", "first", "fiscal", "fish", "fit", "fitness", "fix", "flag", "flame", "flash", "flat", "flavor", "flee", "flight", "flip", "float", "flock", "floor", "flower", "fluid", "flush", "fly", "foam", "focus", "fog", "foil", "fold", "follow", "food", "foot", "force", "forest", "forget", "fork", "fortune", "forum", "forward", "fossil", "foster", "found", "fox", "fragile", "frame", "frequent", "fresh", "friend", "fringe", "frog", "front", "frost", "frown", "frozen", "fruit", "fuel", "fun", "funny", "furnace", "fury", "future", "gadget", "gain", "galaxy", "gallery", "game", "gap", "garage", "garbage", "garden", "garlic", "garment", "gas", "gasp", "gate", "gather", "gauge", "gaze", "general", "genius", "genre", "gentle", "genuine", "gesture", "ghost", "giant", "gift", "giggle", "ginger", "giraffe", "girl", "give", "glad", "glance", "glare", "glass", "glide", "glimpse", "globe", "gloom", "glory", "glove", "glow", "glue", "goat", "goddess", "gold", "good", "goose", "gorilla", "gospel", "gossip", "govern", "gown", "grab", "grace", "grain", "grant", "grape", "grass", "gravity", "great", "green", "grid", "grief", "grit", "grocery", "group", "grow", "grunt", "guard", "guess", "guide", "guilt", "guitar", "gun", "gym", "habit", "hair", "half", "hammer", "hamster", "hand", "happy", "harbor", "hard", "harsh", "harvest", "hat", "have", "hawk", "hazard", "head", "health", "heart", "heavy", "hedgehog", "height", "hello", "helmet", "help", "hen", "hero", "hidden", "high", "hill", "hint", "hip", "hire", "history", "hobby", "hockey", "hold", "hole", "holiday", "hollow", "home", "honey", "hood", "hope", "horn", "horror", "horse", "hospital", "host", "hotel", "hour", "hover", "hub", "huge", "human", "humble", "humor", "hundred", "hungry", "hunt", "hurdle", "hurry", "hurt", "husband", "hybrid", "ice", "icon", "idea", "identify", "idle", "ignore", "ill", "illegal", "illness", "image", "imitate", "immense", "immune", "impact", "impose", "improve", "impulse", "inch", "include", "income", "increase", "index", "indicate", "indoor", "industry", "infant", "inflict", "inform", "inhale", "inherit", "initial", "inject", "injury", "inmate", "inner", "innocent", "input", "inquiry", "insane", "insect", "inside", "inspire", "install", "intact", "interest", "into", "invest", "invite", "involve", "iron", "island", "isolate", "issue", "item", "ivory", "jacket", "jaguar", "jar", "jazz", "jealous", "jeans", "jelly", "jewel", "job", "join", "joke", "journey", "joy", "judge", "juice", "jump", "jungle", "junior", "junk", "just", "kangaroo", "keen", "keep", "ketchup", "key", "kick", "kid", "kidney", "kind", "kingdom", "kiss", "kit", "kitchen", "kite", "kitten", "kiwi", "knee", "knife", "knock", "know", "lab", "label", "labor", "ladder", "lady", "lake", "lamp", "language", "laptop", "large", "later", "latin", "laugh", "laundry", "lava", "law", "lawn", "lawsuit", "layer", "lazy", "leader", "leaf", "learn", "leave", "lecture", "left", "leg", "legal", "legend", "leisure", "lemon", "lend", "length", "lens", "leopard", "lesson", "letter", "level", "liar", "liberty", "library", "license", "life", "lift", "light", "like", "limb", "limit", "link", "lion", "liquid", "list", "little", "live", "lizard", "load", "loan", "lobster", "local", "lock", "logic", "lonely", "long", "loop", "lottery", "loud", "lounge", "love", "loyal", "lucky", "luggage", "lumber", "lunar", "lunch", "luxury", "lyrics", "machine", "mad", "magic", "magnet", "maid", "mail", "main", "major", "make", "mammal", "man", "manage", "mandate", "mango", "mansion", "manual", "maple", "marble", "march", "margin", "marine", "market", "marriage", "mask", "mass", "master", "match", "material", "math", "matrix", "matter", "maximum", "maze", "meadow", "mean", "measure", "meat", "mechanic", "medal", "media", "melody", "melt", "member", "memory", "mention", "menu", "mercy", "merge", "merit", "merry", "mesh", "message", "metal", "method", "middle", "midnight", "milk", "million", "mimic", "mind", "minimum", "minor", "minute", "miracle", "mirror", "misery", "miss", "mistake", "mix", "mixed", "mixture", "mobile", "model", "modify", "mom", "moment", "monitor", "monkey", "monster", "month", "moon", "moral", "more", "morning", "mosquito", "mother", "motion", "motor", "mountain", "mouse", "move", "movie", "much", "muffin", "mule", "multiply", "muscle", "museum", "mushroom", "music", "must", "mutual", "myself", "mystery", "myth", "naive", "name", "napkin", "narrow", "nasty", "nation", "nature", "near", "neck", "need", "negative", "neglect", "neither", "nephew", "nerve", "nest", "net", "network", "neutral", "never", "news", "next", "nice", "night", "noble", "noise", "nominee", "noodle", "normal", "north", "nose", "notable", "note", "nothing", "notice", "novel", "now", "nuclear", "number", "nurse", "nut", "oak", "obey", "object", "oblige", "obscure", "observe", "obtain", "obvious", "occur", "ocean", "october", "odor", "off", "offer", "office", "often", "oil", "okay", "old", "olive", "olympic", "omit", "once", "one", "onion", "online", "only", "open", "opera", "opinion", "oppose", "option", "orange", "orbit", "orchard", "order", "ordinary", "organ", "orient", "original", "orphan", "ostrich", "other", "outdoor", "outer", "output", "outside", "oval", "oven", "over", "own", "owner", "oxygen", "oyster", "ozone", "pact", "paddle", "page", "pair", "palace", "palm", "panda", "panel", "panic", "panther", "paper", "parade", "parent", "park", "parrot", "party", "pass", "patch", "path", "patient", "patrol", "pattern", "pause", "pave", "payment", "peace", "peanut", "pear", "peasant", "pelican", "pen", "penalty", "pencil", "people", "pepper", "perfect", "permit", "person", "pet", "phone", "photo", "phrase", "physical", "piano", "picnic", "picture", "piece", "pig", "pigeon", "pill", "pilot", "pink", "pioneer", "pipe", "pistol", "pitch", "pizza", "place", "planet", "plastic", "plate", "play", "please", "pledge", "pluck", "plug", "plunge", "poem", "poet", "point", "polar", "pole", "police", "pond", "pony", "pool", "popular", "portion", "position", "possible", "post", "potato", "pottery", "poverty", "powder", "power", "practice", "praise", "predict", "prefer", "prepare", "present", "pretty", "prevent", "price", "pride", "primary", "print", "priority", "prison", "private", "prize", "problem", "process", "produce", "profit", "program", "project", "promote", "proof", "property", "prosper", "protect", "proud", "provide", "public", "pudding", "pull", "pulp", "pulse", "pumpkin", "punch", "pupil", "puppy", "purchase", "purity", "purpose", "purse", "push", "put", "puzzle", "pyramid", "quality", "quantum", "quarter", "question", "quick", "quit", "quiz", "quote", "rabbit", "raccoon", "race", "rack", "radar", "radio", "rail", "rain", "raise", "rally", "ramp", "ranch", "random", "range", "rapid", "rare", "rate", "rather", "raven", "raw", "razor", "ready", "real", "reason", "rebel", "rebuild", "recall", "receive", "recipe", "record", "recycle", "reduce", "reflect", "reform", "refuse", "region", "regret", "regular", "reject", "relax", "release", "relief", "rely", "remain", "remember", "remind", "remove", "render", "renew", "rent", "reopen", "repair", "repeat", "replace", "report", "require", "rescue", "resemble", "resist", "resource", "response", "result", "retire", "retreat", "return", "reunion", "reveal", "review", "reward", "rhythm", "rib", "ribbon", "rice", "rich", "ride", "ridge", "rifle", "right", "rigid", "ring", "riot", "ripple", "risk", "ritual", "rival", "river", "road", "roast", "robot", "robust", "rocket", "romance", "roof", "rookie", "room", "rose", "rotate", "rough", "round", "route", "royal", "rubber", "rude", "rug", "rule", "run", "runway", "rural", "sad", "saddle", "sadness", "safe", "sail", "salad", "salmon", "salon", "salt", "salute", "same", "sample", "sand", "satisfy", "satoshi", "sauce", "sausage", "save", "say", "scale", "scan", "scare", "scatter", "scene", "scheme", "school", "science", "scissors", "scorpion", "scout", "scrap", "screen", "script", "scrub", "sea", "search", "season", "seat", "second", "secret", "section", "security", "seed", "seek", "segment", "select", "sell", "seminar", "senior", "sense", "sentence", "series", "service", "session", "settle", "setup", "seven", "shadow", "shaft", "shallow", "share", "shed", "shell", "sheriff", "shield", "shift", "shine", "ship", "shiver", "shock", "shoe", "shoot", "shop", "short", "shoulder", "shove", "shrimp", "shrug", "shuffle", "shy", "sibling", "sick", "side", "siege", "sight", "sign", "silent", "silk", "silly", "silver", "similar", "simple", "since", "sing", "siren", "sister", "situate", "six", "size", "skate", "sketch", "ski", "skill", "skin", "skirt", "skull", "slab", "slam", "sleep", "slender", "slice", "slide", "slight", "slim", "slogan", "slot", "slow", "slush", "small", "smart", "smile", "smoke", "smooth", "snack", "snake", "snap", "sniff", "snow", "soap", "soccer", "social", "sock", "soda", "soft", "solar", "soldier", "solid", "solution", "solve", "someone", "song", "soon", "sorry", "sort", "soul", "sound", "soup", "source", "south", "space", "spare", "spatial", "spawn", "speak", "special", "speed", "spell", "spend", "sphere", "spice", "spider", "spike", "spin", "spirit", "split", "spoil", "sponsor", "spoon", "sport", "spot", "spray", "spread", "spring", "spy", "square", "squeeze", "squirrel", "stable", "stadium", "staff", "stage", "stairs", "stamp", "stand", "start", "state", "stay", "steak", "steel", "stem", "step", "stereo", "stick", "still", "sting", "stock", "stomach", "stone", "stool", "story", "stove", "strategy", "street", "strike", "strong", "struggle", "student", "stuff", "stumble", "style", "subject", "submit", "subway", "success", "such", "sudden", "suffer", "sugar", "suggest", "suit", "summer", "sun", "sunny", "sunset", "super", "supply", "supreme", "sure", "surface", "surge", "surprise", "surround", "survey", "suspect", "sustain", "swallow", "swamp", "swap", "swarm", "swear", "sweet", "swift", "swim", "swing", "switch", "sword", "symbol", "symptom", "syrup", "system", "table", "tackle", "tag", "tail", "talent", "talk", "tank", "tape", "target", "task", "taste", "tattoo", "taxi", "teach", "team", "tell", "ten", "tenant", "tennis", "tent", "term", "test", "text", "thank", "that", "theme", "then", "theory", "there", "they", "thing", "this", "thought", "three", "thrive", "throw", "thumb", "thunder", "ticket", "tide", "tiger", "tilt", "timber", "time", "tiny", "tip", "tired", "tissue", "title", "toast", "tobacco", "today", "toddler", "toe", "together", "toilet", "token", "tomato", "tomorrow", "tone", "tongue", "tonight", "tool", "tooth", "top", "topic", "topple", "torch", "tornado", "tortoise", "toss", "total", "tourist", "toward", "tower", "town", "toy", "track", "trade", "traffic", "tragic", "train", "transfer", "trap", "trash", "travel", "tray", "treat", "tree", "trend", "trial", "tribe", "trick", "trigger", "trim", "trip", "trophy", "trouble", "truck", "true", "truly", "trumpet", "trust", "truth", "try", "tube", "tuition", "tumble", "tuna", "tunnel", "turkey", "turn", "turtle", "twelve", "twenty", "twice", "twin", "twist", "two", "type", "typical", "ugly", "umbrella", "unable", "unaware", "uncle", "uncover", "under", "undo", "unfair", "unfold", "unhappy", "uniform", "unique", "unit", "universe", "unknown", "unlock", "until", "unusual", "unveil", "update", "upgrade", "uphold", "upon", "upper", "upset", "urban", "urge", "usage", "use", "used", "useful", "useless", "usual", "utility", "vacant", "vacuum", "vague", "valid", "valley", "valve", "van", "vanish", "vapor", "various", "vast", "vault", "vehicle", "velvet", "vendor", "venture", "venue", "verb", "verify", "version", "very", "vessel", "veteran", "viable", "vibrant", "vicious", "victory", "video", "view", "village", "vintage", "violin", "virtual", "virus", "visa", "visit", "visual", "vital", "vivid", "vocal", "voice", "void", "volcano", "volume", "vote", "voyage", "wage", "wagon", "wait", "walk", "wall", "walnut", "want", "warfare", "warm", "warrior", "wash", "wasp", "waste", "water", "wave", "way", "wealth", "weapon", "wear", "weasel", "weather", "web", "wedding", "weekend", "weird", "welcome", "west", "wet", "whale", "what", "wheat", "wheel", "when", "where", "whip", "whisper", "wide", "width", "wife", "wild", "will", "win", "window", "wine", "wing", "wink", "winner", "winter", "wire", "wisdom", "wise", "wish", "witness", "wolf", "woman", "wonder", "wood", "wool", "word", "work", "world", "worry", "worth", "wrap", "wreck", "wrestle", "wrist", "write", "wrong", "yard", "year", "yellow", "you", "young", "youth", "zebra", "zero", "zone", "zoo"];
+    const WORD_TO_IDX = new Map(BIP39_WORDLIST.map((w, i) => [w, i]));
+
+    const SECP_P = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2Fn;
+    const SECP_N = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141n;
+    const SECP_GX = 0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798n;
+    const SECP_GY = 0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8n;
+
+    function mod(a, m = SECP_P) {
+      const r = a % m;
+      return r >= 0n ? r : r + m;
+    }
+
+    function modInv(a, m = SECP_P) {
+      let t = 0n, newT = 1n;
+      let r = m, newR = mod(a, m);
+      while (newR !== 0n) {
+        const q = r / newR;
+        [t, newT] = [newT, t - q * newT];
+        [r, newR] = [newR, r - q * newR];
+      }
+      return t < 0n ? t + m : t;
+    }
+
+    function pointAdd(p1, p2) {
+      if (!p1) return p2;
+      if (!p2) return p1;
+      const [x1, y1] = p1;
+      const [x2, y2] = p2;
+      if (x1 === x2 && y1 !== y2) return null;
+      let lam;
+      if (x1 === x2) {
+        lam = mod(3n * x1 * x1 * modInv(2n * y1));
+      } else {
+        lam = mod((y2 - y1) * modInv(x2 - x1));
+      }
+      const x3 = mod(lam * lam - x1 - x2);
+      const y3 = mod(lam * (x1 - x3) - y1);
+      return [x3, y3];
+    }
+
+    function pointMultiply(k) {
+      let n = k;
+      let result = null;
+      let addend = [SECP_GX, SECP_GY];
+      while (n > 0n) {
+        if (n & 1n) result = pointAdd(result, addend);
+        addend = pointAdd(addend, addend);
+        n >>= 1n;
+      }
+      return result;
+    }
+
+    function bigIntTo32Bytes(num) {
+      const hex = num.toString(16).padStart(64, '0');
+      const out = new Uint8Array(32);
+      for (let i = 0; i < 32; i++) {
+        out[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
+      }
+      return out;
+    }
+
+    function bytesToBigInt(bytes) {
+      let hex = '';
+      for (let i = 0; i < bytes.length; i++) {
+        hex += bytes[i].toString(16).padStart(2, '0');
+      }
+      return BigInt('0x' + (hex || '0'));
+    }
+
+    function bytesToHex(bytes) {
+      return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function serializeCompressedPoint(pt) {
+      const [x, y] = pt;
+      const out = new Uint8Array(33);
+      out[0] = (y & 1n) === 0n ? 0x02 : 0x03;
+      out.set(bigIntTo32Bytes(x), 1);
+      return out;
+    }
+
+    const KECCAK_RC = [
+      0x0000000000000001n, 0x0000000000008082n, 0x800000000000808An, 0x8000000080008000n,
+      0x000000000000808Bn, 0x0000000080000001n, 0x8000000080008081n, 0x8000000000008009n,
+      0x000000000000008An, 0x0000000000000088n, 0x0000000080008009n, 0x000000008000000An,
+      0x000000008000808Bn, 0x800000000000008Bn, 0x8000000000008089n, 0x8000000000008003n,
+      0x8000000000008002n, 0x8000000000000080n, 0x000000000000800An, 0x800000008000000An,
+      0x8000000080008081n, 0x8000000000008080n, 0x0000000080000001n, 0x8000000080008008n
+    ];
+    const KECCAK_ROT = [
+      [0n, 36n, 3n, 41n, 18n],
+      [1n, 44n, 10n, 45n, 2n],
+      [62n, 6n, 43n, 15n, 61n],
+      [28n, 55n, 25n, 21n, 56n],
+      [27n, 20n, 39n, 8n, 14n]
+    ];
+    const MASK_64 = 0xFFFFFFFFFFFFFFFFn;
+
+    function rol64(v, r) {
+      if (r === 0n) return v & MASK_64;
+      return ((v << r) | (v >> (64n - r))) & MASK_64;
+    }
+
+    function keccakF1600(state) {
+      for (let round = 0; round < 24; round++) {
+        const C = new Array(5).fill(0n);
+        for (let x = 0; x < 5; x++) {
+          C[x] = state[x][0] ^ state[x][1] ^ state[x][2] ^ state[x][3] ^ state[x][4];
+        }
+        const D = new Array(5).fill(0n);
+        for (let x = 0; x < 5; x++) {
+          D[x] = C[(x + 4) % 5] ^ rol64(C[(x + 1) % 5], 1n);
+        }
+        for (let x = 0; x < 5; x++) {
+          for (let y = 0; y < 5; y++) {
+            state[x][y] = (state[x][y] ^ D[x]) & MASK_64;
+          }
+        }
+        const B = Array.from({ length: 5 }, () => new Array(5).fill(0n));
+        for (let x = 0; x < 5; x++) {
+          for (let y = 0; y < 5; y++) {
+            B[y][(2 * x + 3 * y) % 5] = rol64(state[x][y], KECCAK_ROT[x][y]);
+          }
+        }
+        for (let x = 0; x < 5; x++) {
+          for (let y = 0; y < 5; y++) {
+            const notNext = (~B[(x + 1) % 5][y]) & MASK_64;
+            state[x][y] = (B[x][y] ^ (notNext & B[(x + 2) % 5][y])) & MASK_64;
+          }
+        }
+        state[0][0] = (state[0][0] ^ KECCAK_RC[round]) & MASK_64;
+      }
+    }
+
+    function keccak256(msgBytes) {
+      const rate = 136;
+      const state = Array.from({ length: 5 }, () => new Array(5).fill(0n));
+      const padLen = rate - (msgBytes.length % rate);
+      const padded = new Uint8Array(msgBytes.length + padLen);
+      padded.set(msgBytes, 0);
+      padded[msgBytes.length] = 0x01;
+      padded[padded.length - 1] |= 0x80;
+
+      for (let offset = 0; offset < padded.length; offset += rate) {
+        for (let i = 0; i < 17; i++) {
+          let lane = 0n;
+          for (let b = 0; b < 8; b++) {
+            lane |= BigInt(padded[offset + i * 8 + b]) << BigInt(b * 8);
+          }
+          state[i % 5][Math.floor(i / 5)] ^= lane;
+        }
+        keccakF1600(state);
+      }
+
+      const out = new Uint8Array(32);
+      let pos = 0;
+      for (let y = 0; y < 5; y++) {
+        for (let x = 0; x < 5; x++) {
+          const lane = state[x][y];
+          for (let b = 0; b < 8 && pos < 32; b++) {
+            out[pos++] = Number((lane >> BigInt(b * 8)) & 0xFFn);
+          }
+        }
+      }
+      return out;
+    }
+
+    function toEip55Address(raw20Hex) {
+      const lower = raw20Hex.toLowerCase();
+      const hashHex = bytesToHex(keccak256(new TextEncoder().encode(lower)));
+      let out = '0x';
+      for (let i = 0; i < 40; i++) {
+        const ch = lower[i];
+        if (ch >= 'a' && ch <= 'f' && parseInt(hashHex[i], 16) >= 8) {
+          out += ch.toUpperCase();
+        } else {
+          out += ch;
+        }
+      }
+      return out;
+    }
+
+    async function hmacSha512(keyBytes, dataBytes) {
+      const cryptoKey = await window.crypto.subtle.importKey(
+        'raw', keyBytes, { name: 'HMAC', hash: 'SHA-512' }, false, ['sign']
+      );
+      const sig = await window.crypto.subtle.sign('HMAC', cryptoKey, dataBytes);
+      return new Uint8Array(sig);
+    }
+
+    async function pbkdf2HmacSha512(mnemonicStr, passphrase = '') {
+      const enc = new TextEncoder();
+      const keyMaterial = await window.crypto.subtle.importKey(
+        'raw',
+        enc.encode(mnemonicStr.normalize('NFKD')),
+        { name: 'PBKDF2' },
+        false,
+        ['deriveBits']
+      );
+      const saltBytes = enc.encode(('mnemonic' + passphrase).normalize('NFKD'));
+      const bits = await window.crypto.subtle.deriveBits(
+        { name: 'PBKDF2', salt: saltBytes, iterations: 2048, hash: 'SHA-512' },
+        keyMaterial,
+        512
+      );
+      return new Uint8Array(bits);
+    }
+
+    async function ckdPriv(kParBigInt, cParBytes, indexUint32) {
+      const data = new Uint8Array(37);
+      if (indexUint32 >= 0x80000000) {
+        data[0] = 0x00;
+        data.set(bigIntTo32Bytes(kParBigInt), 1);
+      } else {
+        const pt = pointMultiply(kParBigInt);
+        data.set(serializeCompressedPoint(pt), 0);
+      }
+      data[33] = (indexUint32 >>> 24) & 0xFF;
+      data[34] = (indexUint32 >>> 16) & 0xFF;
+      data[35] = (indexUint32 >>> 8) & 0xFF;
+      data[36] = indexUint32 & 0xFF;
+
+      const I = await hmacSha512(cParBytes, data);
+      const IL = bytesToBigInt(I.slice(0, 32));
+      const IR = I.slice(32, 64);
+      const ki = mod(IL + kParBigInt, SECP_N);
+      return [ki, IR];
+    }
+
+    async function deriveEvmAddressFromMnemonic(mnemonicStr) {
+      const seed64 = await pbkdf2HmacSha512(mnemonicStr, '');
+      const masterI = await hmacSha512(new TextEncoder().encode('Bitcoin seed'), seed64);
+      let k = bytesToBigInt(masterI.slice(0, 32));
+      let c = masterI.slice(32, 64);
+
+      const pathIndices = [0x8000002C, 0x8000003C, 0x80000000, 0, 0];
+      for (let i = 0; i < pathIndices.length; i++) {
+        [k, c] = await ckdPriv(k, c, pathIndices[i]);
+      }
+
+      const [px, py] = pointMultiply(k);
+      const pubUncompressed64 = new Uint8Array(64);
+      pubUncompressed64.set(bigIntTo32Bytes(px), 0);
+      pubUncompressed64.set(bigIntTo32Bytes(py), 32);
+
+      const keccakDigest = keccak256(pubUncompressed64);
+      const addr20Hex = bytesToHex(keccakDigest.slice(12, 32));
+      return toEip55Address(addr20Hex);
+    }
+
+    async function generateFresh24WordBip39() {
+      const entropy32 = new Uint8Array(32);
+      window.crypto.getRandomValues(entropy32);
+      const shaDigest = new Uint8Array(await window.crypto.subtle.digest('SHA-256', entropy32));
+      let bits = '';
+      for (let i = 0; i < 32; i++) {
+        bits += entropy32[i].toString(2).padStart(8, '0');
+      }
+      bits += shaDigest[0].toString(2).padStart(8, '0');
+
+      const words = [];
+      for (let i = 0; i < 24; i++) {
+        const idx = parseInt(bits.slice(i * 11, (i + 1) * 11), 2);
+        words.push(BIP39_WORDLIST[idx]);
+      }
+      entropy32.fill(0);
+      return words;
+    }
+
+    const STAGING_CHAIN = {
+      chainIdDec: 202627,
+      chainIdHex: '0x31783',
+      chainName: 'Vestorin',
+      nativeCurrency: { name: 'Vestorin', symbol: 'VST', decimals: 18 },
+      rpcUrl: 'http://100.77.188.3:8546',
+      genesisHash: '0x0ab605a3cf46aab8ac3b38dd111e54f8c5ba458a4144c186bf8d0d0de95ca793',
+      faucetAddress: '0x1821dc3f0974339db7c7146037b40f54a2e222c3',
+      signerAddress: '0x0e5fde73cfd2e7fb4d164b5d6487dea645832401'
+    };
+
+    const state = {
+      currentStep: 1,
+      validatedDosage: 21000000,
+      recipientAddress: '',
+      ephemeralWords: null,
+      claimStatus: 'CLAIM_BACKEND_PENDING',
+      claimTxHash: null,
+      lastPolledBlock: null,
+      lastPolledBalanceVST: null
+    };
+
+    function showToast(msg) {
+      const el = document.getElementById('toastEl');
+      const txt = document.getElementById('toastText');
+      txt.textContent = msg;
+      el.classList.remove('hidden');
+      setTimeout(() => el.classList.add('hidden'), 2600);
+    }
+
+    function copyText(text, label) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => showToast(label + ' copied')).catch(() => fallbackCopy(text, label));
+      } else {
+        fallbackCopy(text, label);
+      }
+    }
+
+    function fallbackCopy(text, label) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      showToast(label + ' copied');
+    }
+
+    function wipeEphemeralMnemonic() {
+      if (state.ephemeralWords) {
+        for (let i = 0; i < state.ephemeralWords.length; i++) {
+          state.ephemeralWords[i] = 'REDACTED';
+        }
+        state.ephemeralWords = null;
+      }
+      const grid = document.getElementById('oneTimeWordsGrid');
+      if (grid) {
+        grid.innerHTML = '<div class="col-span-full p-4 text-center text-xs text-slate-500 bg-slate-100 rounded-lg">One-time recovery phrase has been permanently cleared from memory.</div>';
+      }
+    }
+
+    function switchMainView(viewName) {
+      const views = {
+        flow: document.getElementById('viewFlow'),
+        status: document.getElementById('viewStatus'),
+        lean: document.getElementById('viewLean')
+      };
+      const btns = {
+        flow: document.getElementById('navFlowBtn'),
+        status: document.getElementById('navStatusBtn'),
+        lean: document.getElementById('navLeanBtn')
+      };
+      Object.keys(views).forEach(k => {
+        if (k === viewName) {
+          views[k].classList.remove('hidden');
+          btns[k].className = 'px-3 py-1.5 rounded-md font-medium bg-slate-900 text-white transition';
+        } else {
+          views[k].classList.add('hidden');
+          btns[k].className = 'px-3 py-1.5 rounded-md font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition';
+        }
+      });
+    }
+
+    function goToStep(stepNum) {
+      if (state.currentStep === 2 && stepNum !== 2) {
+        wipeEphemeralMnemonic();
+      }
+      state.currentStep = stepNum;
+      [1, 2, 3, 4].forEach(n => {
+        const sec = document.getElementById('screenStep' + n);
+        const tab = document.getElementById('stepTab' + n);
+        if (n === stepNum) {
+          sec.classList.remove('hidden');
+          tab.className = 'text-left p-2 rounded-lg bg-slate-900 text-white font-medium transition';
+        } else {
+          sec.classList.add('hidden');
+          tab.className = n < stepNum
+            ? 'text-left p-2 rounded-lg bg-teal-50 text-teal-900 border border-teal-200 font-medium transition'
+            : 'text-left p-2 rounded-lg bg-slate-50 text-slate-400 font-medium transition';
+        }
+      });
+    }
+
+    function validateStep1Inputs() {
+      const rawDose = document.getElementById('claimDosageInput').value.trim();
+      const numDose = Number(rawDose);
+      const doseMsg = document.getElementById('dosageValidationMsg');
+      let doseValid = false;
+
+      if (!rawDose || !Number.isInteger(numDose) || numDose < 1 || numDose > 21000000) {
+        doseMsg.textContent = '✗ Invalid dosage: enter a whole number between 1 and 21,000,000 VST.';
+        doseMsg.className = 'text-[11px] font-mono text-red-600 font-semibold';
+      } else {
+        state.validatedDosage = numDose;
+        doseValid = true;
+        doseMsg.textContent = `✓ Validated claim amount: ${numDose.toLocaleString('en-US')} VST (within staging quota).`;
+        doseMsg.className = 'text-[11px] font-mono text-emerald-700';
+      }
+
+      const rawAddr = document.getElementById('existingAddressInput').value.trim();
+      const addrMsg = document.getElementById('addressValidationMsg');
+      const startBtn = document.getElementById('startStep1Btn');
+      let addrValid = false;
+
+      if (rawAddr === '') {
+        addrValid = true;
+        addrMsg.textContent = 'Mode: Will generate a fresh 24-word BIP-39 phrase on click.';
+        addrMsg.className = 'text-[11px] font-mono text-teal-700';
+        startBtn.textContent = 'Generate Real BIP-39 Phrase →';
+      } else if (/^0x[0-9a-fA-F]{40}$/.test(rawAddr)) {
+        addrValid = true;
+        addrMsg.textContent = `✓ Valid EVM address provided (${toEip55Address(rawAddr.slice(2))}). Skipping seed generation.`;
+        addrMsg.className = 'text-[11px] font-mono text-emerald-700';
+        startBtn.textContent = 'Continue with Provided Address →';
+      } else {
+        addrMsg.textContent = '✗ Invalid EVM address: must be 0x followed by 40 hex characters, or left blank.';
+        addrMsg.className = 'text-[11px] font-mono text-red-600 font-semibold';
+      }
+
+      startBtn.disabled = !(doseValid && addrValid);
+      return doseValid && addrValid;
+    }
+
+    async function callStagingRpc(method, params = []) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 3500);
+      try {
+        const t0 = performance.now();
+        const res = await fetch(STAGING_CHAIN.rpcUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
+          signal: controller.signal
+        });
+        clearTimeout(timer);
+        const data = await res.json();
+        const latencyMs = Math.round(performance.now() - t0);
+        return { ok: true, result: data.result, latencyMs };
+      } catch (err) {
+        clearTimeout(timer);
+        return { ok: false, error: err.message || 'RPC unreachable (Tailnet / mixed-content boundary)' };
+      }
+    }
+
+    async function pollChainStatusAndBalance() {
+      const dot = document.getElementById('rpcDot');
+      const statusTxt = document.getElementById('rpcConnStatusText');
+      const latTxt = document.getElementById('rpcLatencyText');
+      const blkEl = document.getElementById('statusBlockNumber');
+      const blkSrc = document.getElementById('statusBlockSource');
+
+      const blkRes = await callStagingRpc('eth_blockNumber', []);
+      if (blkRes.ok && blkRes.result) {
+        const blkNum = parseInt(blkRes.result, 16);
+        state.lastPolledBlock = blkNum;
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500';
+        statusTxt.textContent = `RPC Connected: ${STAGING_CHAIN.rpcUrl}`;
+        latTxt.textContent = `${blkRes.latencyMs} ms`;
+        blkEl.textContent = `Block #${blkNum} (${blkRes.result})`;
+        blkSrc.textContent = `Source: Live JSON-RPC eth_blockNumber (${new Date().toISOString()})`;
+      } else {
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-500';
+        statusTxt.textContent = `RPC Offline / Tailnet Required (${STAGING_CHAIN.rpcUrl})`;
+        latTxt.textContent = 'Unreachable from current browser context';
+        blkEl.textContent = 'Baseline ≥ 105 (Live RPC unreachable from non-Tailnet / HTTPS sandbox)';
+        blkSrc.textContent = 'Source: Verified staging baseline (Section 4) · Connect to Tailnet for live RPC';
+      }
+
+      if (state.recipientAddress) {
+        const balEl = document.getElementById('liveBalanceValue');
+        const balNote = document.getElementById('liveBalanceSourceNote');
+        const balRes = await callStagingRpc('eth_getBalance', [state.recipientAddress, 'latest']);
+        if (balRes.ok && balRes.result) {
+          const weiBig = BigInt(balRes.result);
+          const wholeVST = weiBig / (10n ** 18n);
+          state.lastPolledBalanceVST = wholeVST.toString();
+          balEl.textContent = `${wholeVST.toLocaleString('en-US')} VST`;
+          balNote.textContent = `Source: Live eth_getBalance on ${STAGING_CHAIN.rpcUrl}`;
+        } else {
+          state.lastPolledBalanceVST = null;
+          balEl.textContent = '0 VST (Pending Claim Relayer / Tailnet RPC)';
+          balNote.textContent = `Source: RPC ${STAGING_CHAIN.rpcUrl} not reachable from this browser tab; claim backend pending.`;
+        }
+      }
+      renderPublicReceipt();
+    }
+
+    function buildPublicReceiptObject() {
+      return {
+        receiptSchema: 'VESTORIN_PUBLIC_CLAIM_RECEIPT/v2',
+        generatedAt: new Date().toISOString(),
+        recipientAddress: state.recipientAddress,
+        derivationStandard: "BIP-39 / BIP-44 EVM (m/44'/60'/0'/0/0)",
+        seedSafetyAudit: 'ZERO_SECRETS_INCLUDED (No mnemonic words and no entropy hex exist in this receipt)',
+        networkParameters: {
+          chainName: STAGING_CHAIN.chainName,
+          chainIdDecimal: STAGING_CHAIN.chainIdDec,
+          chainIdHex: STAGING_CHAIN.chainIdHex,
+          nativeCurrencySymbol: 'VST',
+          decimals: 18,
+          stagingRpcUrl: STAGING_CHAIN.rpcUrl,
+          genesisHash: STAGING_CHAIN.genesisHash,
+          faucetAddress: STAGING_CHAIN.faucetAddress
+        },
+        claimDetails: {
+          requestedDosageVST: state.validatedDosage,
+          claimBackendStatus: state.claimStatus,
+          claimTransactionHash: state.claimTxHash || 'PENDING_OPERATOR_FAUCET_RELAYER',
+          observedOnChainBalanceVST: state.lastPolledBalanceVST !== null ? state.lastPolledBalanceVST : 'UNVERIFIED_OFF_TAILNET'
+        },
+        disclaimers: {
+          legalStatus: 'Testnet coins (VST) have zero monetary value, are NOT securities, and are NOT legal tender.',
+          secFilingReference: 'SEC File No. S7-2026-27 (US Securities Testnet / USTN-001 proposal)',
+          overloadPolicy: 'Under overload, transactions wait or are rejected; immediate execution is never promised.',
+          gasCaveat: 'Operator faucet transfers execute at gasPrice 0; MetaMask quotes 1 gwei (0.000021 VST) from eth_gasPrice on staging.'
+        }
+      };
+    }
+
+    function renderPublicReceipt() {
+      const pre = document.getElementById('publicReceiptPre');
+      if (!pre) return;
+      pre.textContent = JSON.stringify(buildPublicReceiptObject(), null, 2);
+    }
+
+    function gcdBigInt(a, b) {
+      let x = a < 0n ? -a : a;
+      let y = b < 0n ? -b : b;
+      while (y !== 0n) {
+        const t = y;
+        y = x % y;
+        x = t;
+      }
+      return x;
+    }
+
+    function canonicalizeWheel(n, d) {
+      if (n === 0n && d === 0n) return { n: 0n, d: 0n, label: '⊥ = (0, 0) [Algebraic Bottom / Nullity]' };
+      if (d === 0n) return { n: 1n, d: 0n, label: '∞ = (1, 0) [Unsigned Projective Infinity]' };
+      if (n === 0n) return { n: 0n, d: 1n, label: '0 = (0, 1) [Canonical Zero]' };
+      const sign = d < 0n ? -1n : 1n;
+      const g = gcdBigInt(n, d);
+      const cn = (n * sign) / g;
+      const cd = (d * sign) / g;
+      return { n: cn, d: cd, label: `${cn}/${cd} = (${cn}, ${cd})` };
+    }
+
+    function evaluateWheelArithmetic() {
+      const [n1, d1] = document.getElementById('wheelXSelect').value.split(',').map(BigInt);
+      const [n2, d2] = document.getElementById('wheelYSelect').value.split(',').map(BigInt);
+      const op = document.getElementById('wheelOpSelect').value;
+
+      let rn = 0n, rd = 0n;
+      if (op === 'add') {
+        rn = n1 * d2 + n2 * d1;
+        rd = d1 * d2;
+      } else if (op === 'sub') {
+        rn = n1 * d2 - n2 * d1;
+        rd = d1 * d2;
+      } else if (op === 'mul') {
+        rn = n1 * n2;
+        rd = d1 * d2;
+      } else if (op === 'div') {
+        rn = n1 * d2;
+        rd = d1 * n2;
+      }
+      const res = canonicalizeWheel(rn, rd);
+      document.getElementById('wheelCalcOutput').textContent = res.label;
+    }
+
+    function evaluateExactPredicates() {
+      const invMoney = document.getElementById('p_invMoney').checked;
+      const commonEnt = document.getElementById('p_commonEnt').checked;
+      const expProfits = document.getElementById('p_expProfits').checked;
+      const efforts = document.getElementById('p_efforts').checked;
+      const label = document.getElementById('p_label').checked;
+
+      const localComp = document.getElementById('p_localComp').checked;
+      const cogRight = document.getElementById('p_cogRight').checked;
+      const noHarm = document.getElementById('p_noHarm').checked;
+      const surveillance = document.getElementById('p_surveillance').checked;
+
+      const isSecurity = invMoney && commonEnt && expProfits && efforts;
+      const statLegal = (isSecurity === false) && (label === true);
+      const qsaConst = (localComp === true) && (cogRight === true) && (noHarm === true) && (surveillance === false);
+
+      const elSec = document.getElementById('outIsSecurity');
+      const elStat = document.getElementById('outStatLegal');
+      const elConst = document.getElementById('outQsaConst');
+
+      elSec.textContent = String(isSecurity);
+      elSec.className = isSecurity ? 'font-bold text-sm text-amber-400 mt-0.5' : 'font-bold text-sm text-teal-300 mt-0.5';
+
+      elStat.textContent = String(statLegal);
+      elStat.className = statLegal ? 'font-bold text-sm text-teal-300 mt-0.5' : 'font-bold text-sm text-red-400 mt-0.5';
+
+      elConst.textContent = String(qsaConst);
+      elConst.className = qsaConst ? 'font-bold text-sm text-teal-300 mt-0.5' : 'font-bold text-sm text-red-400 mt-0.5';
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('navFlowBtn').addEventListener('click', () => switchMainView('flow'));
+      document.getElementById('navStatusBtn').addEventListener('click', () => {
+        switchMainView('status');
+        pollChainStatusAndBalance();
+      });
+      document.getElementById('navLeanBtn').addEventListener('click', () => switchMainView('lean'));
+
+      ['slider1', 'slider2', 'slider3'].forEach(id => {
+        document.getElementById(id).addEventListener('input', () => {
+          const v1 = Number(document.getElementById('slider1').value);
+          const v2 = Number(document.getElementById('slider2').value);
+          const v3 = Number(document.getElementById('slider3').value);
+          document.getElementById('slider1Val').textContent = v1 + '%';
+          document.getElementById('slider2Val').textContent = v2 + '%';
+          document.getElementById('slider3Val').textContent = v3 + '%';
+          const avgDistress = Math.round((v1 + v2 + v3) / 3);
+          const esteem = Math.max(1, 100 - avgDistress);
+          document.getElementById('symptomSummaryTag').textContent = `Baseline Self-Esteem Index: ${esteem}% (State ⊥ = 0/0)`;
+        });
+      });
+
+      document.querySelectorAll('.dose-quick-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.getElementById('claimDosageInput').value = btn.getAttribute('data-dose-val');
+          validateStep1Inputs();
+        });
+      });
+      document.getElementById('claimDosageInput').addEventListener('input', validateStep1Inputs);
+      document.getElementById('existingAddressInput').addEventListener('input', validateStep1Inputs);
+
+      document.getElementById('testVectorVerifyBtn').addEventListener('click', async () => {
+        const box = document.getElementById('selfTestBox');
+        const out = document.getElementById('selfTestOutput');
+        box.classList.remove('hidden');
+        out.textContent = 'Running PBKDF2-HMAC-SHA512 + secp256k1 + Keccak-256 test vectors...';
+        const t0 = performance.now();
+        const v1Phrase = ('abandon '.repeat(11)) + 'about';
+        const v2Phrase = ('abandon '.repeat(23)) + 'art';
+        const exp1 = '0x9858EfFD232B4033E47d90003D41EC34EcaEda94';
+        const exp2 = '0xF278cF59F82eDcf871d630F28EcC8056f25C1cdb';
+        const expSha = '2f5eed53a4727b4bf8880d8f3f199efc90e58503646d9ff8eff3a2ed3b24dbda';
+        const addr1 = await deriveEvmAddressFromMnemonic(v1Phrase);
+        const addr2 = await deriveEvmAddressFromMnemonic(v2Phrase);
+        const wlBytes = new TextEncoder().encode(BIP39_WORDLIST.join('\n') + '\n');
+        const wlSha = bytesToHex(new Uint8Array(await window.crypto.subtle.digest('SHA-256', wlBytes)));
+        const pass1 = (addr1 === exp1);
+        const pass2 = (addr2 === exp2);
+        const pass3 = (BIP39_WORDLIST.length === 2048 && wlSha === expSha);
+        const allPass = pass1 && pass2 && pass3;
+        const dt = (performance.now() - t0).toFixed(1);
+        out.innerHTML = [
+          `1. 12-word vector ("abandon...about") → Computed: <strong>${addr1}</strong> | Expected: ${exp1} → <strong class="${pass1 ? 'text-teal-300' : 'text-red-400'}">${pass1 ? 'PASS' : 'FAIL'}</strong>`,
+          `2. 24-word vector ("abandon...art")   → Computed: <strong>${addr2}</strong> | Expected: ${exp2} → <strong class="${pass2 ? 'text-teal-300' : 'text-red-400'}">${pass2 ? 'PASS' : 'FAIL'}</strong>`,
+          `3. Wordlist SHA-256 (${BIP39_WORDLIST.length} words) → Computed: <strong>${wlSha.slice(0, 16)}...</strong> | Expected: ${expSha.slice(0, 16)}... → <strong class="${pass3 ? 'text-teal-300' : 'text-red-400'}">${pass3 ? 'PASS' : 'FAIL'}</strong>`,
+          `OVERALL ASSERTION VERDICT (${dt} ms): <strong class="${allPass ? 'text-teal-300' : 'text-red-400'}">${allPass ? 'ALL 3 ASSERTIONS PASSED' : 'ASSERTION FAILURE DETECTED'}</strong>`
+        ].join('<br/>');
+      });
+
+      document.getElementById('startStep1Btn').addEventListener('click', async () => {
+        if (!validateStep1Inputs()) return;
+        const rawAddr = document.getElementById('existingAddressInput').value.trim();
+        if (rawAddr !== '') {
+          state.recipientAddress = toEip55Address(rawAddr.slice(2));
+          document.getElementById('step3AddressDisplay').textContent = state.recipientAddress;
+          document.getElementById('step3DosageDisplay').textContent = state.validatedDosage.toLocaleString('en-US') + ' VST';
+          goToStep(3);
+          return;
+        }
+
+        const startBtn = document.getElementById('startStep1Btn');
+        startBtn.disabled = true;
+        startBtn.textContent = 'Deriving BIP-39 / secp256k1 Keys...';
+
+        const t0 = performance.now();
+        const words = await generateFresh24WordBip39();
+        const phraseStr = words.join(' ');
+        const derivedAddr = await deriveEvmAddressFromMnemonic(phraseStr);
+        const elapsedMs = (performance.now() - t0).toFixed(1);
+
+        state.ephemeralWords = words;
+        state.recipientAddress = derivedAddr;
+
+        const grid = document.getElementById('oneTimeWordsGrid');
+        grid.innerHTML = words.map((w, idx) => `
+          <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
+            <span class="text-xs text-slate-400 select-none">${String(idx + 1).padStart(2, '0')}.</span>
+            <span class="font-bold text-slate-900 tracking-wide">${w}</span>
+          </div>
+        `).join('');
+
+        document.getElementById('step2DerivedAddress').textContent = derivedAddr;
+        document.getElementById('derivationTimeBadge').textContent = `Derived via PBKDF2-HMAC-SHA512 (2048 iter) in ${elapsedMs} ms`;
+        document.getElementById('confirmSavedPhraseChk').checked = false;
+        document.getElementById('proceedToStep3Btn').disabled = true;
+
+        startBtn.disabled = false;
+        startBtn.textContent = 'Generate Real BIP-39 Phrase →';
+        goToStep(2);
+      });
+
+      document.getElementById('copyPhraseOnceBtn').addEventListener('click', () => {
+        if (state.ephemeralWords && state.ephemeralWords.length === 24) {
+          copyText(state.ephemeralWords.join(' '), '24-word recovery phrase');
+        }
+      });
+
+      document.getElementById('confirmSavedPhraseChk').addEventListener('change', (e) => {
+        document.getElementById('proceedToStep3Btn').disabled = !e.target.checked;
+      });
+
+      document.getElementById('backToStep1Btn').addEventListener('click', () => {
+        goToStep(1);
+      });
+
+      document.getElementById('proceedToStep3Btn').addEventListener('click', () => {
+        document.getElementById('step3AddressDisplay').textContent = state.recipientAddress;
+        document.getElementById('step3DosageDisplay').textContent = state.validatedDosage.toLocaleString('en-US') + ' VST';
+        goToStep(3);
+      });
+
+      document.getElementById('addNetworkMetaMaskBtn').addEventListener('click', async () => {
+        const statusBox = document.getElementById('metaMaskStatusBox');
+        if (!window.ethereum || typeof window.ethereum.request !== 'function') {
+          statusBox.textContent = '⚠️ No injected EIP-1193 provider (window.ethereum) detected in this browser tab. Open in a browser with MetaMask or Rabby installed.';
+          statusBox.className = 'text-xs font-mono text-amber-800 bg-amber-50 border border-amber-300 px-3 py-2 rounded';
+          return;
+        }
+        try {
+          statusBox.textContent = 'Requesting wallet_addEthereumChain in MetaMask...';
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [{
+              chainId: STAGING_CHAIN.chainIdHex,
+              chainName: STAGING_CHAIN.chainName,
+              nativeCurrency: STAGING_CHAIN.nativeCurrency,
+              rpcUrls: [STAGING_CHAIN.rpcUrl]
+            }]
+          });
+          statusBox.textContent = '✓ Vestorin (Chain ID 202627 / 0x31783) added / selected in wallet!';
+          statusBox.className = 'text-xs font-mono text-emerald-800 bg-emerald-50 border border-emerald-300 px-3 py-2 rounded';
+          showToast('Vestorin network added to wallet');
+        } catch (err) {
+          statusBox.textContent = `Wallet response: ${err.message || String(err)}`;
+          statusBox.className = 'text-xs font-mono text-red-700 bg-red-50 border border-red-200 px-3 py-2 rounded';
+        }
+      });
+
+      async function countLeadingZeroBits(bytes) {
+        let count = 0;
+        for (let i = 0; i < bytes.length; i++) {
+          const b = bytes[i];
+          if (b === 0) {
+            count += 8;
+          } else {
+            count += Math.clz32(b) - 24;
+            break;
+          }
+        }
+        return count;
+      }
+
+      async function solveClientPoUW(challengeToken, address, diffBits) {
+        const ranks = [4, 3, 2, 1, 0];
+        const wheelPair = [1, 0];
+        const canonicalWitness = `SPEC04:${ranks.join(',')}|WHEEL:${wheelPair[0]},${wheelPair[1]}`;
+        const enc = new TextEncoder();
+        for (let nonce = 0; nonce < 500000; nonce++) {
+          const preimage = `${challengeToken}|${address.toLowerCase()}|${canonicalWitness}|${nonce}`;
+          const digest = new Uint8Array(await window.crypto.subtle.digest('SHA-256', enc.encode(preimage)));
+          const lz = await countLeadingZeroBits(digest);
+          if (lz >= diffBits) {
+            return { ranks, wheelPair, nonce: String(nonce), proofHash: '0x' + bytesToHex(digest) };
+          }
+        }
+        throw new Error('PoUW solver exceeded 500k iterations');
+      }
+
+      document.getElementById('executeClaimBtn').addEventListener('click', async () => {
+        const btn = document.getElementById('executeClaimBtn');
+        btn.disabled = true;
+        btn.textContent = 'Requesting PoUW Challenge from Relayer...';
+        document.getElementById('step4RequestedQuota').textContent = state.validatedDosage.toLocaleString('en-US') + ' VST';
+
+        const badge = document.getElementById('claimDispatchBadge');
+        const explain = document.getElementById('claimDispatchExplanation');
+
+        try {
+          const chalUrl = `${STAGING_CHAIN.rpcUrl}/api/v1/challenge?address=${encodeURIComponent(state.recipientAddress)}`;
+          const cRes = await fetch(chalUrl, { method: 'GET' });
+          const cData = await cRes.json();
+          if (!cRes.ok || !cData.challenge) {
+            throw new Error(cData.error || `Challenge HTTP ${cRes.status}`);
+          }
+          btn.textContent = `Solving ${cData.difficultyBits}-bit SPEC-04 / Wheel PoUW...`;
+          const solved = await solveClientPoUW(cData.challenge, state.recipientAddress, cData.difficultyBits || 12);
+
+          btn.textContent = 'Submitting Signed Claim to Wolfram Relayer...';
+          const claimUrl = STAGING_CHAIN.rpcUrl + '/api/v1/claim';
+          const claimRes = await fetch(claimUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              address: state.recipientAddress,
+              dosageVST: state.validatedDosage,
+              challenge: cData.challenge,
+              ranks: solved.ranks,
+              wheelPair: solved.wheelPair,
+              nonce: solved.nonce
+            })
+          });
+          const claimData = await claimRes.json();
+          if (!claimRes.ok || !claimData.txHash) {
+            throw new Error(claimData.error || `Claim HTTP ${claimRes.status}`);
+          }
+          state.claimStatus = 'DISPATCHED_ON_CHAIN';
+          state.claimTxHash = claimData.txHash;
+          badge.textContent = 'DISPATCHED ON-CHAIN';
+          badge.className = 'text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-semibold';
+          explain.innerHTML = `Operator faucet transfer dispatched! Transaction Hash: <code class="font-bold text-slate-900 break-all">${claimData.txHash}</code> (PoUW Witness: <code>${claimData.proofHash}</code>).`;
+        } catch (err) {
+          state.claimStatus = 'CLAIM_BACKEND_PENDING';
+          state.claimTxHash = null;
+          badge.textContent = 'CLAIM BACKEND PENDING / OFF-TAILNET';
+          badge.className = 'text-[11px] font-mono px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-semibold';
+          explain.textContent = `Relayer response (${STAGING_CHAIN.rpcUrl}): ${err.message || String(err)}. The frontend never fabricates a transaction hash or balance when the relayer is unreachable from this browser context.`;
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Request Claim Transfer →';
+          goToStep(4);
+          await pollChainStatusAndBalance();
+        }
+      });
+
+      document.getElementById('refreshBalanceBtn').addEventListener('click', async () => {
+        await pollChainStatusAndBalance();
+        showToast('Polled staging RPC');
+      });
+
+      document.getElementById('copyPublicReceiptBtn').addEventListener('click', () => {
+        copyText(JSON.stringify(buildPublicReceiptObject(), null, 2), 'Public receipt JSON');
+      });
+
+      document.getElementById('downloadPublicReceiptBtn').addEventListener('click', () => {
+        const jsonStr = JSON.stringify(buildPublicReceiptObject(), null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `vestorin-public-receipt-${state.recipientAddress.slice(0, 10)}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Public receipt downloaded (0 secrets included)');
+      });
+
+      document.getElementById('resetFlowBtn').addEventListener('click', () => {
+        wipeEphemeralMnemonic();
+        state.recipientAddress = '';
+        goToStep(1);
+      });
+
+      document.getElementById('goToStatusFromStep4Btn').addEventListener('click', () => {
+        switchMainView('status');
+        pollChainStatusAndBalance();
+      });
+
+      document.getElementById('pollRpcBtn').addEventListener('click', async () => {
+        await pollChainStatusAndBalance();
+        showToast('Staging RPC polled');
+      });
+
+      ['wheelXSelect', 'wheelOpSelect', 'wheelYSelect'].forEach(id => {
+        document.getElementById(id).addEventListener('change', evaluateWheelArithmetic);
+      });
+      evaluateWheelArithmetic();
+
+      document.querySelectorAll('.pred-chk').forEach(chk => {
+        chk.addEventListener('change', evaluateExactPredicates);
+      });
+
+      document.querySelectorAll('.pred-preset-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const p = btn.getAttribute('data-preset');
+          if (p === 'vestorin') {
+            document.getElementById('p_invMoney').checked = false;
+            document.getElementById('p_commonEnt').checked = false;
+            document.getElementById('p_expProfits').checked = false;
+            document.getElementById('p_efforts').checked = false;
+            document.getElementById('p_label').checked = true;
+            document.getElementById('p_localComp').checked = true;
+            document.getElementById('p_cogRight').checked = true;
+            document.getElementById('p_noHarm').checked = true;
+            document.getElementById('p_surveillance').checked = false;
+          } else if (p === 'panopticon') {
+            document.getElementById('p_invMoney').checked = false;
+            document.getElementById('p_commonEnt').checked = false;
+            document.getElementById('p_expProfits').checked = false;
+            document.getElementById('p_efforts').checked = false;
+            document.getElementById('p_label').checked = true;
+            document.getElementById('p_localComp').checked = false;
+            document.getElementById('p_cogRight').checked = false;
+            document.getElementById('p_noHarm').checked = true;
+            document.getElementById('p_surveillance').checked = true;
+          } else if (p === 'thought') {
+            document.getElementById('p_invMoney').checked = false;
+            document.getElementById('p_commonEnt').checked = false;
+            document.getElementById('p_expProfits').checked = false;
+            document.getElementById('p_efforts').checked = false;
+            document.getElementById('p_label').checked = false;
+            document.getElementById('p_localComp').checked = true;
+            document.getElementById('p_cogRight').checked = true;
+            document.getElementById('p_noHarm').checked = true;
+            document.getElementById('p_surveillance').checked = false;
+          }
+          evaluateExactPredicates();
+        });
+      });
+      evaluateExactPredicates();
+
+      async function evaluateSpec04RankSequence() {
+        const raw = document.getElementById('spec04RankInput').value;
+        const outBox = document.getElementById('spec04ResultBox');
+        const parts = raw.split(',').map(x => x.trim()).filter(Boolean);
+        if (parts.length < 2) {
+          outBox.innerHTML = '<span class="text-red-400 font-bold">REJECTED:</span> Sequence must contain at least 2 task ranks.';
+          return;
+        }
+        const ranks = [];
+        for (let i = 0; i < parts.length; i++) {
+          const n = Number(parts[i]);
+          if (!Number.isInteger(n) || n < 0) {
+            outBox.innerHTML = `<span class="text-red-400 font-bold">REJECTED:</span> Element #${i + 1} ("${parts[i]}") is not a non-negative integer in ℕ.`;
+            return;
+          }
+          ranks.push(n);
+        }
+        for (let i = 0; i < ranks.length - 1; i++) {
+          if (!(ranks[i + 1] < ranks[i])) {
+            outBox.innerHTML = `<span class="text-red-400 font-bold">REJECTED (NON-DESCENDING RANK AT STEP ${i}→${i + 1}):</span> ρ(T_${i + 1}) = ${ranks[i + 1]} is not strictly less than ρ(T_${i}) = ${ranks[i]}. Infinite delegation loop risk!`;
+            return;
+          }
+        }
+        const reachesZero = (ranks[ranks.length - 1] === 0);
+        const dagPayload = `SPEC04_DAG|ranks=${ranks.join('->')}|atomic=${reachesZero}`;
+        const dagHash = bytesToHex(new Uint8Array(await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(dagPayload))));
+        outBox.innerHTML = [
+          `<span class="text-teal-300 font-bold">PASS (WELL-FOUNDED STRICT DESCENT):</span> ∀ i, ρ(T_{i+1}) &lt; ρ(T_i) verified across ${ranks.length - 1} transitions (max depth bound = ${ranks[0]}).`,
+          `Atomic termination (ρ_end = 0): <strong>${reachesZero ? 'YES (Halted at atomic task)' : 'PARTIAL (Halted at rank ' + ranks[ranks.length - 1] + ')'}</strong> | Computed SHA-256 Witness: <code>0x${dagHash.slice(0, 32)}...</code>`
+        ].join('<br/>');
+      }
+
+      document.getElementById('spec04RankInput').addEventListener('input', evaluateSpec04RankSequence);
+      document.getElementById('spec04ValidPresetBtn').addEventListener('click', () => {
+        document.getElementById('spec04RankInput').value = '4, 3, 2, 1, 0';
+        evaluateSpec04RankSequence();
+      });
+      document.getElementById('spec04CyclePresetBtn').addEventListener('click', () => {
+        document.getElementById('spec04RankInput').value = '4, 2, 2, 0';
+        evaluateSpec04RankSequence();
+      });
+      evaluateSpec04RankSequence();
+    });
+  </script>
+</body>
+</html>
