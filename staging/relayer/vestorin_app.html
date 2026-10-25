@@ -1599,10 +1599,9 @@
       return words;
     }
 
-    // EIP-3085 & EIP-3326 Metadata Parameters (MIN-225)
-    // Block explorer URL: wired to a single constant; null while MIN-226 is pending.
-    // In EIP-3085, omitting blockExplorerUrls when null avoids schema errors (MetaMask rejects empty array [] with -32602).
-    const BLOCK_EXPLORER_URL = null; // Set to canonical HTTPS URL once MIN-226 delivers staging explorer
+    // EIP-3085 & EIP-3326 Metadata Parameters (MIN-225, MIN-226)
+    // Block explorer URL: wired to canonical HTTPS staging explorer (MIN-226)
+    const BLOCK_EXPLORER_URL = 'https://wolfram.tail94aa6c.ts.net:8547';
 
     // First-party HTTPS icon URLs for EIP-3085 iconUrls parameter
     const VESTORIN_ICON_URLS = [
@@ -2236,7 +2235,10 @@
           state.claimTxHash = claimData.txHash;
           badge.textContent = 'DISPATCHED ON-CHAIN';
           badge.className = 'text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-semibold';
-          explain.innerHTML = `Operator faucet transfer dispatched! Transaction Hash: <code class="font-bold text-slate-900 break-all">${claimData.txHash}</code> (PoUW Witness: <code>${claimData.proofHash}</code>).`;
+          const txLinkHtml = BLOCK_EXPLORER_URL
+            ? `<a href="${BLOCK_EXPLORER_URL}/tx/${claimData.txHash}" target="_blank" rel="noopener" class="font-bold text-indigo-600 hover:text-indigo-800 underline break-all">${claimData.txHash}</a>`
+            : `<code class="font-bold text-slate-900 break-all">${claimData.txHash}</code>`;
+          explain.innerHTML = `Operator faucet transfer dispatched! Transaction Hash: ${txLinkHtml} (PoUW Witness: <code>${claimData.proofHash}</code>).`;
         } catch (err) {
           state.claimStatus = 'CLAIM_BACKEND_PENDING';
           state.claimTxHash = null;
