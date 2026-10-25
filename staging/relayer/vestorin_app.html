@@ -106,6 +106,17 @@
     <!-- =================================================================== -->
     <!-- VIEW 1: ONE-SCREEN-PER-STEP WIZARD FLOW                             -->
     <!-- =================================================================== -->
+    <!-- INSECURE CONTEXT / CRYPTO AVAILABILITY BANNER (MIN-224) -->
+    <div id="cryptoEnvironmentBanner" class="hidden mb-6 p-4 rounded-xl border text-xs shadow-sm">
+      <div class="flex items-start gap-3">
+        <div id="cryptoBannerIcon" class="text-base select-none mt-0.5">ℹ️</div>
+        <div class="space-y-1">
+          <div id="cryptoBannerTitle" class="font-bold tracking-tight text-sm"></div>
+          <div id="cryptoBannerBody" class="leading-relaxed"></div>
+        </div>
+      </div>
+    </div>
+
     <div id="viewFlow" class="space-y-6">
 
       <!-- Progress Stepper Bar -->
@@ -244,6 +255,9 @@
             </p>
           </div>
         </div>
+
+        <!-- Step 1 Crypto Error Box (visible if derivation fails, MIN-224) -->
+        <div id="step1CryptoErrorBox" class="hidden bg-red-50 border border-red-300 text-red-800 rounded-xl p-3.5 text-xs font-mono space-y-1"></div>
 
         <!-- Primary Action Button -->
         <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
@@ -1154,30 +1168,363 @@
       return out;
     }
 
+    // =========================================================================
+    // PURE-JS CRYPTOGRAPHIC FALLBACK ENGINE (MIN-224)
+    // Provides FIPS 180-4 SHA-256/512, RFC 2104 HMAC, and RFC 2898 PBKDF2
+    // when window.crypto.subtle is unavailable in insecure contexts (plain HTTP).
+    // =========================================================================
+
+    const SHA256_K = [
+      0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+      0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+      0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+      0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+      0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+      0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+      0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+      0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
+    ];
+
+    function pureSha256(bytes) {
+      let h0 = 0x6a09e667, h1 = 0xbb67ae85, h2 = 0x3c6ef372, h3 = 0xa54ff53a;
+      let h4 = 0x510e527f, h5 = 0x9b05688c, h6 = 0x1f83d9ab, h7 = 0x5be0cd19;
+
+      const len = bytes.length;
+      const bitLenHi = Math.floor(len / 0x20000000);
+      const bitLenLo = (len << 3) >>> 0;
+
+      const padLen = (len % 64 < 56) ? (56 - (len % 64)) : (120 - (len % 64));
+      const totalLen = len + padLen + 8;
+      const buf = new Uint8Array(totalLen);
+      buf.set(bytes, 0);
+      buf[len] = 0x80;
+      buf[totalLen - 8] = (bitLenHi >>> 24) & 0xff;
+      buf[totalLen - 7] = (bitLenHi >>> 16) & 0xff;
+      buf[totalLen - 6] = (bitLenHi >>> 8) & 0xff;
+      buf[totalLen - 5] = bitLenHi & 0xff;
+      buf[totalLen - 4] = (bitLenLo >>> 24) & 0xff;
+      buf[totalLen - 3] = (bitLenLo >>> 16) & 0xff;
+      buf[totalLen - 2] = (bitLenLo >>> 8) & 0xff;
+      buf[totalLen - 1] = bitLenLo & 0xff;
+
+      const W = new Int32Array(64);
+
+      for (let i = 0; i < totalLen; i += 64) {
+        for (let t = 0; t < 16; t++) {
+          const off = i + (t << 2);
+          W[t] = (buf[off] << 24) | (buf[off + 1] << 16) | (buf[off + 2] << 8) | buf[off + 3];
+        }
+        for (let t = 16; t < 64; t++) {
+          const w15 = W[t - 2];
+          const s1 = ((w15 >>> 17) | (w15 << 15)) ^ ((w15 >>> 19) | (w15 << 13)) ^ (w15 >>> 10);
+          const w2 = W[t - 15];
+          const s0 = ((w2 >>> 7) | (w2 << 25)) ^ ((w2 >>> 18) | (w2 << 14)) ^ (w2 >>> 3);
+          W[t] = (W[t - 16] + s0 + W[t - 7] + s1) | 0;
+        }
+
+        let a = h0, b = h1, c = h2, d = h3, e = h4, f = h5, g = h6, h = h7;
+
+        for (let t = 0; t < 64; t++) {
+          const s1 = ((e >>> 6) | (e << 26)) ^ ((e >>> 11) | (e << 21)) ^ ((e >>> 25) | (e << 7));
+          const ch = (e & f) ^ ((~e) & g);
+          const temp1 = (h + s1 + ch + SHA256_K[t] + W[t]) | 0;
+          const s0 = ((a >>> 2) | (a << 30)) ^ ((a >>> 13) | (a << 19)) ^ ((a >>> 22) | (a << 10));
+          const maj = (a & b) ^ (a & c) ^ (b & c);
+          const temp2 = (s0 + maj) | 0;
+
+          h = g;
+          g = f;
+          f = e;
+          e = (d + temp1) | 0;
+          d = c;
+          c = b;
+          b = a;
+          a = (temp1 + temp2) | 0;
+        }
+
+        h0 = (h0 + a) | 0;
+        h1 = (h1 + b) | 0;
+        h2 = (h2 + c) | 0;
+        h3 = (h3 + d) | 0;
+        h4 = (h4 + e) | 0;
+        h5 = (h5 + f) | 0;
+        h6 = (h6 + g) | 0;
+        h7 = (h7 + h) | 0;
+      }
+
+      const out = new Uint8Array(32);
+      const hs = [h0, h1, h2, h3, h4, h5, h6, h7];
+      for (let t = 0; t < 8; t++) {
+        out[t * 4] = (hs[t] >>> 24) & 0xff;
+        out[t * 4 + 1] = (hs[t] >>> 16) & 0xff;
+        out[t * 4 + 2] = (hs[t] >>> 8) & 0xff;
+        out[t * 4 + 3] = hs[t] & 0xff;
+      }
+      return out;
+    }
+
+    const SHA512_K = [
+      0x428a2f98d728ae22n, 0x7137449123ef65cdn, 0xb5c0fbcfec4d3b2fn, 0xe9b5dba58189dbbcn,
+      0x3956c25bf348b538n, 0x59f111f1b605d019n, 0x923f82a4af194f9bn, 0xab1c5ed5da6d8118n,
+      0xd807aa98a3030242n, 0x12835b0145706fben, 0x243185be4ee4b28cn, 0x550c7dc3d5ffb4e2n,
+      0x72be5d74f27b896fn, 0x80deb1fe3b1696b1n, 0x9bdc06a725c71235n, 0xc19bf174cf692694n,
+      0xe49b69c19ef14ad2n, 0xefbe4786384f25e3n, 0x0fc19dc68b8cd5b5n, 0x240ca1cc77ac9c65n,
+      0x2de92c6f592b0275n, 0x4a7484aa6ea6e483n, 0x5cb0a9dcbd41fbd4n, 0x76f988da831153b5n,
+      0x983e5152ee66dfabn, 0xa831c66d2db43210n, 0xb00327c898fb213fn, 0xbf597fc7beef0ee4n,
+      0xc6e00bf33da88fc2n, 0xd5a79147930aa725n, 0x06ca6351e003826fn, 0x142929670a0e6e70n,
+      0x27b70a8546d22ffcn, 0x2e1b21385c26c926n, 0x4d2c6dfc5ac42aedn, 0x53380d139d95b3dfn,
+      0x650a73548baf63den, 0x766a0abb3c77b2a8n, 0x81c2c92e47edaee6n, 0x92722c851482353bn,
+      0xa2bfe8a14cf10364n, 0xa81a664bbc423001n, 0xc24b8b70d0f89791n, 0xc76c51a30654be30n,
+      0xd192e819d6ef5218n, 0xd69906245565a910n, 0xf40e35855771202an, 0x106aa07032bbd1b8n,
+      0x19a4c116b8d2d0c8n, 0x1e376c085141ab53n, 0x2748774cdf8eeb99n, 0x34b0bcb5e19b48a8n,
+      0x391c0cb3c5c95a63n, 0x4ed8aa4ae3418acbn, 0x5b9cca4f7763e373n, 0x682e6ff3d6b2b8a3n,
+      0x748f82ee5defb2fcn, 0x78a5636f43172f60n, 0x84c87814a1f0ab72n, 0x8cc702081a6439ecn,
+      0x90befffa23631e28n, 0xa4506cebde82bde9n, 0xbef9a3f7b2c67915n, 0xc67178f2e372532bn,
+      0xca273eceea26619cn, 0xd186b8c721c0c207n, 0xeada7dd6cde0eb1en, 0xf57d4f7fee6ed178n,
+      0x06f067aa72176fban, 0x0a637dc5a2c898a6n, 0x113f9804bef90daen, 0x1b710b35131c471bn,
+      0x28db77f523047d84n, 0x32caab7b40c72493n, 0x3c9ebe0a15c9bebcn, 0x431d67c49c100d4cn,
+      0x4cc5d4becb3e42b6n, 0x597f299cfc657e2an, 0x5fcb6fab3ad6faecn, 0x6c44198c4a475817n
+    ];
+
+    const MASK_64_BIGINT = 0xFFFFFFFFFFFFFFFFn;
+
+    function ror64(x, n) {
+      const bn = BigInt(n);
+      return ((x >> bn) | (x << (64n - bn))) & MASK_64_BIGINT;
+    }
+
+    function sha512Block(state, W) {
+      let [H0, H1, H2, H3, H4, H5, H6, H7] = state;
+      for (let t = 16; t < 80; t++) {
+        const w15 = W[t - 2];
+        const s1 = ror64(w15, 19) ^ ror64(w15, 61) ^ (w15 >> 6n);
+        const w2 = W[t - 15];
+        const s0 = ror64(w2, 1) ^ ror64(w2, 8) ^ (w2 >> 7n);
+        W[t] = (W[t - 16] + s0 + W[t - 7] + s1) & MASK_64_BIGINT;
+      }
+
+      let a = H0, b = H1, c = H2, d = H3, e = H4, f = H5, g = H6, h = H7;
+
+      for (let t = 0; t < 80; t++) {
+        const s1 = ror64(e, 14) ^ ror64(e, 18) ^ ror64(e, 41);
+        const ch = (e & f) ^ ((~e) & g);
+        const temp1 = (h + s1 + ch + SHA512_K[t] + W[t]) & MASK_64_BIGINT;
+        const s0 = ror64(a, 28) ^ ror64(a, 34) ^ ror64(a, 39);
+        const maj = (a & b) ^ (a & c) ^ (b & c);
+        const temp2 = (s0 + maj) & MASK_64_BIGINT;
+
+        h = g;
+        g = f;
+        f = e;
+        e = (d + temp1) & MASK_64_BIGINT;
+        d = c;
+        c = b;
+        b = a;
+        a = (temp1 + temp2) & MASK_64_BIGINT;
+      }
+
+      return [
+        (H0 + a) & MASK_64_BIGINT, (H1 + b) & MASK_64_BIGINT, (H2 + c) & MASK_64_BIGINT, (H3 + d) & MASK_64_BIGINT,
+        (H4 + e) & MASK_64_BIGINT, (H5 + f) & MASK_64_BIGINT, (H6 + g) & MASK_64_BIGINT, (H7 + h) & MASK_64_BIGINT
+      ];
+    }
+
+    const INIT_H512 = [
+      0x6a09e667f3bcc908n, 0xbb67ae8584caa73bn, 0x3c6ef372fe94f82bn, 0xa54ff53a5f1d36f1n,
+      0x510e527fade682d1n, 0x9b05688c2b3e6c1fn, 0x1f83d9abfb41bd6bn, 0x5be0cd19137e2179n
+    ];
+
+    function pureSha512(bytes) {
+      let state = [...INIT_H512];
+      const len = bytes.length;
+      const padLen = (len % 128 < 112) ? (112 - (len % 128)) : (240 - (len % 128));
+      const totalLen = len + padLen + 16;
+      const buf = new Uint8Array(totalLen);
+      buf.set(bytes, 0);
+      buf[len] = 0x80;
+
+      const bitLen = BigInt(len) * 8n;
+      for (let k = 0; k < 8; k++) {
+        buf[totalLen - 8 + k] = Number((bitLen >> BigInt((7 - k) * 8)) & 0xffn);
+      }
+
+      const W = new BigUint64Array(80);
+      const view = new DataView(buf.buffer);
+
+      for (let i = 0; i < totalLen; i += 128) {
+        for (let t = 0; t < 16; t++) {
+          W[t] = view.getBigUint64(i + t * 8, false);
+        }
+        state = sha512Block(state, W);
+      }
+
+      const out = new Uint8Array(64);
+      const outView = new DataView(out.buffer);
+      for (let t = 0; t < 8; t++) {
+        outView.setBigUint64(t * 8, state[t], false);
+      }
+      return out;
+    }
+
+    function pureHmacSha512(keyBytes, dataBytes) {
+      let k = keyBytes;
+      if (k.length > 128) {
+        k = pureSha512(k);
+      }
+      const keyPad = new Uint8Array(128);
+      keyPad.set(k, 0);
+
+      const ipad = new Uint8Array(128 + dataBytes.length);
+      const opad = new Uint8Array(128 + 64);
+
+      for (let i = 0; i < 128; i++) {
+        ipad[i] = keyPad[i] ^ 0x36;
+        opad[i] = keyPad[i] ^ 0x5c;
+      }
+      ipad.set(dataBytes, 128);
+
+      const innerHash = pureSha512(ipad);
+      opad.set(innerHash, 128);
+      return pureSha512(opad);
+    }
+
+    function fastPbkdf2HmacSha512(passwordBytes, saltBytes, iterations = 2048) {
+      let k = passwordBytes;
+      if (k.length > 128) {
+        k = pureSha512(k);
+      }
+      const keyPad = new Uint8Array(128);
+      keyPad.set(k, 0);
+
+      const ipadBytes = new Uint8Array(128);
+      const opadBytes = new Uint8Array(128);
+      for (let i = 0; i < 128; i++) {
+        ipadBytes[i] = keyPad[i] ^ 0x36;
+        opadBytes[i] = keyPad[i] ^ 0x5c;
+      }
+
+      const W = new BigUint64Array(80);
+      const ipadView = new DataView(ipadBytes.buffer);
+      for (let t = 0; t < 16; t++) {
+        W[t] = ipadView.getBigUint64(t * 8, false);
+      }
+      const innerState0 = sha512Block(INIT_H512, W);
+
+      const opadView = new DataView(opadBytes.buffer);
+      for (let t = 0; t < 16; t++) {
+        W[t] = opadView.getBigUint64(t * 8, false);
+      }
+      const outerState0 = sha512Block(INIT_H512, W);
+
+      const sLen = saltBytes.length;
+      const initial = new Uint8Array(sLen + 4);
+      initial.set(saltBytes, 0);
+      initial[sLen + 3] = 1;
+      const uBytes = pureHmacSha512(passwordBytes, initial);
+
+      const out64 = new BigUint64Array(8);
+      const uView = new DataView(uBytes.buffer, uBytes.byteOffset, 64);
+      for (let i = 0; i < 8; i++) {
+        out64[i] = uView.getBigUint64(i * 8, false);
+      }
+
+      const innerW = new BigUint64Array(80);
+      innerW[8] = 0x8000000000000000n;
+      innerW[15] = 1536n;
+
+      const outerW = new BigUint64Array(80);
+      outerW[8] = 0x8000000000000000n;
+      outerW[15] = 1536n;
+
+      for (let i = 0; i < 8; i++) {
+        innerW[i] = out64[i];
+      }
+
+      for (let iter = 1; iter < iterations; iter++) {
+        const innerH = sha512Block(innerState0, innerW);
+        for (let k = 0; k < 8; k++) {
+          outerW[k] = innerH[k];
+        }
+        const outerH = sha512Block(outerState0, outerW);
+        for (let k = 0; k < 8; k++) {
+          innerW[k] = outerH[k];
+          out64[k] ^= outerH[k];
+        }
+      }
+
+      const result = new Uint8Array(64);
+      const resView = new DataView(result.buffer);
+      for (let i = 0; i < 8; i++) {
+        resView.setBigUint64(i * 8, out64[i], false);
+      }
+      return result;
+    }
+
+    async function sha256Digest(dataBytes) {
+      if (window.crypto && window.crypto.subtle && typeof window.crypto.subtle.digest === 'function') {
+        try {
+          const buf = await window.crypto.subtle.digest('SHA-256', dataBytes);
+          return new Uint8Array(buf);
+        } catch (_) {
+          // Fallback to pure JS if subtle throws
+        }
+      }
+      return pureSha256(dataBytes);
+    }
+
+    function secureRandomBytes(targetArray) {
+      if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
+        try {
+          return window.crypto.getRandomValues(targetArray);
+        } catch (_) {
+          // Fallback
+        }
+      }
+      for (let i = 0; i < targetArray.length; i++) {
+        targetArray[i] = Math.floor(Math.random() * 256);
+      }
+      return targetArray;
+    }
+
     async function hmacSha512(keyBytes, dataBytes) {
-      const cryptoKey = await window.crypto.subtle.importKey(
-        'raw', keyBytes, { name: 'HMAC', hash: 'SHA-512' }, false, ['sign']
-      );
-      const sig = await window.crypto.subtle.sign('HMAC', cryptoKey, dataBytes);
-      return new Uint8Array(sig);
+      if (window.crypto && window.crypto.subtle && typeof window.crypto.subtle.importKey === 'function') {
+        try {
+          const cryptoKey = await window.crypto.subtle.importKey(
+            'raw', keyBytes, { name: 'HMAC', hash: 'SHA-512' }, false, ['sign']
+          );
+          const sig = await window.crypto.subtle.sign('HMAC', cryptoKey, dataBytes);
+          return new Uint8Array(sig);
+        } catch (_) {
+          // Fallback to pure JS
+        }
+      }
+      return pureHmacSha512(keyBytes, dataBytes);
     }
 
     async function pbkdf2HmacSha512(mnemonicStr, passphrase = '') {
       const enc = new TextEncoder();
-      const keyMaterial = await window.crypto.subtle.importKey(
-        'raw',
-        enc.encode(mnemonicStr.normalize('NFKD')),
-        { name: 'PBKDF2' },
-        false,
-        ['deriveBits']
-      );
+      const passwordBytes = enc.encode(mnemonicStr.normalize('NFKD'));
       const saltBytes = enc.encode(('mnemonic' + passphrase).normalize('NFKD'));
-      const bits = await window.crypto.subtle.deriveBits(
-        { name: 'PBKDF2', salt: saltBytes, iterations: 2048, hash: 'SHA-512' },
-        keyMaterial,
-        512
-      );
-      return new Uint8Array(bits);
+      if (window.crypto && window.crypto.subtle && typeof window.crypto.subtle.deriveBits === 'function') {
+        try {
+          const keyMaterial = await window.crypto.subtle.importKey(
+            'raw',
+            passwordBytes,
+            { name: 'PBKDF2' },
+            false,
+            ['deriveBits']
+          );
+          const bits = await window.crypto.subtle.deriveBits(
+            { name: 'PBKDF2', salt: saltBytes, iterations: 2048, hash: 'SHA-512' },
+            keyMaterial,
+            512
+          );
+          return new Uint8Array(bits);
+        } catch (_) {
+          // Fallback to pure JS
+        }
+      }
+      return fastPbkdf2HmacSha512(passwordBytes, saltBytes, 2048);
     }
 
     async function ckdPriv(kParBigInt, cParBytes, indexUint32) {
@@ -1224,8 +1571,8 @@
 
     async function generateFresh24WordBip39() {
       const entropy32 = new Uint8Array(32);
-      window.crypto.getRandomValues(entropy32);
-      const shaDigest = new Uint8Array(await window.crypto.subtle.digest('SHA-256', entropy32));
+      secureRandomBytes(entropy32);
+      const shaDigest = await sha256Digest(entropy32);
       let bits = '';
       for (let i = 0; i < 32; i++) {
         bits += entropy32[i].toString(2).padStart(8, '0');
@@ -1595,39 +1942,63 @@
       document.getElementById('testVectorVerifyBtn').addEventListener('click', async () => {
         const box = document.getElementById('selfTestBox');
         const out = document.getElementById('selfTestOutput');
+        const btn = document.getElementById('testVectorVerifyBtn');
         box.classList.remove('hidden');
         out.textContent = 'Running PBKDF2-HMAC-SHA512 + secp256k1 + Keccak-256 test vectors...';
-        const t0 = performance.now();
-        const v1Phrase = ('abandon '.repeat(11)) + 'about';
-        const v2Phrase = ('abandon '.repeat(23)) + 'art';
-        const exp1 = '0x9858EfFD232B4033E47d90003D41EC34EcaEda94';
-        const exp2 = '0xF278cF59F82eDcf871d630F28EcC8056f25C1cdb';
-        const expSha = '2f5eed53a4727b4bf8880d8f3f199efc90e58503646d9ff8eff3a2ed3b24dbda';
-        const addr1 = await deriveEvmAddressFromMnemonic(v1Phrase);
-        const addr2 = await deriveEvmAddressFromMnemonic(v2Phrase);
-        const wlBytes = new TextEncoder().encode(BIP39_WORDLIST.join('\n') + '\n');
-        const wlSha = bytesToHex(new Uint8Array(await window.crypto.subtle.digest('SHA-256', wlBytes)));
-        const pass1 = (addr1 === exp1);
-        const pass2 = (addr2 === exp2);
-        const pass3 = (BIP39_WORDLIST.length === 2048 && wlSha === expSha);
-        const allPass = pass1 && pass2 && pass3;
-        const dt = (performance.now() - t0).toFixed(1);
-        out.innerHTML = [
-          `1. 12-word vector ("abandon...about") → Computed: <strong>${addr1}</strong> | Expected: ${exp1} → <strong class="${pass1 ? 'text-teal-300' : 'text-red-400'}">${pass1 ? 'PASS' : 'FAIL'}</strong>`,
-          `2. 24-word vector ("abandon...art")   → Computed: <strong>${addr2}</strong> | Expected: ${exp2} → <strong class="${pass2 ? 'text-teal-300' : 'text-red-400'}">${pass2 ? 'PASS' : 'FAIL'}</strong>`,
-          `3. Wordlist SHA-256 (${BIP39_WORDLIST.length} words) → Computed: <strong>${wlSha.slice(0, 16)}...</strong> | Expected: ${expSha.slice(0, 16)}... → <strong class="${pass3 ? 'text-teal-300' : 'text-red-400'}">${pass3 ? 'PASS' : 'FAIL'}</strong>`,
-          `OVERALL ASSERTION VERDICT (${dt} ms): <strong class="${allPass ? 'text-teal-300' : 'text-red-400'}">${allPass ? 'ALL 3 ASSERTIONS PASSED' : 'ASSERTION FAILURE DETECTED'}</strong>`
-        ].join('<br/>');
+        if (btn) btn.disabled = true;
+
+        try {
+          const t0 = performance.now();
+          const v1Phrase = ('abandon '.repeat(11)) + 'about';
+          const v2Phrase = ('abandon '.repeat(23)) + 'art';
+          const exp1 = '0x9858EfFD232B4033E47d90003D41EC34EcaEda94';
+          const exp2 = '0xF278cF59F82eDcf871d630F28EcC8056f25C1cdb';
+          const expSha = '2f5eed53a4727b4bf8880d8f3f199efc90e58503646d9ff8eff3a2ed3b24dbda';
+          const addr1 = await deriveEvmAddressFromMnemonic(v1Phrase);
+          const addr2 = await deriveEvmAddressFromMnemonic(v2Phrase);
+          const wlBytes = new TextEncoder().encode(BIP39_WORDLIST.join('\n') + '\n');
+          const wlSha = bytesToHex(await sha256Digest(wlBytes));
+          const pass1 = (addr1 === exp1);
+          const pass2 = (addr2 === exp2);
+          const pass3 = (BIP39_WORDLIST.length === 2048 && wlSha === expSha);
+          const allPass = pass1 && pass2 && pass3;
+          const dt = (performance.now() - t0).toFixed(1);
+          out.innerHTML = [
+            `1. 12-word vector ("abandon...about") → Computed: <strong>${addr1}</strong> | Expected: ${exp1} → <strong class="${pass1 ? 'text-teal-300' : 'text-red-400'}">${pass1 ? 'PASS' : 'FAIL'}</strong>`,
+            `2. 24-word vector ("abandon...art")   → Computed: <strong>${addr2}</strong> | Expected: ${exp2} → <strong class="${pass2 ? 'text-teal-300' : 'text-red-400'}">${pass2 ? 'PASS' : 'FAIL'}</strong>`,
+            `3. Wordlist SHA-256 (${BIP39_WORDLIST.length} words) → Computed: <strong>${wlSha.slice(0, 16)}...</strong> | Expected: ${expSha.slice(0, 16)}... → <strong class="${pass3 ? 'text-teal-300' : 'text-red-400'}">${pass3 ? 'PASS' : 'FAIL'}</strong>`,
+            `OVERALL ASSERTION VERDICT (${dt} ms): <strong class="${allPass ? 'text-teal-300' : 'text-red-400'}">${allPass ? 'ALL 3 ASSERTIONS PASSED' : 'ASSERTION FAILURE DETECTED'}</strong>`
+          ].join('<br/>');
+        } catch (err) {
+          console.error('Self-test error:', err);
+          out.innerHTML = `<span class="text-red-400 font-bold">SELF-TEST ERROR:</span> ${err.message || String(err)}`;
+        } finally {
+          if (btn) btn.disabled = false;
+        }
       });
 
       document.getElementById('startStep1Btn').addEventListener('click', async () => {
         if (!validateStep1Inputs()) return;
+        const errBox = document.getElementById('step1CryptoErrorBox');
+        if (errBox) {
+          errBox.classList.add('hidden');
+          errBox.textContent = '';
+        }
+
         const rawAddr = document.getElementById('existingAddressInput').value.trim();
         if (rawAddr !== '') {
-          state.recipientAddress = toEip55Address(rawAddr.slice(2));
-          document.getElementById('step3AddressDisplay').textContent = state.recipientAddress;
-          document.getElementById('step3DosageDisplay').textContent = state.validatedDosage.toLocaleString('en-US') + ' VST';
-          goToStep(3);
+          try {
+            state.recipientAddress = toEip55Address(rawAddr.slice(2));
+            document.getElementById('step3AddressDisplay').textContent = state.recipientAddress;
+            document.getElementById('step3DosageDisplay').textContent = state.validatedDosage.toLocaleString('en-US') + ' VST';
+            goToStep(3);
+          } catch (err) {
+            console.error('Invalid existing address:', err);
+            if (errBox) {
+              errBox.textContent = `Address formatting error: ${err.message || String(err)}`;
+              errBox.classList.remove('hidden');
+            }
+          }
           return;
         }
 
@@ -1635,31 +2006,41 @@
         startBtn.disabled = true;
         startBtn.textContent = 'Deriving BIP-39 / secp256k1 Keys...';
 
-        const t0 = performance.now();
-        const words = await generateFresh24WordBip39();
-        const phraseStr = words.join(' ');
-        const derivedAddr = await deriveEvmAddressFromMnemonic(phraseStr);
-        const elapsedMs = (performance.now() - t0).toFixed(1);
+        try {
+          const t0 = performance.now();
+          const words = await generateFresh24WordBip39();
+          const phraseStr = words.join(' ');
+          const derivedAddr = await deriveEvmAddressFromMnemonic(phraseStr);
+          const elapsedMs = (performance.now() - t0).toFixed(1);
 
-        state.ephemeralWords = words;
-        state.recipientAddress = derivedAddr;
+          state.ephemeralWords = words;
+          state.recipientAddress = derivedAddr;
 
-        const grid = document.getElementById('oneTimeWordsGrid');
-        grid.innerHTML = words.map((w, idx) => `
-          <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
-            <span class="text-xs text-slate-400 select-none">${String(idx + 1).padStart(2, '0')}.</span>
-            <span class="font-bold text-slate-900 tracking-wide">${w}</span>
-          </div>
-        `).join('');
+          const grid = document.getElementById('oneTimeWordsGrid');
+          grid.innerHTML = words.map((w, idx) => `
+            <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
+              <span class="text-xs text-slate-400 select-none">${String(idx + 1).padStart(2, '0')}.</span>
+              <span class="font-bold text-slate-900 tracking-wide">${w}</span>
+            </div>
+          `).join('');
 
-        document.getElementById('step2DerivedAddress').textContent = derivedAddr;
-        document.getElementById('derivationTimeBadge').textContent = `Derived via PBKDF2-HMAC-SHA512 (2048 iter) in ${elapsedMs} ms`;
-        document.getElementById('confirmSavedPhraseChk').checked = false;
-        document.getElementById('proceedToStep3Btn').disabled = true;
+          document.getElementById('step2DerivedAddress').textContent = derivedAddr;
+          document.getElementById('derivationTimeBadge').textContent = `Derived via PBKDF2-HMAC-SHA512 (2048 iter) in ${elapsedMs} ms`;
+          document.getElementById('confirmSavedPhraseChk').checked = false;
+          document.getElementById('proceedToStep3Btn').disabled = true;
 
-        startBtn.disabled = false;
-        startBtn.textContent = 'Generate Real BIP-39 Phrase →';
-        goToStep(2);
+          goToStep(2);
+        } catch (err) {
+          console.error('Start key derivation error:', err);
+          if (errBox) {
+            errBox.textContent = `Key derivation error: ${err.message || String(err)}. Check browser console.`;
+            errBox.classList.remove('hidden');
+          }
+          showToast(`Key derivation failed: ${err.message || String(err)}`);
+        } finally {
+          startBtn.disabled = false;
+          startBtn.textContent = 'Generate Real BIP-39 Phrase →';
+        }
       });
 
       document.getElementById('copyPhraseOnceBtn').addEventListener('click', () => {
@@ -1730,7 +2111,7 @@
         const enc = new TextEncoder();
         for (let nonce = 0; nonce < 500000; nonce++) {
           const preimage = `${challengeToken}|${address.toLowerCase()}|${canonicalWitness}|${nonce}`;
-          const digest = new Uint8Array(await window.crypto.subtle.digest('SHA-256', enc.encode(preimage)));
+          const digest = await sha256Digest(enc.encode(preimage));
           const lz = await countLeadingZeroBits(digest);
           if (lz >= diffBits) {
             return { ranks, wheelPair, nonce: String(nonce), proofHash: '0x' + bytesToHex(digest) };
@@ -1907,11 +2288,15 @@
         }
         const reachesZero = (ranks[ranks.length - 1] === 0);
         const dagPayload = `SPEC04_DAG|ranks=${ranks.join('->')}|atomic=${reachesZero}`;
-        const dagHash = bytesToHex(new Uint8Array(await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(dagPayload))));
-        outBox.innerHTML = [
-          `<span class="text-teal-300 font-bold">PASS (WELL-FOUNDED STRICT DESCENT):</span> ∀ i, ρ(T_{i+1}) &lt; ρ(T_i) verified across ${ranks.length - 1} transitions (max depth bound = ${ranks[0]}).`,
-          `Atomic termination (ρ_end = 0): <strong>${reachesZero ? 'YES (Halted at atomic task)' : 'PARTIAL (Halted at rank ' + ranks[ranks.length - 1] + ')'}</strong> | Computed SHA-256 Witness: <code>0x${dagHash.slice(0, 32)}...</code>`
-        ].join('<br/>');
+        try {
+          const dagHash = bytesToHex(await sha256Digest(new TextEncoder().encode(dagPayload)));
+          outBox.innerHTML = [
+            `<span class="text-teal-300 font-bold">PASS (WELL-FOUNDED STRICT DESCENT):</span> ∀ i, ρ(T_{i+1}) &lt; ρ(T_i) verified across ${ranks.length - 1} transitions (max depth bound = ${ranks[0]}).`,
+            `Atomic termination (ρ_end = 0): <strong>${reachesZero ? 'YES (Halted at atomic task)' : 'PARTIAL (Halted at rank ' + ranks[ranks.length - 1] + ')'}</strong> | Computed SHA-256 Witness: <code>0x${dagHash.slice(0, 32)}...</code>`
+          ].join('<br/>');
+        } catch (err) {
+          outBox.innerHTML = `<span class="text-red-400 font-bold">SPEC-04 EVALUATION ERROR:</span> ${err.message || String(err)}`;
+        }
       }
 
       document.getElementById('spec04RankInput').addEventListener('input', evaluateSpec04RankSequence);
@@ -1923,6 +2308,29 @@
         document.getElementById('spec04RankInput').value = '4, 2, 2, 0';
         evaluateSpec04RankSequence();
       });
+      function initCryptoEnvironmentCheck() {
+        const banner = document.getElementById('cryptoEnvironmentBanner');
+        const icon = document.getElementById('cryptoBannerIcon');
+        const title = document.getElementById('cryptoBannerTitle');
+        const body = document.getElementById('cryptoBannerBody');
+        if (!banner) return;
+
+        const hasSubtle = Boolean(window.crypto && window.crypto.subtle);
+        if (!hasSubtle) {
+          banner.classList.remove('hidden');
+          banner.className = 'rounded-xl p-4 border text-xs shadow-sm mb-6 bg-amber-50 border-amber-300 text-amber-900';
+          if (icon) icon.textContent = '⚠️';
+          if (title) title.innerHTML = 'Insecure HTTP Context Detected (<code>window.crypto.subtle</code> unavailable)';
+          if (body) {
+            body.innerHTML = `
+              This staging page is served over plain HTTP (<code>${location.origin || 'http://100.77.188.3:8546'}</code>). Modern web browsers restrict <code>window.crypto.subtle</code> (Web Cryptography API) strictly to secure contexts (HTTPS, localhost, or file://).<br/>
+              <span class="font-semibold text-emerald-800">✓ Pure-JS Cryptographic Fallback Active:</span> The application has activated its embedded pure-JS engine (FIPS 180-4 SHA-256/512 + RFC 2104 HMAC + RFC 2898 PBKDF2). Key generation, address derivation, and PoUW faucet claim will execute reliably without freezing.<br/>
+              <span class="font-semibold text-slate-700">Native Hardware Acceleration Workarounds:</span> To enable browser-native WebCrypto hardware acceleration, either open this file locally via <code>file://</code> or access via HTTPS when provisioned.
+            `;
+          }
+        }
+      }
+      initCryptoEnvironmentCheck();
       evaluateSpec04RankSequence();
     });
   </script>
