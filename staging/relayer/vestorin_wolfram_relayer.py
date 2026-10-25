@@ -74,7 +74,15 @@ FAUCET_GAS_PRICE_WEI = int(os.environ.get("VESTORIN_FAUCET_GAS_PRICE_WEI", "0"))
 FAUCET_GAS_LIMIT = int(os.environ.get("VESTORIN_FAUCET_GAS_LIMIT", "21000"))
 OVERRIDE_GASPRICE_MODE = os.environ.get("VESTORIN_OVERRIDE_GASPRICE", "")  # "", "0x0", or "0x1"
 
-HMAC_SECRET = os.environ.get("VESTORIN_HMAC_SECRET", secrets.token_hex(32)).encode("utf-8")
+hmac_sec_val = os.environ.get("VESTORIN_HMAC_SECRET", "").strip()
+if not hmac_sec_val and os.environ.get("VESTORIN_HMAC_SECRET_FILE"):
+    _hf = os.environ.get("VESTORIN_HMAC_SECRET_FILE", "").strip()
+    if os.path.exists(_hf):
+        with open(_hf, "r", encoding="utf-8") as _f:
+            hmac_sec_val = _f.read().strip()
+if not hmac_sec_val:
+    hmac_sec_val = secrets.token_hex(32)
+HMAC_SECRET = hmac_sec_val.encode("utf-8")
 
 # Strictly allowlisted public JSON-RPC methods
 RPC_ALLOWLIST = frozenset([
@@ -490,7 +498,8 @@ class FaucetDispatcher:
                 assert self.priv_int is not None, "Private key not loaded for raw_privkey mode"
                 nonce_res = call_local_geth("eth_getTransactionCount", [FAUCET_ADDRESS, "pending"])
                 if "error" in nonce_res:
-                    raise RuntimeError(f"eth_getTransactionCount error: {nonce_res["error"]}")
+                    err_msg = nonce_res["error"]
+                    raise RuntimeError(f"eth_getTransactionCount error: {err_msg}")
                 nonce = int(nonce_res["result"], 16)
                 raw_tx_hex, _ = sign_legacy_eip155_tx(
                     priv_int=self.priv_int,
@@ -504,7 +513,8 @@ class FaucetDispatcher:
                 )
                 send_res = call_local_geth("eth_sendRawTransaction", [raw_tx_hex])
                 if "error" in send_res:
-                    raise RuntimeError(f"eth_sendRawTransaction rejected: {send_res["error"]}")
+                    err_msg = send_res["error"]
+                    raise RuntimeError(f"eth_sendRawTransaction rejected: {err_msg}")
                 return str(send_res["result"])
             elif self.sign_mode == "geth_unlocked":
                 tx_obj = {
@@ -516,7 +526,8 @@ class FaucetDispatcher:
                 }
                 send_res = call_local_geth("eth_sendTransaction", [tx_obj])
                 if "error" in send_res:
-                    raise RuntimeError(f"eth_sendTransaction rejected: {send_res["error"]}")
+                    err_msg = send_res["error"]
+                    raise RuntimeError(f"eth_sendTransaction rejected: {err_msg}")
                 return str(send_res["result"])
             else:
                 raise RuntimeError(
@@ -552,6 +563,25 @@ class VestorinRelayerHandler(http.server.BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:
         parsed = urllib.parse.urlparse(self.path)
+        if parsed.path in ("/", "/app", "/vestorin_app.html") and (
+            "text/html" in self.headers.get("Accept", "")
+            or parsed.path in ("/app", "/vestorin_app.html")
+        ):
+            html_path = os.environ.get(
+                "VESTORIN_APP_HTML",
+                os.path.join(os.path.dirname(__file__), "vestorin_app.html"),
+            )
+            if os.path.exists(html_path):
+                with open(html_path, "rb") as hf:
+                    html_bytes = hf.read()
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(html_bytes)))
+                self._send_cors_headers()
+                self.end_headers()
+                self.wfile.write(html_bytes)
+                return
+
         if parsed.path in ("/api/v1/health", "/health"):
             try:
                 blk = call_local_geth("eth_blockNumber", [])
