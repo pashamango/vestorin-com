@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2DD4BF" />
+      <stop offset="100%" stop-color="#0F766E" />
+    </linearGradient>
+    <linearGradient id="whiteGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E8F0" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Base Rounded Rectangle -->
+  <rect x="24" y="24" width="464" height="464" rx="108" fill="url(#bgGrad)" stroke="#0F766E" stroke-width="8" filter="url(#shadow)" />
+  <rect x="36" y="36" width="440" height="440" rx="96" fill="none" stroke="#1E293B" stroke-width="2" />
+
+  <!-- Geometric V Mark -->
+  <path d="M 112 168 L 212 368 L 260 368 L 360 168 L 298 168 L 236 308 L 174 168 Z" fill="url(#whiteGrad)" />
+
+  <!-- Infinity Loop Accent entwined on the upper right -->
+  <!-- Left lobe of infinity (centered around 325, 205) and right lobe (centered around 385, 205) -->
+  <g transform="translate(40, -10)">
+    <path d="M 295 240 C 265 240, 245 215, 245 190 C 245 165, 265 140, 295 140 C 325 140, 345 165, 365 190 C 385 215, 405 240, 435 240 C 465 240, 485 215, 485 190 C 485 165, 465 140, 435 140 C 405 140, 385 165, 365 190 C 345 215, 325 240, 295 240 Z" 
+          fill="none" stroke="url(#tealGrad)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- Small Clinical Calibration Dots -->
+  <circle cx="236" cy="406" r="6" fill="#2DD4BF" />
+  <circle cx="212" cy="406" r="3" fill="#0F766E" />
+  <circle cx="260" cy="406" r="3" fill="#0F766E" />
+</svg>

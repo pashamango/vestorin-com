@@ -418,30 +418,33 @@
           </div>
         </div>
 
-        <!-- Action 3A: Add Vestorin to MetaMask (EIP-3085) -->
+        <!-- Action 3A: Add Vestorin to MetaMask (EIP-3085 & EIP-3326) -->
         <div class="border border-slate-200 rounded-xl p-5 space-y-4">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <h3 class="text-base font-bold text-slate-900">
-                A. Add Vestorin Network to MetaMask / Rabby (`wallet_addEthereumChain`)
-              </h3>
-              <p class="text-xs text-slate-500 mt-0.5">
-                No manual RPC typing required. Sends exact staging parameters from Section 4 via EIP-3085.
-              </p>
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <img src="./assets/vestorin-mark.svg" alt="Vestorin Icon" class="w-10 h-10 rounded-xl shadow-sm border border-slate-200" onerror="this.style.display='none'" />
+              <div>
+                <h3 class="text-base font-bold text-slate-900">
+                  A. Add Vestorin Network to MetaMask (`wallet_addEthereumChain` &amp; `wallet_switchEthereumChain`)
+                </h3>
+                <p class="text-xs text-slate-500 mt-0.5">
+                  One-click network registration (EIP-3085) followed by immediate network switch (EIP-3326).
+                </p>
+              </div>
             </div>
             <button
               type="button"
               id="addNetworkMetaMaskBtn"
-              class="px-4 py-2.5 rounded-lg bg-slate-900 hover:bg-teal-800 text-white font-semibold text-xs font-mono transition"
+              class="px-4 py-2.5 rounded-lg bg-slate-900 hover:bg-teal-800 text-white font-semibold text-xs font-mono transition flex items-center gap-2 shadow-sm"
             >
-              + Add Vestorin to MetaMask
+              <span>+ Add Vestorin to MetaMask</span>
             </button>
           </div>
 
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 font-mono text-xs bg-slate-50 p-3 rounded-lg border border-slate-200">
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 font-mono text-xs bg-slate-50 p-3 rounded-lg border border-slate-200">
             <div>
               <div class="text-[10px] text-slate-500">CHAIN NAME</div>
-              <div class="font-semibold text-slate-900">Vestorin</div>
+              <div class="font-semibold text-slate-900">Vestorin Staging</div>
             </div>
             <div>
               <div class="text-[10px] text-slate-500">CHAIN ID (DEC / HEX)</div>
@@ -455,10 +458,18 @@
               <div class="text-[10px] text-slate-500">STAGING RPC (TAILNET)</div>
               <div class="font-semibold text-slate-900 truncate" title="http://100.77.188.3:8546">http://100.77.188.3:8546</div>
             </div>
+            <div>
+              <div class="text-[10px] text-slate-500">BLOCK EXPLORER</div>
+              <div class="font-semibold text-slate-500 italic">Pending (MIN-226)</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-500">ICON URLS (HTTPS)</div>
+              <div class="font-semibold text-teal-700 truncate" title="vestorin-mark.png (HTTPS)">vestorin-mark.png</div>
+            </div>
           </div>
 
           <div id="metaMaskStatusBox" class="text-xs font-mono text-slate-600 bg-slate-100 px-3 py-2 rounded">
-            Status: Ready to invoke `window.ethereum.request({ method: 'wallet_addEthereumChain' })`.
+            Status: Ready to invoke `wallet_addEthereumChain` + `wallet_switchEthereumChain`.
           </div>
         </div>
 
@@ -1588,12 +1599,29 @@
       return words;
     }
 
+    // EIP-3085 & EIP-3326 Metadata Parameters (MIN-225)
+    // Block explorer URL: wired to a single constant; null while MIN-226 is pending.
+    // In EIP-3085, omitting blockExplorerUrls when null avoids schema errors (MetaMask rejects empty array [] with -32602).
+    const BLOCK_EXPLORER_URL = null; // Set to canonical HTTPS URL once MIN-226 delivers staging explorer
+
+    // First-party HTTPS icon URLs for EIP-3085 iconUrls parameter
+    const VESTORIN_ICON_URLS = [
+      'https://raw.githubusercontent.com/pashamango/vestorin-com/minutta/min-225-vestorin-metamask-metadata-one-click-add-with-icon-explorer/assets/vestorin-mark.png',
+      'https://vestorin.com/assets/vestorin-mark.png'
+    ];
+
     const STAGING_CHAIN = {
       chainIdDec: 202627,
       chainIdHex: '0x31783',
-      chainName: 'Vestorin',
+      chainName: 'Vestorin Staging',
       nativeCurrency: { name: 'Vestorin', symbol: 'VST', decimals: 18 },
       rpcUrl: 'http://100.77.188.3:8546',
+      rpcUrls: [
+        'http://100.77.188.3:8546'
+        // Future HTTPS RPC URL from MIN-227 will be added here
+      ],
+      blockExplorerUrls: BLOCK_EXPLORER_URL ? [BLOCK_EXPLORER_URL] : null,
+      iconUrls: VESTORIN_ICON_URLS,
       genesisHash: '0x0ab605a3cf46aab8ac3b38dd111e54f8c5ba458a4144c186bf8d0d0de95ca793',
       faucetAddress: '0x1821dc3f0974339db7c7146037b40f54a2e222c3',
       signerAddress: '0x0e5fde73cfd2e7fb4d164b5d6487dea645832401'
@@ -2070,25 +2098,72 @@
           statusBox.className = 'text-xs font-mono text-amber-800 bg-amber-50 border border-amber-300 px-3 py-2 rounded';
           return;
         }
+
+        const addParams = {
+          chainId: STAGING_CHAIN.chainIdHex,
+          chainName: STAGING_CHAIN.chainName,
+          nativeCurrency: STAGING_CHAIN.nativeCurrency,
+          rpcUrls: STAGING_CHAIN.rpcUrls,
+          iconUrls: STAGING_CHAIN.iconUrls
+        };
+        if (STAGING_CHAIN.blockExplorerUrls && STAGING_CHAIN.blockExplorerUrls.length > 0) {
+          addParams.blockExplorerUrls = STAGING_CHAIN.blockExplorerUrls;
+        }
+
         try {
-          statusBox.textContent = 'Requesting wallet_addEthereumChain in MetaMask...';
+          statusBox.textContent = '1/2 Requesting wallet_addEthereumChain (EIP-3085) in MetaMask...';
+          statusBox.className = 'text-xs font-mono text-slate-700 bg-slate-100 px-3 py-2 rounded';
+
+          // Step 1: EIP-3085 wallet_addEthereumChain
           await window.ethereum.request({
             method: 'wallet_addEthereumChain',
-            params: [{
-              chainId: STAGING_CHAIN.chainIdHex,
-              chainName: STAGING_CHAIN.chainName,
-              nativeCurrency: STAGING_CHAIN.nativeCurrency,
-              rpcUrls: [STAGING_CHAIN.rpcUrl]
-            }]
+            params: [addParams]
           });
-          statusBox.textContent = '✓ Vestorin (Chain ID 202627 / 0x31783) added / selected in wallet!';
-          statusBox.className = 'text-xs font-mono text-emerald-800 bg-emerald-50 border border-emerald-300 px-3 py-2 rounded';
-          showToast('Vestorin network added to wallet');
+
+          // Step 2: EIP-3326 wallet_switchEthereumChain to ensure active selection
+          statusBox.textContent = '2/2 Network added! Switching to Vestorin Staging (wallet_switchEthereumChain)...';
+          try {
+            await window.ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: STAGING_CHAIN.chainIdHex }]
+            });
+            statusBox.textContent = `✓ Vestorin Staging (${STAGING_CHAIN.chainIdDec} / ${STAGING_CHAIN.chainIdHex}) added and active in wallet!`;
+            statusBox.className = 'text-xs font-mono text-emerald-800 bg-emerald-50 border border-emerald-300 px-3 py-2 rounded';
+            showToast('Vestorin Staging active in MetaMask');
+          } catch (switchErr) {
+            if (switchErr && switchErr.code === 4001) {
+              statusBox.textContent = '✓ Network added, but user declined automatic network switch. Select "Vestorin Staging" in your wallet network selector.';
+              statusBox.className = 'text-xs font-mono text-amber-800 bg-amber-50 border border-amber-300 px-3 py-2 rounded';
+            } else {
+              statusBox.textContent = `✓ Network added (switch status: ${switchErr?.message || String(switchErr)})`;
+              statusBox.className = 'text-xs font-mono text-emerald-800 bg-emerald-50 border border-emerald-300 px-3 py-2 rounded';
+            }
+          }
         } catch (err) {
-          statusBox.textContent = `Wallet response: ${err.message || String(err)}`;
-          statusBox.className = 'text-xs font-mono text-red-700 bg-red-50 border border-red-200 px-3 py-2 rounded';
+          if (err && err.code === 4001) {
+            statusBox.textContent = 'User declined network addition in MetaMask.';
+            statusBox.className = 'text-xs font-mono text-amber-800 bg-amber-50 border border-amber-300 px-3 py-2 rounded';
+          } else if (err && err.code === -32602) {
+            statusBox.textContent = `MetaMask parameter validation rejection (-32602): ${err.message || String(err)}`;
+            statusBox.className = 'text-xs font-mono text-red-700 bg-red-50 border border-red-200 px-3 py-2 rounded';
+          } else {
+            statusBox.textContent = `Wallet response (${err?.code || 'ERR'}): ${err?.message || String(err)}`;
+            statusBox.className = 'text-xs font-mono text-red-700 bg-red-50 border border-red-200 px-3 py-2 rounded';
+          }
         }
       });
+
+      if (typeof window !== 'undefined' && window.ethereum && typeof window.ethereum.on === 'function') {
+        window.ethereum.on('chainChanged', (chainId) => {
+          const statusBox = document.getElementById('metaMaskStatusBox');
+          if (statusBox) {
+            if (chainId === STAGING_CHAIN.chainIdHex || parseInt(chainId, 16) === STAGING_CHAIN.chainIdDec) {
+              statusBox.textContent = `✓ Vestorin Staging active in wallet (${STAGING_CHAIN.chainIdDec} / ${STAGING_CHAIN.chainIdHex})`;
+              statusBox.className = 'text-xs font-mono text-emerald-800 bg-emerald-50 border border-emerald-300 px-3 py-2 rounded';
+            }
+          }
+        });
+      }
 
       async function countLeadingZeroBits(bytes) {
         let count = 0;

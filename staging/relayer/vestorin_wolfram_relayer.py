@@ -582,6 +582,44 @@ class VestorinRelayerHandler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(html_bytes)
                 return
 
+        # Static asset serving (MIN-225: EIP-3085 icons & marks)
+        static_icon_map = {
+            "/icon.png": "vestorin-mark.png",
+            "/icon.svg": "vestorin-mark.svg",
+            "/vestorin-mark.png": "vestorin-mark.png",
+            "/vestorin-mark.svg": "vestorin-mark.svg",
+        }
+        asset_rel = static_icon_map.get(parsed.path)
+        if not asset_rel and parsed.path.startswith("/assets/"):
+            asset_rel = parsed.path[len("/assets/"):]
+
+        if asset_rel:
+            base_dir = os.path.dirname(__file__)
+            candidates = [
+                os.path.join(base_dir, "assets", asset_rel),
+                os.path.join(base_dir, asset_rel),
+                os.path.join(os.path.dirname(os.environ.get("VESTORIN_APP_HTML", base_dir)), "assets", asset_rel),
+                os.path.join(os.path.dirname(os.environ.get("VESTORIN_APP_HTML", base_dir)), asset_rel),
+            ]
+            for c_path in candidates:
+                if os.path.exists(c_path) and os.path.isfile(c_path):
+                    with open(c_path, "rb") as af:
+                        asset_bytes = af.read()
+                    mime = "image/png"
+                    if c_path.endswith(".svg"):
+                        mime = "image/svg+xml"
+                    elif c_path.endswith(".json"):
+                        mime = "application/json"
+                    self.send_response(200)
+                    self.send_header("Content-Type", mime)
+                    self.send_header("Content-Length", str(len(asset_bytes)))
+                    self._send_cors_headers()
+                    self.end_headers()
+                    self.wfile.write(asset_bytes)
+                    return
+            self._send_json(404, {"error": "Asset not found", "path": parsed.path})
+            return
+
         if parsed.path in ("/api/v1/health", "/health"):
             try:
                 blk = call_local_geth("eth_blockNumber", [])
