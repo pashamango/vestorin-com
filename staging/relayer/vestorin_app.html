@@ -1473,17 +1473,14 @@
     }
 
     function secureRandomBytes(targetArray) {
-      if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
-        try {
-          return window.crypto.getRandomValues(targetArray);
-        } catch (_) {
-          // Fallback
-        }
+      if (!window.crypto || typeof window.crypto.getRandomValues !== 'function') {
+        throw new Error('CSPRNG unavailable: crypto.getRandomValues is required for secure key derivation');
       }
-      for (let i = 0; i < targetArray.length; i++) {
-        targetArray[i] = Math.floor(Math.random() * 256);
+      try {
+        return window.crypto.getRandomValues(targetArray);
+      } catch (err) {
+        throw new Error(`CSPRNG failure: ${err && err.message ? err.message : String(err)}`);
       }
-      return targetArray;
     }
 
     async function hmacSha512(keyBytes, dataBytes) {
