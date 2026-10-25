@@ -23,25 +23,25 @@ Certificate:
         X509v3 extensions:
             X509v3 Key Usage: critical
                 Digital Signature
-            X509v3 Extended Key Usage: 
+            X509v3 Extended Key Usage:
                 TLS Web Server Authentication
             X509v3 Basic Constraints: critical
                 CA:FALSE
-            X509v3 Subject Key Identifier: 
+            X509v3 Subject Key Identifier:
                 42:52:34:54:D9:97:AA:CE:AF:3B:68:05:25:C4:4D:76:32:A2:27:03
-            X509v3 Authority Key Identifier: 
+            X509v3 Authority Key Identifier:
                 BB:20:CA:47:0B:FE:D7:E5:9C:F9:8F:09:2A:A3:8C:37:45:B1:BC:D8
-            Authority Information Access: 
+            Authority Information Access:
                 CA Issuers - URI:http://ye1.i.lencr.org/
-            X509v3 Subject Alternative Name: 
+            X509v3 Subject Alternative Name:
                 DNS:app-staging.vestorin.com, DNS:rpc-staging.vestorin.com, DNS:staging.vestorin.com
-            X509v3 Certificate Policies: 
+            X509v3 Certificate Policies:
                 Policy: 2.23.140.1.2.1
-            X509v3 CRL Distribution Points: 
+            X509v3 CRL Distribution Points:
                 Full Name:
                   URI:http://ye1.c.lencr.org/34.crl
 
-            CT Precertificate SCTs: 
+            CT Precertificate SCTs:
                 Signed Certificate Timestamp:
                     Version   : v1 (0x0)
                     Log ID    : 1C:9F:68:2C:E9:FA:F0:45:69:50:F8:1B:96:8A:87:DD:

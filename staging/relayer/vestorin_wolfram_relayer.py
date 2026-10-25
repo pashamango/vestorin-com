@@ -35,10 +35,12 @@ import argparse
 import hashlib
 import hmac
 import http.server
+import ipaddress
 import json
 import os
 import re
 import secrets
+import signal
 import socketserver
 import sqlite3
 import ssl
@@ -70,6 +72,12 @@ DB_PATH = os.environ.get("VESTORIN_DB_PATH", "./vestorin_relayer_state.db")
 MAX_CLAIM_VST = int(os.environ.get("VESTORIN_MAX_CLAIM_VST", "21000000"))
 COOLDOWN_SECONDS = int(os.environ.get("VESTORIN_COOLDOWN_SECONDS", "86400"))
 BASE_POUW_DIFFICULTY_BITS = int(os.environ.get("VESTORIN_POUW_BITS", "12"))
+EMERGENCY_POUW_DIFFICULTY_BITS = 16  # Escalation difficulty when faucet balance is critically low
+BALANCE_WARNING_VST = 200_000_000_000  # 10,000 claims remaining warning floor
+BALANCE_CRITICAL_VST = 21_000_000_000  # 1,000 claims remaining critical floor
+VELOCITY_ALERT_1H = 25  # Hourly velocity alert threshold
+VELOCITY_ALERT_24H = 500  # 24-hour volume alert threshold
+
 CHALLENGE_TTL_SECONDS = 300
 FAUCET_GAS_PRICE_WEI = int(os.environ.get("VESTORIN_FAUCET_GAS_PRICE_WEI", "0"))
 FAUCET_GAS_LIMIT = int(os.environ.get("VESTORIN_FAUCET_GAS_LIMIT", "21000"))
@@ -359,12 +367,25 @@ class RelayerDatabase:
             conn.commit()
 
     def check_eligibility_and_adaptive_difficulty(
-        self, address: str, subnet_prefix: str, now_ts: int
+        self, address: str, subnet_prefix: str, now_ts: int, current_balance_vst: Optional[float] = None
     ) -> Tuple[bool, str, int]:
-        """Returns (eligible, reason, required_difficulty_bits)."""
+        """Returns (eligible, reason, required_difficulty_bits).
+
+        Baseline difficulty is BASE_POUW_DIFFICULTY_BITS (default 12), escalating to
+        EMERGENCY_POUW_DIFFICULTY_BITS (16 bits) if the faucet balance drops below
+        BALANCE_CRITICAL_VST (21,000,000,000 VST).
+
+        Adaptive subnet scaling adds +1 bit per 5 claims from the client's subnet
+        (/24 for IPv4, /48 for IPv6) in the last hour, capped at +6 extra bits.
+        """
         addr_low = address.lower()
         cutoff = now_ts - COOLDOWN_SECONDS
         subnet_window = now_ts - 3600  # 1-hour sliding window for adaptive PoUW difficulty
+
+        effective_base = BASE_POUW_DIFFICULTY_BITS
+        if current_balance_vst is not None and current_balance_vst < BALANCE_CRITICAL_VST:
+            effective_base = max(BASE_POUW_DIFFICULTY_BITS, EMERGENCY_POUW_DIFFICULTY_BITS)
+
         with self.lock, sqlite3.connect(self.db_path) as conn:
             row = conn.execute(
                 "SELECT claimed_at, tx_hash FROM claims WHERE recipient_address = ? AND claimed_at > ? ORDER BY claimed_at DESC LIMIT 1",
@@ -372,16 +393,16 @@ class RelayerDatabase:
             ).fetchone()
             if row is not None:
                 rem = (row[0] + COOLDOWN_SECONDS) - now_ts
-                return False, f"Address cooldown active ({rem}s remaining; last tx: {row[1]})", BASE_POUW_DIFFICULTY_BITS
+                return False, f"Address cooldown active ({rem}s remaining; last tx: {row[1]})", effective_base
 
             subnet_count = conn.execute(
                 "SELECT COUNT(*) FROM claims WHERE subnet_prefix = ? AND claimed_at > ?",
                 (subnet_prefix, subnet_window),
             ).fetchone()[0]
 
-        # Adaptive difficulty: never hard-bans a /24 CGNAT subnet, only scales PoUW bits (max +6 bits)
+        # Adaptive difficulty: never hard-bans a subnet (/24 IPv4 or /48 IPv6), only scales PoUW bits (max +6 bits)
         extra_bits = min(6, subnet_count // 5)
-        return True, "OK", BASE_POUW_DIFFICULTY_BITS + extra_bits
+        return True, "OK", effective_base + extra_bits
 
     def is_proof_hash_used(self, proof_hash: str) -> bool:
         with self.lock, sqlite3.connect(self.db_path) as conn:
@@ -402,12 +423,24 @@ class RelayerDatabase:
 # 4. CHALLENGE & DETERMINISTIC PoUW VERIFIER (SPEC-04 + CARLSTRÖM WHEEL W(Q))
 # =============================================================================
 def extract_subnet_prefix(ip_str: str) -> str:
-    if ":" in ip_str:
-        return ":".join(ip_str.split(":")[:3])
-    parts = ip_str.split(".")
+    cleaned = ip_str.strip()
+    try:
+        ip = ipaddress.ip_address(cleaned)
+        if ip.version == 4:
+            return str(ipaddress.ip_network(f"{ip}/24", strict=False))
+        elif ip.version == 6:
+            if ip.ipv4_mapped:
+                return str(ipaddress.ip_network(f"{ip.ipv4_mapped}/24", strict=False))
+            return str(ipaddress.ip_network(f"{ip}/48", strict=False))
+    except Exception:
+        pass
+    if ":" in cleaned:
+        parts = cleaned.split(":")
+        return ":".join(parts[:3]) + "::/48"
+    parts = cleaned.split(".")
     if len(parts) == 4:
         return ".".join(parts[:3]) + ".0/24"
-    return ip_str
+    return cleaned
 
 def make_challenge_token(address: str, block_number: int, difficulty_bits: int, ts_bucket: int) -> str:
     payload = f"{address.lower()}|{block_number}|{difficulty_bits}|{ts_bucket}"
@@ -673,17 +706,65 @@ class VestorinRelayerHandler(http.server.BaseHTTPRequestHandler):
 
             remaining_claims = int(faucet_bal_vst // MAX_CLAIM_VST) if faucet_bal_vst else 1000000 - total_claims
 
+            # Check emergency balance condition and alerting
+            emergency_escalation = bool(faucet_bal_vst is not None and faucet_bal_vst < BALANCE_CRITICAL_VST)
+            effective_base = EMERGENCY_POUW_DIFFICULTY_BITS if emergency_escalation else BASE_POUW_DIFFICULTY_BITS
+
+            alerts = []
+            if recent_1h >= VELOCITY_ALERT_1H:
+                alerts.append({
+                    "level": "CRITICAL",
+                    "code": "ALERT_HIGH_VELOCITY_1H",
+                    "message": f"Claim velocity past 1h ({recent_1h}) exceeds threshold ({VELOCITY_ALERT_1H}/h)"
+                })
+            if recent_24h >= VELOCITY_ALERT_24H:
+                alerts.append({
+                    "level": "WARNING",
+                    "code": "ALERT_HIGH_VELOCITY_24H",
+                    "message": f"Claim volume past 24h ({recent_24h}) exceeds threshold ({VELOCITY_ALERT_24H}/day)"
+                })
+            if faucet_bal_vst is not None:
+                if faucet_bal_vst < BALANCE_CRITICAL_VST:
+                    alerts.append({
+                        "level": "CRITICAL",
+                        "code": "ALERT_FAUCET_BALANCE_CRITICAL",
+                        "message": f"Faucet balance ({faucet_bal_vst:,.0f} VST) below critical threshold ({BALANCE_CRITICAL_VST:,} VST). Automated 16-bit baseline PoUW escalation active."
+                    })
+                elif faucet_bal_vst < BALANCE_WARNING_VST:
+                    alerts.append({
+                        "level": "WARNING",
+                        "code": "ALERT_FAUCET_BALANCE_WARNING",
+                        "message": f"Faucet balance ({faucet_bal_vst:,.0f} VST) below warning threshold ({BALANCE_WARNING_VST:,} VST). Replenishment required."
+                    })
+
+            status_str = "critical" if any(a["level"] == "CRITICAL" for a in alerts) else ("warning" if alerts else "healthy")
+
             self._send_json(
                 200,
                 {
-                    "status": "healthy" if (faucet_bal_vst is None or faucet_bal_vst > 100000000) else "warning",
+                    "status": status_str,
                     "faucetAddress": FAUCET_ADDRESS,
                     "faucetBalanceVST": faucet_bal_vst,
                     "faucetBalanceHex": faucet_bal_hex,
                     "maxDosagePerClaimVST": MAX_CLAIM_VST,
                     "cooldownSeconds": COOLDOWN_SECONDS,
                     "baseDifficultyBits": BASE_POUW_DIFFICULTY_BITS,
-                    "adaptiveDifficultyScaling": "active (+1 bit per 5 claims/hr from /24 subnet)",
+                    "effectiveBaseDifficultyBits": effective_base,
+                    "emergencyPoUWEscalationActive": emergency_escalation,
+                    "adaptiveDifficultyScaling": "active (+1 bit per 5 claims/hr from subnet, max +6 bits)",
+                    "thresholds": {
+                        "velocity1HourThreshold": VELOCITY_ALERT_1H,
+                        "velocity24HourThreshold": VELOCITY_ALERT_24H,
+                        "balanceWarningThresholdVST": BALANCE_WARNING_VST,
+                        "balanceCriticalThresholdVST": BALANCE_CRITICAL_VST,
+                        "emergencyBaseDifficultyBits": EMERGENCY_POUW_DIFFICULTY_BITS,
+                    },
+                    "alerts": alerts,
+                    "tlsInfo": {
+                        "lastReloadTimestamp": ACTIVE_HTTPS_SERVER.last_reload_ts if ACTIVE_HTTPS_SERVER else None,
+                        "reloadCount": ACTIVE_HTTPS_SERVER.reload_count if ACTIVE_HTTPS_SERVER else 0,
+                        "sighupReloadSupported": True,
+                    },
                     "claimMetrics": {
                         "lifetimeClaims": total_claims,
                         "claimsLast1Hour": recent_1h,
@@ -696,7 +777,8 @@ class VestorinRelayerHandler(http.server.BaseHTTPRequestHandler):
                         "SPEC-04 strictly descending poset rank verification",
                         "Carlström Wheel W(Q) non-trivial evaluation witness",
                         "Stateless HMAC-SHA256 challenge bound to block number & time bucket",
-                        "Sliding-window /24 subnet adaptive PoUW difficulty scaling (+0 to +6 bits)",
+                        "Sliding-window /24 IPv4 and /48 IPv6 subnet adaptive PoUW difficulty scaling (+0 to +6 bits)",
+                        "Automated baseline PoUW difficulty escalation to 16 bits on low balance (< 21,000,000,000 VST)",
                         "Single-use proof_hash replay elimination"
                     ]
                 }
@@ -712,7 +794,18 @@ class VestorinRelayerHandler(http.server.BaseHTTPRequestHandler):
             client_ip = self.headers.get("X-Forwarded-For", self.client_address[0]).split(",")[0].strip()
             subnet = extract_subnet_prefix(client_ip)
             now_ts = int(time.time())
-            eligible, reason, diff_bits = self.db.check_eligibility_and_adaptive_difficulty(addr, subnet, now_ts)
+
+            faucet_bal_vst = None
+            try:
+                bal_resp = call_local_geth("eth_getBalance", [FAUCET_ADDRESS, "latest"])
+                faucet_bal_hex = bal_resp.get("result", "0x0")
+                faucet_bal_vst = int(faucet_bal_hex, 16) / (10**18)
+            except Exception:
+                pass
+
+            eligible, reason, diff_bits = self.db.check_eligibility_and_adaptive_difficulty(
+                addr, subnet, now_ts, current_balance_vst=faucet_bal_vst
+            )
             if not eligible:
                 self._send_json(429, {"error": reason, "overloadNotice": VERBATIM_OVERLOAD_NOTICE})
                 return
@@ -853,11 +946,70 @@ class ThreadedHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
     daemon_threads = True
     allow_reuse_address = True
 
+class ThreadedHTTPSServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
+    daemon_threads = True
+    allow_reuse_address = True
+
+    def __init__(self, server_address, RequestHandlerClass, tls_cert: str, tls_key: str):
+        super().__init__(server_address, RequestHandlerClass)
+        self.tls_cert = tls_cert
+        self.tls_key = tls_key
+        self.tls_ctx: Optional[ssl.SSLContext] = None
+        self.last_reload_ts = int(time.time())
+        self.reload_count = 0
+        self._init_tls()
+
+    def _init_tls(self) -> bool:
+        if self.tls_cert and self.tls_key and os.path.exists(self.tls_cert) and os.path.exists(self.tls_key):
+            ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+            ctx.load_cert_chain(certfile=self.tls_cert, keyfile=self.tls_key)
+            self.tls_ctx = ctx
+            self.socket = self.tls_ctx.wrap_socket(self.socket, server_side=True)
+            return True
+        return False
+
+    def reload_tls(self) -> bool:
+        """Zero-downtime TLS context reload on SIGHUP without dropping listening socket."""
+        if not (self.tls_cert and self.tls_key and os.path.exists(self.tls_cert) and os.path.exists(self.tls_key)):
+            print(f"[TLS] Reload failed: cert or key not found at {self.tls_cert}", file=sys.stderr)
+            return False
+        try:
+            if self.tls_ctx is not None:
+                self.tls_ctx.load_cert_chain(certfile=self.tls_cert, keyfile=self.tls_key)
+            else:
+                self._init_tls()
+            self.last_reload_ts = int(time.time())
+            self.reload_count += 1
+            print(f"[TLS] SIGHUP reload success: reloaded TLS certificate from {self.tls_cert} (reload #{self.reload_count})")
+            return True
+        except Exception as e:
+            print(f"[TLS] Failed to reload TLS certificate on SIGHUP: {e}", file=sys.stderr)
+            return False
+
+ACTIVE_HTTPS_SERVER: Optional[ThreadedHTTPSServer] = None
+
+def sighup_handler(signum, frame):
+    print(f"\n[SIGHUP] Signal {signum} caught: reloading TLS certificates...")
+    if ACTIVE_HTTPS_SERVER is not None:
+        ACTIVE_HTTPS_SERVER.reload_tls()
+    else:
+        print("[SIGHUP] No active HTTPS server instance registered.", file=sys.stderr)
+
+def setup_sighup_handler(https_server: Optional[ThreadedHTTPSServer] = None) -> None:
+    global ACTIVE_HTTPS_SERVER
+    ACTIVE_HTTPS_SERVER = https_server
+    if hasattr(signal, "SIGHUP"):
+        try:
+            signal.signal(signal.SIGHUP, sighup_handler)
+            print("[INIT] Registered SIGHUP signal handler for zero-downtime TLS certificate reload.")
+        except Exception as e:
+            print(f"[WARN] Failed to register SIGHUP handler: {e}")
+
 # =============================================================================
 # 7. SELF-TEST SUITE & CLI ENTRYPOINT
 # =============================================================================
 def run_self_tests() -> None:
-    print("[1/5] Testing Keccak-256 & secp256k1 address derivation...")
+    print("[1/6] Testing Keccak-256 & secp256k1 address derivation...")
     empty_k = keccak256(b"").hex()
     assert empty_k == "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470", f"Keccak mismatch: {empty_k}"
     test_priv = int("4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318", 16)
@@ -865,7 +1017,7 @@ def run_self_tests() -> None:
     assert derived_addr.lower() == "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23", f"Address mismatch: {derived_addr}"
     print(f"      PASS: Keccak-256 & secp256k1 verified ({derived_addr})")
 
-    print("[2/5] Testing Legacy EIP-155 Transaction Signing (Chain ID 202627 / gasPrice 0)...")
+    print("[2/6] Testing Legacy EIP-155 Transaction Signing (Chain ID 202627 / gasPrice 0)...")
     raw_tx, tx_hash = sign_legacy_eip155_tx(
         priv_int=test_priv,
         nonce=0,
@@ -878,7 +1030,7 @@ def run_self_tests() -> None:
     assert raw_tx.startswith("0xf8") and len(tx_hash) == 66
     print(f"      PASS: EIP-155 raw tx = {raw_tx[:42]}... | txHash = {tx_hash}")
 
-    print("[3/5] Testing Deterministic PoUW Challenge & SPEC-04 / Wheel W(Q) Verifier...")
+    print("[3/6] Testing Deterministic PoUW Challenge & SPEC-04 / Wheel W(Q) Verifier...")
     sample_addr = "0x9858EfFD232B4033E47d90003D41EC34EcaEda94"
     now_ts = int(time.time())
     token = make_challenge_token(sample_addr, 105, 8, now_ts)
@@ -898,21 +1050,41 @@ def run_self_tests() -> None:
     assert not bad_ok and "SPEC-04 violation" in bad_msg
     print(f"      PASS: Non-descending SPEC-04 sequence rejected ({bad_msg})")
 
-    print("[4/5] Testing SQLite Quota, Cooldown & Proof-Hash Replay Prevention...")
+    print("[4/6] Testing SQLite Quota, Cooldown & Adaptive Subnet / Emergency Balance PoUW Scaling...")
     test_db_path = "/tmp/test_vestorin_relayer.db"
     if os.path.exists(test_db_path):
         os.remove(test_db_path)
     db = RelayerDatabase(test_db_path)
-    el1, _, _ = db.check_eligibility_and_adaptive_difficulty(sample_addr, "100.77.188.0/24", now_ts)
-    assert el1 is True
+
+    # IPv4 /24 and IPv6 /48 subnet extraction verification
+    assert extract_subnet_prefix("100.77.188.3") == "100.77.188.0/24"
+    assert extract_subnet_prefix("2001:0db8:85a3:0000:0000:8a2e:0370:7334") == "2001:db8:85a3::/48"
+
+    # Base difficulty check (normal balance)
+    el1, _, diff1 = db.check_eligibility_and_adaptive_difficulty(sample_addr, "100.77.188.0/24", now_ts, current_balance_vst=100_000_000_000_000)
+    assert el1 is True and diff1 == BASE_POUW_DIFFICULTY_BITS
+
+    # Emergency difficulty check (< 21,000,000,000 VST critical balance -> 16 bits base)
+    el_crit, _, diff_crit = db.check_eligibility_and_adaptive_difficulty("0x1111111111111111111111111111111111111111", "100.77.188.0/24", now_ts, current_balance_vst=20_000_000_000)
+    assert el_crit is True and diff_crit == 16, f"Expected 16 bits on emergency balance, got {diff_crit}"
+
     db.record_claim(sample_addr, 21000000, p_hash, tx_hash, "100.77.188.0/24", now_ts)
     assert db.is_proof_hash_used(p_hash) is True
     el2, msg2, _ = db.check_eligibility_and_adaptive_difficulty(sample_addr, "100.77.188.0/24", now_ts + 10)
     assert el2 is False and "cooldown active" in msg2
-    os.remove(test_db_path)
-    print("      PASS: SQLite cooldown & proof-hash registry verified.")
 
-    print("[5/5] Testing TLS / HTTPS capabilities, cert loading & live TLS handshake...")
+    # Simulate 5 claims from same subnet -> adaptive difficulty +1 bit
+    for idx in range(1, 6):
+        dummy_addr = f"0x{idx:040x}"
+        dummy_proof = f"0x{idx:064x}"
+        db.record_claim(dummy_addr, 21000000, dummy_proof, f"0xtx{idx}", "100.77.188.0/24", now_ts + idx)
+    el3, _, diff3 = db.check_eligibility_and_adaptive_difficulty("0x9999999999999999999999999999999999999999", "100.77.188.0/24", now_ts + 100)
+    assert diff3 == BASE_POUW_DIFFICULTY_BITS + 1, f"Expected {BASE_POUW_DIFFICULTY_BITS + 1} bits after 6 claims from subnet, got {diff3}"
+
+    os.remove(test_db_path)
+    print("      PASS: SQLite cooldown, IPv6 /48, adaptive subnet +1 bit & emergency 16-bit escalation verified.")
+
+    print("[5/6] Testing TLS / HTTPS capabilities, cert loading & live TLS handshake...")
     test_tls_ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
     cert_path = "/tmp/test_self_tls_cert.pem"
     key_path = "/tmp/test_self_tls_key.pem"
@@ -960,7 +1132,37 @@ def run_self_tests() -> None:
                 os.remove(p)
 
     print(f"      PASS: TLS cert loaded & live {tls_ver} handshake verified cleanly ({client_cipher[0]}).")
-    print("ALL 5 SELF-TESTS PASSED.")
+
+    print("[6/6] Testing SIGHUP TLS context reload mechanism...")
+    c1 = "/tmp/test_sighup_c1.pem"
+    k1 = "/tmp/test_sighup_k1.pem"
+    c2 = "/tmp/test_sighup_c2.pem"
+    k2 = "/tmp/test_sighup_k2.pem"
+    subprocess.run(["openssl", "req", "-x509", "-newkey", "rsa:2048", "-keyout", k1, "-out", c1, "-days", "1", "-nodes", "-subj", "/CN=v1.vestorin.com"], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run(["openssl", "req", "-x509", "-newkey", "rsa:2048", "-keyout", k2, "-out", c2, "-days", "1", "-nodes", "-subj", "/CN=v2.vestorin.com"], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+    mock_srv = ThreadedHTTPSServer(("127.0.0.1", 0), VestorinRelayerHandler, tls_cert=c1, tls_key=k1)
+    setup_sighup_handler(mock_srv)
+    assert mock_srv.reload_count == 0
+
+    # Switch cert path and trigger reload
+    mock_srv.tls_cert = c2
+    mock_srv.tls_key = k2
+    assert mock_srv.reload_tls() is True
+    assert mock_srv.reload_count == 1
+
+    # Verify SIGHUP signal dispatch
+    if hasattr(signal, "SIGHUP"):
+        os.kill(os.getpid(), signal.SIGHUP)
+        assert mock_srv.reload_count == 2
+        print("      PASS: SIGHUP signal delivery and zero-downtime TLS context reload verified.")
+
+    mock_srv.server_close()
+    for p in (c1, k1, c2, k2):
+        if os.path.exists(p):
+            os.remove(p)
+
+    print("ALL 6 SELF-TESTS PASSED.")
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Vestorin Wolfram Faucet Relayer & Safe JSON-RPC Proxy")
@@ -1012,15 +1214,14 @@ def main() -> None:
     print(f"        Faucet Address    : {FAUCET_ADDRESS}")
 
     if tls_cert and tls_key and os.path.exists(tls_cert) and os.path.exists(tls_key):
-        tls_ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-        tls_ctx.load_cert_chain(certfile=tls_cert, keyfile=tls_key)
-        https_srv = ThreadedHTTPServer((BIND_HOST, tls_port), VestorinRelayerHandler)
-        https_srv.socket = tls_ctx.wrap_socket(https_srv.socket, server_side=True)
+        https_srv = ThreadedHTTPSServer((BIND_HOST, tls_port), VestorinRelayerHandler, tls_cert=tls_cert, tls_key=tls_key)
+        setup_sighup_handler(https_srv)
         print(f"[READY] Vestorin HTTPS Relayer & Safe RPC Proxy listening on https://{BIND_HOST}:{tls_port}")
         print(f"        TLS Certificate   : {tls_cert}")
         https_thread = threading.Thread(target=https_srv.serve_forever, daemon=True)
         https_thread.start()
     else:
+        setup_sighup_handler(None)
         print("[INFO] No TLS certificate configured; HTTPS listener disabled.")
 
     http_srv.serve_forever()

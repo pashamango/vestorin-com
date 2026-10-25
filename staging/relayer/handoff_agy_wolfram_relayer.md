@@ -188,9 +188,9 @@ PY
 1. **T1 (MetaMask Add Network & Quoted Fee)**: Open `vestorin_app.html` on a Tailnet device with MetaMask installed. Click **Generate Real BIP-39 Phrase**, import the 24 words into MetaMask, verify the address matches Step 02 character-for-character, click **+ Add Vestorin to MetaMask**, and click **Request Claim Transfer**. After 5 seconds (1 Clique block), confirm `21,000,000 VST` appears in MetaMask.
 2. **T2 (Remote `gasPrice = 0` vs `1 wei` floor)**: In MetaMask, send `1 VST` back to `0x3b4b3bf0c3f417ec1beb87476e5bb7c50a219f3b`. First test with default gas (`1 gwei` = `0.000021 VST`), then test with advanced gas settings (`gasPrice = 0`). If `geth 1.13.14` rejects remote `0` due to its `--txpool.pricelimit 1` floor, set `VESTORIN_OVERRIDE_GASPRICE="0x1"` (1 wei) or keep default `1 gwei`.
 
-### Check 4: Staging HTTPS Serving, Genuine Let's Encrypt TLS Certificate & Decision D1 Operations
+### Check 4: Staging HTTPS Serving, Genuine Let's Encrypt TLS Certificate & Gated D1 Architecture
 
-Under ticket **MIN-227**, both frontend and relayer RPC are served over TLS using a genuine Let's Encrypt certificate obtained via DNS-01 challenge. Following Principal Pavel Cherkashin's tap authorizing Decision D1 (public exposure scope unlocked, tailnet-only restriction lifted), the service operates with full abuse mitigation and monitoring:
+Under ticket **MIN-227**, both frontend and relayer RPC are served over TLS using a genuine Let's Encrypt certificate obtained via DNS-01 challenge. In strict compliance with the MIN-227 mandate ("GATE: do NOT open anything to the public internet. Public RPC exposure is decision D1 and remains untapped"), reachability is strictly restricted to Tailnet (`100.77.188.3`), providing a fully secure context (`window.isSecureContext === true`) and valid TLS certificate without exposing the staging chain to the public internet:
 
 1. **Certificate Details**:
    - **Issuer**: Let's Encrypt (`YE1`)
@@ -200,10 +200,11 @@ Under ticket **MIN-227**, both frontend and relayer RPC are served over TLS usin
    - **Challenge Mechanism**: Automated DNS-01 challenge via Cloudflare Authoritative DNS API (Zone ID `6de3ec21775db2e33445ac33446660bd`)
    - **Full Chain Path**: `/Users/pavelcherkashin/.certbot/config/live/app-staging.vestorin.com/fullchain.pem`
    - **Private Key Path**: `/Users/pavelcherkashin/.certbot/config/live/app-staging.vestorin.com/privkey.pem`
-   - **Renewal Reload**: Handled cleanly without daemon restart via SIGHUP signal:
+   - **Zero-Downtime Renewal Reload**: Handled cleanly without daemon restart via SIGHUP signal:
      ```bash
-     kill -HUP $(pgrep -f vestorin_wolfram_relayer.py) 2>/dev/null || launchctl kickstart -k gui/$(id -u)/com.vestorin.staging.relayer
+     kill -HUP $(pgrep -f vestorin_wolfram_relayer.py)
      ```
+     The relayer dynamically calls `load_cert_chain()` on its active SSLContext, updating the certificate served to all new incoming TLS handshakes immediately without dropping listening sockets.
 
 2. **DNS & Routing Architecture**:
    - Cloudflare authoritative DNS A records resolve:
@@ -211,22 +212,21 @@ Under ticket **MIN-227**, both frontend and relayer RPC are served over TLS usin
      - `rpc-staging.vestorin.com` -> `100.77.188.3`
      - `staging.vestorin.com` -> `100.77.188.3`
    - Wolfram serves both the frontend and the relayer RPC on port `8443` (HTTPS) and port `8546` (HTTP fallback).
+   - Gate D1 Status: Public internet access remains untapped. Only devices authenticated on the Tailnet can reach `100.77.188.3`.
 
-3. **Decision D1 Abuse Mitigation & Monitoring (Automated Faucet Monitor)**:
-   - In accordance with Pavel's D1 abuse directive, automated capacity and velocity monitoring is active:
+3. **Abuse Mitigation, Monitoring & Emergency PoUW Escalation**:
+   - Automated capacity, velocity, and alert monitoring is active:
      ```bash
+     python3 staging/relayer/vestorin_faucet_monitor.py --check-alerts
      python3 staging/relayer/vestorin_faucet_monitor.py --save-report staging/relayer/evidence_faucet_abuse_mitigation_report.md
      ```
-   - **Live Metrics**:
-     - Faucet capacity: 1,000,000 claims (21,000,000,000,000 VST)
-     - Lifetime claims: 5 (105,000,000 VST transferred, 99.9995% capacity remaining)
-     - Hourly velocity: 1 claim/hour (ceiling: 25 claims/hour)
-   - **Four-Layer Abuse Defense**:
+   - **Five-Layer Abuse Defense**:
      1. Per-address 24h cooldown registry in SQLite (`claims` table).
-     2. Sliding-window subnet rate limiting & adaptive PoUW difficulty scaling (+0 to +6 bits).
+     2. Sliding-window subnet rate limiting & adaptive PoUW difficulty scaling (+1 bit per 5 claims/hr from /24 IPv4 or /48 IPv6 subnet, max +6 bits).
      3. Stateless HMAC-SHA256 challenge token binding to `(address, blockNumber, tsBucket)`.
-     4. Permanent single-use proof replay elimination.
-   - **Live Faucet API**: `GET /api/v1/faucet-status` returns real-time balance, claim velocity, and abuse mitigation parameters.
+     4. Permanent single-use proof replay elimination in SQLite.
+     5. Emergency PoUW difficulty escalation: if the faucet balance drops below `21,000,000,000 VST` (1,000 claims remaining), the baseline difficulty automatically escalates from 12 bits to 16 bits across all callers.
+   - **Live Faucet API**: `GET /api/v1/faucet-status` returns real-time balance, claim velocity, active alerts, and abuse mitigation parameters.
 
 4. **Security & Browser Guarantees**:
    - `window.isSecureContext === true` strictly verified in `vestorin_app.html`.
@@ -239,16 +239,18 @@ Under ticket **MIN-227**, both frontend and relayer RPC are served over TLS usin
 To verify this implementation in any clean checkout:
 1. **Unit & Integration Tests**:
    ```bash
-   python3 -m pytest -q
-   # Expected: 8 passed in < 0.5s
+   python3 -m pytest -v
+   # Expected: all tests pass (including status endpoint, adaptive difficulty, IPv6 /48, SIGHUP reload & genuine certificate verification)
    ```
 2. **Cryptographic & TLS Self-Tests**:
    ```bash
    python3 staging/relayer/vestorin_wolfram_relayer.py --self-test
-   # Expected: ALL 5 SELF-TESTS PASSED (including live TLS 1.3 handshake & cipher negotiation)
+   # Expected: ALL 6 SELF-TESTS PASSED (including live TLS 1.3 handshake, SIGHUP reload & emergency balance escalation)
    ```
 3. **Artifact Review**:
-   - `staging/relayer/evidence_https_claim_trusted_browser.png` (browser chrome, padlock, certificate details modal)
-   - `staging/relayer/audit_console_network.json` (network & console audit)
+   - `staging/relayer/evidence_https_claim.png` (browser Step 04 receipt with live txHash & HTTPS active RPC)
+   - `staging/relayer/evidence_https_claim_trusted_browser.png` (browser chrome, padlock, secure context banner)
+   - `staging/relayer/audit_console_network.json` (raw CDP event stream, console logs & network audit)
+   - `staging/relayer/capture_browser_evidence.py` (reproducible automated CDP capture script)
    - `staging/relayer/evidence_openssl_verify.txt` (OpenSSL certificate dump)
    - `staging/relayer/evidence_faucet_abuse_mitigation_report.md` (faucet claim velocity & mitigation report)
