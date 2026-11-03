@@ -43,6 +43,7 @@ import socketserver
 import sqlite3
 import subprocess
 import sys
+import urllib.parse
 import threading
 import time
 import urllib.error
@@ -62,7 +63,7 @@ FAUCET_ADDRESS = os.environ.get(
 SIGNER_ADDRESS = "0x0e5fde73cfd2e7fb4d164b5d6487dea645832401"
 
 GETH_LOCAL_RPC = os.environ.get("VESTORIN_GETH_RPC", "http://127.0.0.1:8545")
-BIND_HOST = os.environ.get("VESTORIN_BIND_HOST", "0.0.0.0")
+BIND_HOST = os.environ.get("VESTORIN_BIND_HOST", "127.0.0.1")
 BIND_PORT = int(os.environ.get("VESTORIN_BIND_PORT", "8546"))
 DB_PATH = os.environ.get("VESTORIN_DB_PATH", "./vestorin_relayer_state.db")
 
@@ -593,30 +594,55 @@ class VestorinRelayerHandler(http.server.BaseHTTPRequestHandler):
         if not asset_rel and parsed.path.startswith("/assets/"):
             asset_rel = parsed.path[len("/assets/"):]
 
-        if asset_rel:
-            base_dir = os.path.dirname(__file__)
-            candidates = [
-                os.path.join(base_dir, "assets", asset_rel),
-                os.path.join(base_dir, asset_rel),
-                os.path.join(os.path.dirname(os.environ.get("VESTORIN_APP_HTML", base_dir)), "assets", asset_rel),
-                os.path.join(os.path.dirname(os.environ.get("VESTORIN_APP_HTML", base_dir)), asset_rel),
+        if asset_rel is not None:
+            # Traversal prevention & containment:
+            # Strip query/fragment and decode percent-encoding
+            clean_rel = urllib.parse.unquote(asset_rel)
+
+            # Strict traversal check: reject null bytes, leading slashes or absolute paths
+            if "\0" in clean_rel or clean_rel.startswith("/") or clean_rel.startswith("\\"):
+                self._send_json(404, {"error": "Asset not found", "path": parsed.path})
+                return
+
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            app_html_dir = os.path.dirname(os.path.abspath(os.environ.get("VESTORIN_APP_HTML", base_dir)))
+
+            # Dedicated asset roots only (never search outside dedicated asset dirs)
+            allowed_roots = [
+                os.path.abspath(os.path.join(base_dir, "assets")),
+                os.path.abspath(os.path.join(app_html_dir, "assets")),
             ]
-            for c_path in candidates:
-                if os.path.exists(c_path) and os.path.isfile(c_path):
-                    with open(c_path, "rb") as af:
-                        asset_bytes = af.read()
-                    mime = "image/png"
-                    if c_path.endswith(".svg"):
-                        mime = "image/svg+xml"
-                    elif c_path.endswith(".json"):
-                        mime = "application/json"
-                    self.send_response(200)
-                    self.send_header("Content-Type", mime)
-                    self.send_header("Content-Length", str(len(asset_bytes)))
-                    self._send_cors_headers()
-                    self.end_headers()
-                    self.wfile.write(asset_bytes)
-                    return
+
+            found_file = None
+            for root_dir in allowed_roots:
+                if not os.path.isdir(root_dir):
+                    continue
+                target_path = os.path.abspath(os.path.join(root_dir, clean_rel))
+                try:
+                    common = os.path.commonpath([root_dir, target_path])
+                except (ValueError, Exception):
+                    continue
+
+                if common == root_dir and os.path.isfile(target_path):
+                    found_file = target_path
+                    break
+
+            if found_file:
+                with open(found_file, "rb") as af:
+                    asset_bytes = af.read()
+                mime = "image/png"
+                if found_file.endswith(".svg"):
+                    mime = "image/svg+xml"
+                elif found_file.endswith(".json"):
+                    mime = "application/json"
+                self.send_response(200)
+                self.send_header("Content-Type", mime)
+                self.send_header("Content-Length", str(len(asset_bytes)))
+                self._send_cors_headers()
+                self.end_headers()
+                self.wfile.write(asset_bytes)
+                return
+
             self._send_json(404, {"error": "Asset not found", "path": parsed.path})
             return
 

@@ -196,3 +196,50 @@ rpc-staging.vestorin.com {
 }
 ```
 Then update `STAGING_CHAIN.rpcUrl` in `vestorin_app.html` from `http://100.77.188.3:8546` to `https://rpc-staging.vestorin.com` so HTTPS-hosted pages (Google Sites / GitHub Pages) have zero Mixed-Content browser blocks.
+
+---
+
+## 6. MIN-225: MetaMask Metadata & One-Click Add Network (EIP-3085 / EIP-3326)
+
+### A. One-Click Add & Switch Workflow
+- Implemented sequential `wallet_addEthereumChain` followed immediately by `wallet_switchEthereumChain`:
+  * `chainId`: `"0x31783"` (hex) == `202627` (decimal).
+  * `chainName`: `"Vestorin Staging"`.
+  * `nativeCurrency`: `{ name: "Vestorin", symbol: "VST", decimals: 18 }`.
+  * `rpcUrls`: `["http://100.77.188.3:8546"]`.
+  * `iconUrls`: `["https://raw.githubusercontent.com/pashamango/vestorin-com/minutta/min-225-vestorin-metamask-metadata-one-click-add-with-icon-explorer/assets/vestorin-mark.png"]`.
+  * `blockExplorerUrls`: placeholder-free architecture via single constant `BLOCK_EXPLORER_URL = null` (omitted from parameters when null to avoid `-32602` schema rejection).
+- Real-time `window.ethereum.on('chainChanged')` listener updates the frontend badge to green when active.
+
+### B. Security & QA Defect Remediation (MIN-225 Rework)
+1. **Directory Traversal Mitigation (Arbitrary File Disclosure Fix)**:
+   - Asset routes under `/assets/` now strictly resolve against dedicated directory roots (`staging/relayer/assets/`) using `os.path.commonpath([root_dir, target_path]) == root_dir`.
+   - Any path traversal payload (e.g., `/assets/../../../../../../etc/passwd`) immediately terminates with HTTP `404` and zero disclosure.
+   - Committed regression tests in `tests/test_relayer_assets.py` enforce 404 on traversal attacks.
+2. **Safe Default Bind Host**:
+   - `BIND_HOST` in `vestorin_wolfram_relayer.py` defaults to `127.0.0.1` (loopback-only) rather than wildcard `0.0.0.0`.
+3. **Broken Icon Fallback Purged**:
+   - Removed `https://vestorin.com/assets/vestorin-mark.png` (which returns HTTP 404 on the production teaser).
+   - Only the verified HTTPS CDN URL returning HTTP 200 is passed in `iconUrls`.
+4. **Reproducible Test Suite**:
+   - Committed `tests/test_metamask_eip3085.py` and `tests/test_relayer_assets.py`. All 16 unit, regression, and simulation tests pass with 100% success (`python3 -m pytest tests/ -v`).
+
+### C. Real MetaMask (v13.54.0 on macOS Darwin) Findings & Honest Limitations
+1. **HTTP RPC Behavior (`http://100.77.188.3:8546`)**:
+   - Injected RPC validation: MetaMask allows `http://localhost` and `http://127.0.0.1` silently, but remote HTTP endpoints (`http://100.77.188.3:8546`) trigger the `addEthereumChainWarningModal` (*"Only add this RPC provider if you're sure you can trust it. Malicious providers may lie about the state of the blockchain and record your network activity."*).
+   - In the confirmation modal, MetaMask performs an active `eth_chainId` RPC check. If the client machine is not joined to the Tailscale tailnet, the connection times out (*"Could not fetch chain ID"*). This empirical finding directly feeds **MIN-227 (HTTPS serving)**.
+2. **EIP-3085 Limitations**:
+   - **No Description Field**: EIP-3085 specifies only `chainId`, `chainName`, `nativeCurrency`, `rpcUrls`, `blockExplorerUrls`, and `iconUrls`. There is no metadata field for network descriptions in EVM wallets; `chainName` and `nativeCurrency.name` are the sole naming surfaces.
+   - **`iconUrls` Behavior**:
+     - MetaMask OpenRPC specification (v13.54.0) explicitly documents:
+       > *"Note: MetaMask will not currently display these icons. You can still include icon URLs so they are used if MetaMask incorporates them into the display of custom networks in the future."*
+     - In the Network Selector Dropdown and Token Asset List, MetaMask renders an automated letter avatar fallback (`"V"` in a circular icon) for all custom non-registry networks.
+   - **Price & Fiat Value**:
+     - No market pricing feed exists for sovereign VST testnet tokens. MetaMask displays `$0.00 USD`, which is mathematically accurate. Price metadata cannot be injected via EIP-3085.
+
+### D. Evidence Artifacts
+- `staging/relayer/evidence_vestorin_frontend_button.png` — Vestorin Staging "+ Add Vestorin to MetaMask" one-click button and status box.
+- `staging/relayer/evidence_metamask_add_flow.png` — MetaMask v13.54.0 Add Network modal with HTTP RPC warning and parameter inspection.
+- `staging/relayer/evidence_metamask_switch_active.png` — MetaMask active network switch to Vestorin Staging (`0x31783`) and token balance display.
+- `staging/relayer/evidence_metamask_icon_surfaces.png` — Audit of MetaMask surfaces showing letter avatar fallback and OpenRPC schema citation.
+
