@@ -29,6 +29,7 @@ from vestorin_wolfram_relayer import (
     make_challenge_token,
     verify_challenge_and_pouw,
     RelayerDatabase,
+    FaucetDispatcher,
     RPC_ALLOWLIST,
     extract_subnet_prefix,
     BASE_POUW_DIFFICULTY_BITS,
@@ -288,25 +289,72 @@ def test_rpc_allowlist_security():
     assert "eth_sendTransaction" not in RPC_ALLOWLIST
 
 def test_faucet_status_endpoint_payload():
-    """Verifies that /api/v1/faucet-status response structure includes all required fields."""
+    """Verifies that /api/v1/faucet-status response structure includes all required fields.
+    Tests live daemon when reachable on 100.77.188.3:8546, or falls back to in-process handler on offline runners."""
     import urllib.request
     import json
+    data = None
     try:
         req = urllib.request.Request("http://100.77.188.3:8546/api/v1/faucet-status")
         with urllib.request.urlopen(req, timeout=3.0) as resp:
             data = json.loads(resp.read().decode("utf-8"))
-        assert "status" in data
-        assert "faucetAddress" in data
-        assert "baseDifficultyBits" in data
-        assert "effectiveBaseDifficultyBits" in data
-        assert "emergencyPoUWEscalationActive" in data
-        assert "thresholds" in data
-        assert "claimMetrics" in data
-        assert "abuseMitigations" in data
-        assert "tlsInfo" in data
-        assert data["tlsInfo"].get("sighupReloadSupported") is True
     except Exception:
-        pytest.skip("Local relayer daemon not reachable on 100.77.188.3:8546 (offline runner).")
+        pass
+
+    if data is None:
+        import io, tempfile
+        class DummyServer:
+            def __init__(self):
+                self.server_name = "127.0.0.1"
+                self.server_port = 8546
+                self.tls_cert = None
+                self.tls_key = None
+                self.reload_count = 1
+                self.last_reload_time = 123456789
+
+        class DummySocket:
+            def __init__(self, data_bytes):
+                self.r = io.BytesIO(data_bytes)
+                self.w = io.BytesIO()
+            def makefile(self, mode, *args, **kwargs):
+                if "r" in mode:
+                    return self.r
+                return self.w
+            def sendall(self, d):
+                self.w.write(d)
+
+        tf = tempfile.mktemp(suffix=".db")
+        try:
+            db_inst = RelayerDatabase(tf)
+            disp_inst = FaucetDispatcher(None, "geth_unlocked")
+            orig_db = getattr(VestorinRelayerHandler, "db", None)
+            orig_disp = getattr(VestorinRelayerHandler, "dispatcher", None)
+            VestorinRelayerHandler.db = db_inst
+            VestorinRelayerHandler.dispatcher = disp_inst
+            try:
+                sock = DummySocket(b"GET /api/v1/faucet-status HTTP/1.1\r\nHost: localhost\r\n\r\n")
+                _ = VestorinRelayerHandler(sock, ("127.0.0.1", 12345), DummyServer())
+                raw_resp = sock.w.getvalue().decode("utf-8")
+                body = raw_resp.split("\r\n\r\n", 1)[1]
+                data = json.loads(body)
+            finally:
+                VestorinRelayerHandler.db = orig_db
+                VestorinRelayerHandler.dispatcher = orig_disp
+        finally:
+            if os.path.exists(tf):
+                os.remove(tf)
+
+    assert data is not None, "Failed to obtain /api/v1/faucet-status payload"
+    assert "status" in data
+    assert "faucetAddress" in data
+    assert "baseDifficultyBits" in data
+    assert "effectiveBaseDifficultyBits" in data
+    assert "emergencyPoUWEscalationActive" in data
+    assert "thresholds" in data
+    assert "claimMetrics" in data
+    assert "abuseMitigations" in data
+    assert "tlsInfo" in data
+    assert data["tlsInfo"].get("sighupReloadSupported") is True
 
 def test_frontend_banner_contract():
     html_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "staging", "relayer", "vestorin_app.html"))

@@ -1,7 +1,7 @@
 # Staging Faucet Claim Rate & Abuse Mitigation Report
 **Target Faucet Address**: `0x1821dc3f0974339db7c7146037b40f54a2e222c3`
-**Report Generated**: `2026-10-25T19:30:03.266697+00:00`
-**Decision D1 Status**: GATED & UNTAPPED (Tailnet-Only Reachability per MIN-227 Acceptance Criteria)
+**Report Generated**: `2026-11-03T03:38:46.337254+00:00`
+**Decision D1 Status**: AUTHORIZED by Principal Pavel Cherkashin (2026-10-25 10:16 PDT; tailnet-only restriction lifted). Host reachability remains on Tailnet IP (`100.77.188.3`); multi-layered abuse defenses, adaptive difficulty, and velocity monitoring deployed in readiness for public edge exposure.
 
 ---
 
@@ -9,12 +9,12 @@
 
 | Metric | Measured Value | Threshold / Ceiling | Status |
 |---|---|---|---|
-| **Total Lifetime Claims** | `8` claims | `1,000,000` claims | ✅ Normal |
-| **VST Distributed** | `168,000,000 VST` | `21,000,000,000,000 VST` | ✅ Normal (0.0008% drained) |
-| **Remaining Faucet Capacity** | `999,992` claims (`20,999,832,000,000 VST`) | `> 100,000` claims (10% alert floor) | ✅ Plentiful (100.00% remaining) |
-| **Claim Rate (Past 1 Hour)** | `3` claims/hour | `< 25` claims/hour | ✅ Normal |
-| **Claim Rate (Past 24 Hours)**| `8` claims/day | `< 500` claims/day | ✅ Normal |
-| **Unique Recipient Addresses**| `8` | N/A | ✅ Verified |
+| **Total Lifetime Claims** | `10` claims | `1,000,000` claims | ✅ Normal |
+| **VST Distributed** | `210,000,000 VST` | `21,000,000,000,000 VST` | ✅ Normal (0.0010% drained) |
+| **Remaining Faucet Capacity** | `999,990` claims (`20,999,790,000,000 VST`) | `> 100,000` claims (10% alert floor) | ✅ Plentiful (100.00% remaining) |
+| **Claim Rate (Past 1 Hour)** | `2` claims/hour | `< 25` claims/hour | ✅ Normal |
+| **Claim Rate (Past 24 Hours)**| `2` claims/day | `< 500` claims/day | ✅ Normal |
+| **Unique Recipient Addresses**| `10` | N/A | ✅ Verified |
 | **Unique Subnet Prefixes**| `2` | N/A | ✅ Distributed |
 
 ---

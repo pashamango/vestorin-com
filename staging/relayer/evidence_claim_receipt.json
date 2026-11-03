@@ -1,0 +1,20 @@
+{
+  "verifiedAt": "2026-11-03T03:38:46.085069+00:00",
+  "transactionHash": "0x8fd75ab6386a04e593867ee67b14c41e4109fdb082792d1c3a5d69e9808a3888",
+  "recipientAddress": "0x69661b8a422f49791F9Dcb918D7B9099d2E6cfAA",
+  "expectedDosageVST": 21000000,
+  "preClaimBalanceWei": "0",
+  "postClaimBalanceWei": "21000000000000000000000000",
+  "balanceIncreaseVST": 21000000.0,
+  "receipt": {
+    "blockNumber": "0x26a24",
+    "blockNumberDec": 158244,
+    "blockHash": "0xd9bbe4edc902dae2fe0d56d8451f05b5b3a88b144a7787ad8a7e936330934aad",
+    "transactionHash": "0x8fd75ab6386a04e593867ee67b14c41e4109fdb082792d1c3a5d69e9808a3888",
+    "from": "0x1821dc3f0974339db7c7146037b40f54a2e222c3",
+    "to": "0x69661b8a422f49791f9dcb918d7b9099d2e6cfaa",
+    "status": "0x1",
+    "gasUsed": "0x5208",
+    "cumulativeGasUsed": "0x5208"
+  }
+}

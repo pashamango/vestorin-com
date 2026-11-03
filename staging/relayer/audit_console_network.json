@@ -1,155 +1,895 @@
 {
-  "auditTimestamp": "2026-10-25T19:29:46.606927+00:00",
+  "auditTimestamp": "2026-11-03T03:38:46.192839+00:00",
   "targetUrl": "https://app-staging.vestorin.com:8443/",
   "browser": "Google Chrome (Headless CDP)",
   "verification": {
     "isSecureContext": true,
     "activeRpcUrl": "https://app-staging.vestorin.com:8443",
-    "recipientAddress": "0x968De1A6e51E0a0fcfe7a0a1de0a77B1f7Fe4Ec1",
-    "claimExplanation": "Operator faucet transfer dispatched! Transaction Hash: 0x275c99defc2c073e7040fcf59f9303f0be932d4db86ffb9d05b159d994c94d47 (PoUW Witness: 0x000117ba9f5a97ea03f58edc152c335da9ed97f6999eb60e278bcf5322a33bfe).",
+    "recipientAddress": "0x69661b8a422f49791F9Dcb918D7B9099d2E6cfAA",
+    "claimTxHash": "0x8fd75ab6386a04e593867ee67b14c41e4109fdb082792d1c3a5d69e9808a3888",
+    "claimExplanation": "Operator faucet transfer dispatched! Transaction Hash: 0x8fd75ab6386a04e593867ee67b14c41e4109fdb082792d1c3a5d69e9808a3888 (PoUW Witness: 0x00046a8cbba6a95c43c26f1dcc9d5b79d6ad279636227d9e21760d2f33bfdb43).",
+    "onChainReceiptStatus": "0x1",
+    "onChainBlockNumber": 158244,
+    "recipientBalanceIncreaseVST": 21000000.0,
     "insecureHttpRequestsCount": 0,
     "mixedContentWarningsCount": 0,
-    "step1ScreenshotBytes": 210116,
-    "step4ScreenshotBytes": 316076,
-    "screenshotsDistinct": true
+    "step1ScreenshotBytes": 147187,
+    "step4ScreenshotBytes": 177715,
+    "screenshotsDistinct": true,
+    "rawCdpEventsCount": 94
+  },
+  "security": {
+    "visibleSecurityState": {},
+    "securityStateEvents": []
+  },
+  "claimResponseBody": {
+    "status": "DISPATCHED",
+    "recipientAddress": "0x69661b8a422f49791F9Dcb918D7B9099d2E6cfAA",
+    "dosageVST": 21000000,
+    "txHash": "0x8fd75ab6386a04e593867ee67b14c41e4109fdb082792d1c3a5d69e9808a3888",
+    "proofHash": "0x00046a8cbba6a95c43c26f1dcc9d5b79d6ad279636227d9e21760d2f33bfdb43",
+    "chainIdDecimal": 202627,
+    "chainIdHex": "0x31783",
+    "faucetAddress": "0x1821dc3f0974339db7c7146037b40f54a2e222c3",
+    "overloadNotice": "Under overload, transactions wait or are rejected; immediate execution is never promised.",
+    "legalDisclaimer": "Testnet coins (VST) have zero monetary value, are NOT securities, and are NOT legal tender."
   },
   "networkRequests": [
     {
-      "requestId": "2D39333F816CE3ECC807CCE8A7C02425",
+      "requestId": "0F8CA8CC816080285F06AC38F2058360",
       "url": "https://app-staging.vestorin.com:8443/",
       "method": "GET",
       "headers": {
         "Upgrade-Insecure-Requests": "1",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
         "sec-ch-ua-mobile": "?0",
         "sec-ch-ua-platform": "\"macOS\""
       },
-      "timestamp": 437091.119307
+      "timestamp": 1157643.822674
     },
     {
-      "requestId": "72157.2",
+      "requestId": "10113.2",
       "url": "https://cdn.tailwindcss.com/3.4.17",
       "method": "GET",
       "headers": {
         "sec-ch-ua-platform": "\"macOS\"",
         "Referer": "https://app-staging.vestorin.com:8443/",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
         "sec-ch-ua-mobile": "?0"
       },
-      "timestamp": 437091.141088
+      "timestamp": 1157643.877754
     },
     {
-      "requestId": "72157.3",
+      "requestId": "10113.3",
       "url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
       "method": "GET",
       "headers": {
         "sec-ch-ua-platform": "\"macOS\"",
         "Referer": "https://app-staging.vestorin.com:8443/",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
         "sec-ch-ua-mobile": "?0"
       },
-      "timestamp": 437091.141268
+      "timestamp": 1157643.878943
     },
     {
-      "requestId": "72157.5",
+      "requestId": "10113.4",
       "url": "https://app-staging.vestorin.com:8443/assets/vestorin-mark.svg",
       "method": "GET",
       "headers": {
         "sec-ch-ua-platform": "\"macOS\"",
         "Referer": "https://app-staging.vestorin.com:8443/",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
         "sec-ch-ua-mobile": "?0"
       },
-      "timestamp": 437091.143279
+      "timestamp": 1157643.879028
     },
     {
-      "requestId": "72157.41",
+      "requestId": "10113.41",
       "url": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwgknk-4.woff2",
       "method": "GET",
       "headers": {
         "Origin": "https://app-staging.vestorin.com:8443",
         "sec-ch-ua-platform": "\"macOS\"",
         "Referer": "https://fonts.googleapis.com/",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
         "sec-ch-ua-mobile": "?0"
       },
-      "timestamp": 437091.59464
+      "timestamp": 1157644.245043
     },
     {
-      "requestId": "72157.14",
+      "requestId": "10113.14",
       "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2",
       "method": "GET",
       "headers": {
         "Origin": "https://app-staging.vestorin.com:8443",
         "sec-ch-ua-platform": "\"macOS\"",
         "Referer": "https://fonts.googleapis.com/",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
         "sec-ch-ua-mobile": "?0"
       },
-      "timestamp": 437091.594714
+      "timestamp": 1157644.24514
     },
     {
-      "requestId": "72157.54",
-      "url": "https://app-staging.vestorin.com:8443/api/v1/challenge?address=0x968De1A6e51E0a0fcfe7a0a1de0a77B1f7Fe4Ec1",
+      "requestId": "10113.54",
+      "url": "https://app-staging.vestorin.com:8443/favicon.ico",
       "method": "GET",
       "headers": {
         "sec-ch-ua-platform": "\"macOS\"",
         "Referer": "https://app-staging.vestorin.com:8443/",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
         "sec-ch-ua-mobile": "?0"
       },
-      "timestamp": 437113.207841
+      "timestamp": 1157644.405523
     },
     {
-      "requestId": "72157.55",
+      "requestId": "10113.55",
+      "url": "https://app-staging.vestorin.com:8443/api/v1/challenge?address=0x69661b8a422f49791F9Dcb918D7B9099d2E6cfAA",
+      "method": "GET",
+      "headers": {
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Referer": "https://app-staging.vestorin.com:8443/",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
+        "sec-ch-ua-mobile": "?0"
+      },
+      "timestamp": 1157648.597817
+    },
+    {
+      "requestId": "10113.56",
       "url": "https://app-staging.vestorin.com:8443/api/v1/claim",
       "method": "POST",
       "headers": {
         "sec-ch-ua-platform": "\"macOS\"",
         "Referer": "https://app-staging.vestorin.com:8443/",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
         "Content-Type": "application/json",
         "sec-ch-ua-mobile": "?0"
       },
-      "timestamp": 437113.278159
+      "timestamp": 1157648.660871
     },
     {
-      "requestId": "72157.56",
+      "requestId": "10113.57",
       "url": "https://app-staging.vestorin.com:8443/",
       "method": "POST",
       "headers": {
         "sec-ch-ua-platform": "\"macOS\"",
         "Referer": "https://app-staging.vestorin.com:8443/",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
         "Content-Type": "application/json",
         "sec-ch-ua-mobile": "?0"
       },
-      "timestamp": 437113.408458
+      "timestamp": 1157648.790377
     },
     {
-      "requestId": "72157.57",
+      "requestId": "10113.58",
       "url": "https://app-staging.vestorin.com:8443/",
       "method": "POST",
       "headers": {
         "sec-ch-ua-platform": "\"macOS\"",
         "Referer": "https://app-staging.vestorin.com:8443/",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
         "Content-Type": "application/json",
         "sec-ch-ua-mobile": "?0"
       },
-      "timestamp": 437113.439181
+      "timestamp": 1157648.818896
     }
   ],
+  "networkResponses": [
+    {
+      "requestId": "0F8CA8CC816080285F06AC38F2058360",
+      "url": "https://app-staging.vestorin.com:8443/",
+      "status": 200,
+      "statusText": "OK",
+      "headers": {
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Origin": "*",
+        "Content-Length": "138547",
+        "Content-Type": "text/html; charset=utf-8",
+        "Date": "Tue, 03 Nov 2026 03:38:37 GMT",
+        "Server": "BaseHTTP/0.6 Python/3.12.0"
+      },
+      "mimeType": "text/html",
+      "securityState": "secure",
+      "securityDetails": {
+        "protocol": "TLS 1.3",
+        "keyExchange": "",
+        "keyExchangeGroup": "X25519",
+        "cipher": "AES_256_GCM",
+        "certificateId": 0,
+        "subjectName": "app-staging.vestorin.com",
+        "sanList": [
+          "app-staging.vestorin.com",
+          "rpc-staging.vestorin.com",
+          "staging.vestorin.com"
+        ],
+        "issuer": "YE1",
+        "validFrom": 1792946805,
+        "validTo": 1800722804,
+        "signedCertificateTimestampList": [
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "Sectigo 'Tiger2027h1'",
+            "logId": "1C9F682CE9FAF0456950F81B968A87DDDB3210D84CE6C8B2E382524AC4CF599F",
+            "timestamp": 1792950315272,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "3045022027CE00DD3288DB2F2653E6C6B472C6C5B376D6D0BB533D690D2115AF9FB6CBDF0221008AEBE3A35EC918BBE27CE5032424992DF40156C567982840FE9836F4FE02AA7A"
+          },
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "IPng Networks 'Gouda2027h1'",
+            "logId": "1A8B9D6B8DD791D1CD0549EDB60355D606B64FAD30DB71FE788F0FC7C8FBC4B1",
+            "timestamp": 1792950316740,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "304502206D0EE4E2336E8B7C068B41798C86281457133AB6611114E9C2FC6D944AC5F24B022100912C37949689423238223F2B10FE8807F6538CFF76457089F6834B165304534B"
+          }
+        ],
+        "certificateTransparencyCompliance": "compliant",
+        "serverSignatureAlgorithm": 1027,
+        "encryptedClientHello": false
+      },
+      "timestamp": 1157643.86533
+    },
+    {
+      "requestId": "10113.4",
+      "url": "https://app-staging.vestorin.com:8443/assets/vestorin-mark.svg",
+      "status": 200,
+      "statusText": "OK",
+      "headers": {
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Origin": "*",
+        "Content-Length": "2050",
+        "Date": "Tue, 03 Nov 2026 03:38:37 GMT",
+        "Content-Type": "image/svg+xml",
+        "Server": "BaseHTTP/0.6 Python/3.12.0",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+      },
+      "mimeType": "image/svg+xml",
+      "securityState": "secure",
+      "securityDetails": {
+        "protocol": "TLS 1.3",
+        "keyExchange": "",
+        "keyExchangeGroup": "X25519",
+        "cipher": "AES_256_GCM",
+        "certificateId": 0,
+        "subjectName": "app-staging.vestorin.com",
+        "sanList": [
+          "app-staging.vestorin.com",
+          "rpc-staging.vestorin.com",
+          "staging.vestorin.com"
+        ],
+        "issuer": "YE1",
+        "validFrom": 1792946805,
+        "validTo": 1800722804,
+        "signedCertificateTimestampList": [
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "Sectigo 'Tiger2027h1'",
+            "logId": "1C9F682CE9FAF0456950F81B968A87DDDB3210D84CE6C8B2E382524AC4CF599F",
+            "timestamp": 1792950315272,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "3045022027CE00DD3288DB2F2653E6C6B472C6C5B376D6D0BB533D690D2115AF9FB6CBDF0221008AEBE3A35EC918BBE27CE5032424992DF40156C567982840FE9836F4FE02AA7A"
+          },
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "IPng Networks 'Gouda2027h1'",
+            "logId": "1A8B9D6B8DD791D1CD0549EDB60355D606B64FAD30DB71FE788F0FC7C8FBC4B1",
+            "timestamp": 1792950316740,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "304502206D0EE4E2336E8B7C068B41798C86281457133AB6611114E9C2FC6D944AC5F24B022100912C37949689423238223F2B10FE8807F6538CFF76457089F6834B165304534B"
+          }
+        ],
+        "certificateTransparencyCompliance": "compliant",
+        "serverSignatureAlgorithm": 1027,
+        "encryptedClientHello": false
+      },
+      "timestamp": 1157643.898191
+    },
+    {
+      "requestId": "10113.2",
+      "url": "https://cdn.tailwindcss.com/3.4.17",
+      "status": 200,
+      "statusText": "",
+      "headers": {
+        "strict-transport-security": "max-age=63072000",
+        "cache-control": "max-age=31536000",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "content-encoding": "br",
+        "x-vercel-cache": "MISS",
+        "cf-cache-status": "HIT",
+        "age": "503239",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=VQgCaS%2FPIIGYzdWhKzrL6HmsPPqvc9mO%2Bt8m4o%2BqO9CKZX5FfUsfj2nJMZAbkKkurgUt5h2KrtMls2RAGiogKHhYofwRsewXqw1VcpUVVKFA%2BYhHyFyY7hxel7yKWROFMMxRTIQ%3D\"}]}",
+        "last-modified": "Fri, 30 Oct 2026 08:01:39 GMT",
+        "cf-ray": "a54858e40beaa230-SJC",
+        "date": "Tue, 03 Nov 2026 03:38:38 GMT",
+        "content-type": "text/javascript",
+        "vary": "accept-encoding",
+        "server": "cloudflare",
+        "x-vercel-id": "sfo1::iad1::xcg4q-1793173878123-6b08b9485756"
+      },
+      "mimeType": "text/javascript",
+      "securityState": "secure",
+      "securityDetails": {
+        "protocol": "TLS 1.3",
+        "keyExchange": "",
+        "keyExchangeGroup": "X25519MLKEM768",
+        "cipher": "AES_128_GCM",
+        "certificateId": 0,
+        "subjectName": "tailwindcss.com",
+        "sanList": [
+          "tailwindcss.com",
+          "*.tailwindcss.com"
+        ],
+        "issuer": "WE1",
+        "validFrom": 1789435616,
+        "validTo": 1797215212,
+        "signedCertificateTimestampList": [
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "Google 'Argon2026h2' log",
+            "logId": "D76D7D10D1A7F577C2C7E95FD700BFF982C9335A65E1D0B3017317C0C8C56977",
+            "timestamp": 1789439217024,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "30450221009EDD2704C874E05436FB9839891A6D74544AC13142F9F531F56E6BEAADBEA4D402207CC39DC2894AE5F0A9E6BD7C390D4E82935AEB2F4992A87B74722E810876DC12"
+          },
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "DigiCert 'Wyvern2026h2'",
+            "logId": "C2317E574519A345EE7F38DEB29041EBC7C2215A22BF7FD5B5AD769AD90E52CD",
+            "timestamp": 1789439217052,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "304602210089C9EE7C8DF5E0753EEE5685F455BE2BA1414CD46D6949434BD6F41DAE0FDCB102210080CF964A8914769875EDB3D9F9AEBA55EFB8DFF5C86BEFBB53A61DC482F8B221"
+          }
+        ],
+        "certificateTransparencyCompliance": "compliant",
+        "serverSignatureAlgorithm": 1027,
+        "encryptedClientHello": false
+      },
+      "timestamp": 1157644.068176
+    },
+    {
+      "requestId": "10113.3",
+      "url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
+      "status": 200,
+      "statusText": "",
+      "headers": {
+        "content-encoding": "gzip",
+        "x-content-type-options": "nosniff",
+        "expires": "Tue, 03 Nov 2026 03:38:38 GMT",
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "date": "Tue, 03 Nov 2026 03:38:38 GMT",
+        "content-type": "text/css; charset=utf-8",
+        "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site",
+        "last-modified": "Tue, 03 Nov 2026 03:38:38 GMT",
+        "x-frame-options": "SAMEORIGIN",
+        "strict-transport-security": "max-age=31536000",
+        "link": "<https://fonts.gstatic.com>; rel=preconnect; crossorigin",
+        "cache-control": "private, max-age=86400, stale-while-revalidate=604800",
+        "timing-allow-origin": "*",
+        "cross-origin-opener-policy": "same-origin-allow-popups",
+        "cross-origin-resource-policy": "cross-origin",
+        "access-control-allow-origin": "*",
+        "x-xss-protection": "0",
+        "server": "ESF"
+      },
+      "mimeType": "text/css",
+      "securityState": "secure",
+      "securityDetails": {
+        "protocol": "TLS 1.3",
+        "keyExchange": "",
+        "keyExchangeGroup": "X25519MLKEM768",
+        "cipher": "AES_256_GCM",
+        "certificateId": 0,
+        "subjectName": "upload.video.google.com",
+        "sanList": [
+          "upload.video.google.com",
+          "*.clients.google.com",
+          "*.docs.google.com",
+          "*.drive.google.com",
+          "*.gdata.youtube.com",
+          "*.googleapis.com",
+          "*.photos.google.com",
+          "*.youtube-3rd-party.com",
+          "upload.google.com",
+          "*.upload.google.com",
+          "upload.youtube.com",
+          "*.upload.youtube.com",
+          "uploads.stage.gdata.youtube.com",
+          "bg-call-donation.goog",
+          "bg-call-donation-alpha.goog",
+          "bg-call-donation-canary.goog",
+          "bg-call-donation-dev.goog"
+        ],
+        "issuer": "WE2",
+        "validFrom": 1791400151,
+        "validTo": 1798657750,
+        "signedCertificateTimestampList": [
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "Google 'Argon2026h2' log",
+            "logId": "D76D7D10D1A7F577C2C7E95FD700BFF982C9335A65E1D0B3017317C0C8C56977",
+            "timestamp": 1791403752139,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "3044022022A6243CD46AA42E965BB06F0821AD616C5A1FAB9511A5A8C88836DF272CEEE602203532F97C839C08777914E9E4F25A946FBB4FD78535BE5302A87C0CE61566B5BD"
+          },
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "TrustAsia 'HETU2027'",
+            "logId": "EDDAEB815C63213449B47BE5077905ABD0D93147C27AC5146B3BC58E43E9B6C7",
+            "timestamp": 1791403752173,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "304502206E061AA7A7B776FE44082DF437E81D4AD9767CD2FD013BB3BDCED19ABD045431022100DD0D8E953D516FBD0A1688C484103A6363560D920463E5E5597424C8924AD164"
+          }
+        ],
+        "certificateTransparencyCompliance": "compliant",
+        "serverSignatureAlgorithm": 1027,
+        "encryptedClientHello": false
+      },
+      "timestamp": 1157644.129645
+    },
+    {
+      "requestId": "10113.14",
+      "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2",
+      "status": 200,
+      "statusText": "",
+      "headers": {
+        "age": "2400",
+        "report-to": "{\"group\":\"apps-themes\",\"max_age\":2592000,\"endpoints\":[{\"url\":\"https://csp.withgoogle.com/csp/report-to/apps-themes\"}]}",
+        "x-content-type-options": "nosniff",
+        "expires": "Wed, 03 Nov 2027 02:58:38 GMT",
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "date": "Tue, 03 Nov 2026 02:58:38 GMT",
+        "last-modified": "Tue, 09 Sep 2025 18:40:32 GMT",
+        "content-type": "font/woff2",
+        "cache-control": "public, max-age=31536000",
+        "timing-allow-origin": "*",
+        "cross-origin-opener-policy": "same-origin; report-to=\"apps-themes\"",
+        "cross-origin-resource-policy": "cross-origin",
+        "content-security-policy-report-only": "require-trusted-types-for 'script'; report-uri https://csp.withgoogle.com/csp/apps-themes",
+        "accept-ranges": "bytes",
+        "access-control-allow-origin": "*",
+        "content-length": "48432",
+        "x-xss-protection": "0",
+        "server": "sffe"
+      },
+      "mimeType": "font/woff2",
+      "securityState": "secure",
+      "securityDetails": {
+        "protocol": "TLS 1.3",
+        "keyExchange": "",
+        "keyExchangeGroup": "X25519MLKEM768",
+        "cipher": "AES_128_GCM",
+        "certificateId": 0,
+        "subjectName": "*.gstatic.com",
+        "sanList": [
+          "*.gstatic.com",
+          "gstatic.com",
+          "*.metric.gstatic.com"
+        ],
+        "issuer": "WE2",
+        "validFrom": 1791400150,
+        "validTo": 1798657749,
+        "signedCertificateTimestampList": [
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "Google 'Argon2026h2' log",
+            "logId": "D76D7D10D1A7F577C2C7E95FD700BFF982C9335A65E1D0B3017317C0C8C56977",
+            "timestamp": 1791403751262,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "304402200A83496197EE688A3573EBF7D89915CB623F8A596C1BE97FE7EE896C052731BD0220642C5C4621C32E09897018AED5EEAC75D3895665BF4BBB305B2A54D0C8DC1863"
+          },
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "IPng Networks 'Halloumi2026h2a'",
+            "logId": "26E3646E58692123BC343F4724359B3792CD245A88D815D39333FD9918AB4723",
+            "timestamp": 1791403748400,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "3045022100AC015F2A8323588CC1610C32A0F4AE01B961FFB074FE169091994C836B7FA995022047B864119263D28764E77FE445B26772C9719AB12B2061B28F3BB29B869C1F9C"
+          }
+        ],
+        "certificateTransparencyCompliance": "compliant",
+        "serverSignatureAlgorithm": 1027,
+        "encryptedClientHello": false
+      },
+      "timestamp": 1157644.370122
+    },
+    {
+      "requestId": "10113.41",
+      "url": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwgknk-4.woff2",
+      "status": 200,
+      "statusText": "",
+      "headers": {
+        "age": "2609",
+        "report-to": "{\"group\":\"apps-themes\",\"max_age\":2592000,\"endpoints\":[{\"url\":\"https://csp.withgoogle.com/csp/report-to/apps-themes\"}]}",
+        "x-content-type-options": "nosniff",
+        "expires": "Wed, 03 Nov 2027 02:55:09 GMT",
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "date": "Tue, 03 Nov 2026 02:55:09 GMT",
+        "last-modified": "Wed, 10 Sep 2025 16:54:17 GMT",
+        "content-type": "font/woff2",
+        "cache-control": "public, max-age=31536000",
+        "timing-allow-origin": "*",
+        "cross-origin-opener-policy": "same-origin; report-to=\"apps-themes\"",
+        "cross-origin-resource-policy": "cross-origin",
+        "content-security-policy-report-only": "require-trusted-types-for 'script'; report-uri https://csp.withgoogle.com/csp/apps-themes",
+        "accept-ranges": "bytes",
+        "access-control-allow-origin": "*",
+        "content-length": "31340",
+        "x-xss-protection": "0",
+        "server": "sffe"
+      },
+      "mimeType": "font/woff2",
+      "securityState": "secure",
+      "securityDetails": {
+        "protocol": "TLS 1.3",
+        "keyExchange": "",
+        "keyExchangeGroup": "X25519MLKEM768",
+        "cipher": "AES_128_GCM",
+        "certificateId": 0,
+        "subjectName": "*.gstatic.com",
+        "sanList": [
+          "*.gstatic.com",
+          "gstatic.com",
+          "*.metric.gstatic.com"
+        ],
+        "issuer": "WE2",
+        "validFrom": 1791400150,
+        "validTo": 1798657749,
+        "signedCertificateTimestampList": [
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "Google 'Argon2026h2' log",
+            "logId": "D76D7D10D1A7F577C2C7E95FD700BFF982C9335A65E1D0B3017317C0C8C56977",
+            "timestamp": 1791403751262,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "304402200A83496197EE688A3573EBF7D89915CB623F8A596C1BE97FE7EE896C052731BD0220642C5C4621C32E09897018AED5EEAC75D3895665BF4BBB305B2A54D0C8DC1863"
+          },
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "IPng Networks 'Halloumi2026h2a'",
+            "logId": "26E3646E58692123BC343F4724359B3792CD245A88D815D39333FD9918AB4723",
+            "timestamp": 1791403748400,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "3045022100AC015F2A8323588CC1610C32A0F4AE01B961FFB074FE169091994C836B7FA995022047B864119263D28764E77FE445B26772C9719AB12B2061B28F3BB29B869C1F9C"
+          }
+        ],
+        "certificateTransparencyCompliance": "compliant",
+        "serverSignatureAlgorithm": 1027,
+        "encryptedClientHello": false
+      },
+      "timestamp": 1157644.393008
+    },
+    {
+      "requestId": "10113.54",
+      "url": "https://app-staging.vestorin.com:8443/favicon.ico",
+      "status": 404,
+      "statusText": "Not Found",
+      "headers": {
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Origin": "*",
+        "Content-Length": "22",
+        "Date": "Tue, 03 Nov 2026 03:38:38 GMT",
+        "Content-Type": "application/json; charset=utf-8",
+        "Server": "BaseHTTP/0.6 Python/3.12.0",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+      },
+      "mimeType": "application/json",
+      "securityState": "secure",
+      "securityDetails": {
+        "protocol": "TLS 1.3",
+        "keyExchange": "",
+        "keyExchangeGroup": "X25519",
+        "cipher": "AES_256_GCM",
+        "certificateId": 0,
+        "subjectName": "app-staging.vestorin.com",
+        "sanList": [
+          "app-staging.vestorin.com",
+          "rpc-staging.vestorin.com",
+          "staging.vestorin.com"
+        ],
+        "issuer": "YE1",
+        "validFrom": 1792946805,
+        "validTo": 1800722804,
+        "signedCertificateTimestampList": [
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "Sectigo 'Tiger2027h1'",
+            "logId": "1C9F682CE9FAF0456950F81B968A87DDDB3210D84CE6C8B2E382524AC4CF599F",
+            "timestamp": 1792950315272,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "3045022027CE00DD3288DB2F2653E6C6B472C6C5B376D6D0BB533D690D2115AF9FB6CBDF0221008AEBE3A35EC918BBE27CE5032424992DF40156C567982840FE9836F4FE02AA7A"
+          },
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "IPng Networks 'Gouda2027h1'",
+            "logId": "1A8B9D6B8DD791D1CD0549EDB60355D606B64FAD30DB71FE788F0FC7C8FBC4B1",
+            "timestamp": 1792950316740,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "304502206D0EE4E2336E8B7C068B41798C86281457133AB6611114E9C2FC6D944AC5F24B022100912C37949689423238223F2B10FE8807F6538CFF76457089F6834B165304534B"
+          }
+        ],
+        "certificateTransparencyCompliance": "compliant",
+        "serverSignatureAlgorithm": 1027,
+        "encryptedClientHello": false
+      },
+      "timestamp": 1157644.415554
+    },
+    {
+      "requestId": "10113.55",
+      "url": "https://app-staging.vestorin.com:8443/api/v1/challenge?address=0x69661b8a422f49791F9Dcb918D7B9099d2E6cfAA",
+      "status": 200,
+      "statusText": "OK",
+      "headers": {
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Origin": "*",
+        "Content-Length": "384",
+        "Date": "Tue, 03 Nov 2026 03:38:42 GMT",
+        "Content-Type": "application/json; charset=utf-8",
+        "Server": "BaseHTTP/0.6 Python/3.12.0",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+      },
+      "mimeType": "application/json",
+      "securityState": "secure",
+      "securityDetails": {
+        "protocol": "TLS 1.3",
+        "keyExchange": "",
+        "keyExchangeGroup": "X25519",
+        "cipher": "AES_256_GCM",
+        "certificateId": 0,
+        "subjectName": "app-staging.vestorin.com",
+        "sanList": [
+          "app-staging.vestorin.com",
+          "rpc-staging.vestorin.com",
+          "staging.vestorin.com"
+        ],
+        "issuer": "YE1",
+        "validFrom": 1792946805,
+        "validTo": 1800722804,
+        "signedCertificateTimestampList": [
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "Sectigo 'Tiger2027h1'",
+            "logId": "1C9F682CE9FAF0456950F81B968A87DDDB3210D84CE6C8B2E382524AC4CF599F",
+            "timestamp": 1792950315272,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "3045022027CE00DD3288DB2F2653E6C6B472C6C5B376D6D0BB533D690D2115AF9FB6CBDF0221008AEBE3A35EC918BBE27CE5032424992DF40156C567982840FE9836F4FE02AA7A"
+          },
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "IPng Networks 'Gouda2027h1'",
+            "logId": "1A8B9D6B8DD791D1CD0549EDB60355D606B64FAD30DB71FE788F0FC7C8FBC4B1",
+            "timestamp": 1792950316740,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "304502206D0EE4E2336E8B7C068B41798C86281457133AB6611114E9C2FC6D944AC5F24B022100912C37949689423238223F2B10FE8807F6538CFF76457089F6834B165304534B"
+          }
+        ],
+        "certificateTransparencyCompliance": "compliant",
+        "serverSignatureAlgorithm": 1027,
+        "encryptedClientHello": false
+      },
+      "timestamp": 1157648.619607
+    },
+    {
+      "requestId": "10113.56",
+      "url": "https://app-staging.vestorin.com:8443/api/v1/claim",
+      "status": 200,
+      "statusText": "OK",
+      "headers": {
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Origin": "*",
+        "Content-Length": "615",
+        "Date": "Tue, 03 Nov 2026 03:38:42 GMT",
+        "Content-Type": "application/json; charset=utf-8",
+        "Server": "BaseHTTP/0.6 Python/3.12.0",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+      },
+      "mimeType": "application/json",
+      "securityState": "secure",
+      "securityDetails": {
+        "protocol": "TLS 1.3",
+        "keyExchange": "",
+        "keyExchangeGroup": "X25519",
+        "cipher": "AES_256_GCM",
+        "certificateId": 0,
+        "subjectName": "app-staging.vestorin.com",
+        "sanList": [
+          "app-staging.vestorin.com",
+          "rpc-staging.vestorin.com",
+          "staging.vestorin.com"
+        ],
+        "issuer": "YE1",
+        "validFrom": 1792946805,
+        "validTo": 1800722804,
+        "signedCertificateTimestampList": [
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "Sectigo 'Tiger2027h1'",
+            "logId": "1C9F682CE9FAF0456950F81B968A87DDDB3210D84CE6C8B2E382524AC4CF599F",
+            "timestamp": 1792950315272,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "3045022027CE00DD3288DB2F2653E6C6B472C6C5B376D6D0BB533D690D2115AF9FB6CBDF0221008AEBE3A35EC918BBE27CE5032424992DF40156C567982840FE9836F4FE02AA7A"
+          },
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "IPng Networks 'Gouda2027h1'",
+            "logId": "1A8B9D6B8DD791D1CD0549EDB60355D606B64FAD30DB71FE788F0FC7C8FBC4B1",
+            "timestamp": 1792950316740,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "304502206D0EE4E2336E8B7C068B41798C86281457133AB6611114E9C2FC6D944AC5F24B022100912C37949689423238223F2B10FE8807F6538CFF76457089F6834B165304534B"
+          }
+        ],
+        "certificateTransparencyCompliance": "compliant",
+        "serverSignatureAlgorithm": 1027,
+        "encryptedClientHello": false
+      },
+      "timestamp": 1157648.788673
+    },
+    {
+      "requestId": "10113.57",
+      "url": "https://app-staging.vestorin.com:8443/",
+      "status": 200,
+      "statusText": "OK",
+      "headers": {
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Origin": "*",
+        "Content-Length": "48",
+        "Date": "Tue, 03 Nov 2026 03:38:42 GMT",
+        "Content-Type": "application/json; charset=utf-8",
+        "Server": "BaseHTTP/0.6 Python/3.12.0",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+      },
+      "mimeType": "application/json",
+      "securityState": "secure",
+      "securityDetails": {
+        "protocol": "TLS 1.3",
+        "keyExchange": "",
+        "keyExchangeGroup": "X25519",
+        "cipher": "AES_256_GCM",
+        "certificateId": 0,
+        "subjectName": "app-staging.vestorin.com",
+        "sanList": [
+          "app-staging.vestorin.com",
+          "rpc-staging.vestorin.com",
+          "staging.vestorin.com"
+        ],
+        "issuer": "YE1",
+        "validFrom": 1792946805,
+        "validTo": 1800722804,
+        "signedCertificateTimestampList": [
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "Sectigo 'Tiger2027h1'",
+            "logId": "1C9F682CE9FAF0456950F81B968A87DDDB3210D84CE6C8B2E382524AC4CF599F",
+            "timestamp": 1792950315272,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "3045022027CE00DD3288DB2F2653E6C6B472C6C5B376D6D0BB533D690D2115AF9FB6CBDF0221008AEBE3A35EC918BBE27CE5032424992DF40156C567982840FE9836F4FE02AA7A"
+          },
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "IPng Networks 'Gouda2027h1'",
+            "logId": "1A8B9D6B8DD791D1CD0549EDB60355D606B64FAD30DB71FE788F0FC7C8FBC4B1",
+            "timestamp": 1792950316740,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "304502206D0EE4E2336E8B7C068B41798C86281457133AB6611114E9C2FC6D944AC5F24B022100912C37949689423238223F2B10FE8807F6538CFF76457089F6834B165304534B"
+          }
+        ],
+        "certificateTransparencyCompliance": "compliant",
+        "serverSignatureAlgorithm": 1027,
+        "encryptedClientHello": false
+      },
+      "timestamp": 1157648.817072
+    },
+    {
+      "requestId": "10113.58",
+      "url": "https://app-staging.vestorin.com:8443/",
+      "status": 200,
+      "statusText": "OK",
+      "headers": {
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Origin": "*",
+        "Content-Length": "44",
+        "Date": "Tue, 03 Nov 2026 03:38:42 GMT",
+        "Content-Type": "application/json; charset=utf-8",
+        "Server": "BaseHTTP/0.6 Python/3.12.0",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+      },
+      "mimeType": "application/json",
+      "securityState": "secure",
+      "securityDetails": {
+        "protocol": "TLS 1.3",
+        "keyExchange": "",
+        "keyExchangeGroup": "X25519",
+        "cipher": "AES_256_GCM",
+        "certificateId": 0,
+        "subjectName": "app-staging.vestorin.com",
+        "sanList": [
+          "app-staging.vestorin.com",
+          "rpc-staging.vestorin.com",
+          "staging.vestorin.com"
+        ],
+        "issuer": "YE1",
+        "validFrom": 1792946805,
+        "validTo": 1800722804,
+        "signedCertificateTimestampList": [
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "Sectigo 'Tiger2027h1'",
+            "logId": "1C9F682CE9FAF0456950F81B968A87DDDB3210D84CE6C8B2E382524AC4CF599F",
+            "timestamp": 1792950315272,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "3045022027CE00DD3288DB2F2653E6C6B472C6C5B376D6D0BB533D690D2115AF9FB6CBDF0221008AEBE3A35EC918BBE27CE5032424992DF40156C567982840FE9836F4FE02AA7A"
+          },
+          {
+            "status": "Verified",
+            "origin": "Embedded in certificate",
+            "logDescription": "IPng Networks 'Gouda2027h1'",
+            "logId": "1A8B9D6B8DD791D1CD0549EDB60355D606B64FAD30DB71FE788F0FC7C8FBC4B1",
+            "timestamp": 1792950316740,
+            "hashAlgorithm": "SHA-256",
+            "signatureAlgorithm": "ECDSA",
+            "signatureData": "304502206D0EE4E2336E8B7C068B41798C86281457133AB6611114E9C2FC6D944AC5F24B022100912C37949689423238223F2B10FE8807F6538CFF76457089F6834B165304534B"
+          }
+        ],
+        "certificateTransparencyCompliance": "compliant",
+        "serverSignatureAlgorithm": 1027,
+        "encryptedClientHello": false
+      },
+      "timestamp": 1157648.831621
+    }
+  ],
+  "networkFailures": [],
   "consoleLogs": [
     {
       "type": "warning",
@@ -159,8 +899,8 @@
           "value": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
         }
       ],
-      "executionContextId": 1,
-      "timestamp": 1792956559533.769,
+      "executionContextId": 2,
+      "timestamp": 1793677118121.974,
       "stackTrace": {
         "callFrames": [
           {
@@ -181,52 +921,62 @@
       }
     }
   ],
-  "rawCdpEventsCount": 97,
-  "rawCdpEventsSample": [
+  "rawCdpEvents": [
     {
       "method": "Runtime.executionContextCreated",
       "params": {
         "context": {
-          "id": 2,
-          "origin": "chrome://omnibox-popup.top-chrome",
+          "id": 1,
+          "origin": "://",
           "name": "",
-          "uniqueId": "5957381257092088151.3339687847970430885",
+          "uniqueId": "-1285398526408199071.6129411888837362860",
           "auxData": {
             "isDefault": true,
             "type": "default",
-            "frameId": "741B5C2F8D7BDDFA667B27206A9C5F12"
+            "frameId": "75B6F8B424A752E9B45F65EB906FA898"
           }
+        }
+      }
+    },
+    {
+      "method": "Security.visibleSecurityStateChanged",
+      "params": {
+        "visibleSecurityState": {
+          "securityState": "neutral",
+          "securityStateIssueIds": [
+            "scheme-is-not-cryptographic"
+          ]
         }
       }
     },
     {
       "method": "Page.frameStartedNavigating",
       "params": {
-        "frameId": "741B5C2F8D7BDDFA667B27206A9C5F12",
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898",
         "url": "https://app-staging.vestorin.com:8443/",
-        "loaderId": "2D39333F816CE3ECC807CCE8A7C02425",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
         "navigationType": "differentDocument"
       }
     },
     {
       "method": "Page.frameStartedLoading",
       "params": {
-        "frameId": "741B5C2F8D7BDDFA667B27206A9C5F12"
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898"
       }
     },
     {
       "method": "Network.requestWillBeSent",
       "params": {
-        "requestId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "loaderId": "2D39333F816CE3ECC807CCE8A7C02425",
+        "requestId": "0F8CA8CC816080285F06AC38F2058360",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
         "documentURL": "https://app-staging.vestorin.com:8443/",
         "request": {
           "url": "https://app-staging.vestorin.com:8443/",
           "method": "GET",
           "headers": {
             "Upgrade-Insecure-Requests": "1",
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-            "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
             "sec-ch-ua-mobile": "?0",
             "sec-ch-ua-platform": "\"macOS\""
           },
@@ -235,21 +985,21 @@
           "referrerPolicy": "strict-origin-when-cross-origin",
           "isSameSite": true
         },
-        "timestamp": 437091.119307,
-        "wallTime": 1792956559.140988,
+        "timestamp": 1157643.822674,
+        "wallTime": 1793677117.817186,
         "initiator": {
           "type": "other"
         },
         "redirectHasExtraInfo": false,
         "type": "Document",
-        "frameId": "741B5C2F8D7BDDFA667B27206A9C5F12",
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898",
         "hasUserGesture": false
       }
     },
     {
       "method": "Network.requestWillBeSentExtraInfo",
       "params": {
-        "requestId": "2D39333F816CE3ECC807CCE8A7C02425",
+        "requestId": "0F8CA8CC816080285F06AC38F2058360",
         "associatedCookies": [],
         "headers": {
           "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
@@ -262,48 +1012,23 @@
           "Sec-Fetch-Site": "none",
           "Sec-Fetch-User": "?1",
           "Upgrade-Insecure-Requests": "1",
-          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-          "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+          "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
           "sec-ch-ua-mobile": "?0",
           "sec-ch-ua-platform": "\"macOS\""
         },
         "connectTiming": {
-          "requestTime": 437091.120077
+          "requestTime": 1157643.829958
         },
         "siteHasCookieInOtherPartition": false
       }
     },
     {
-      "method": "Network.responseReceivedExtraInfo",
-      "params": {
-        "requestId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "blockedCookies": [],
-        "headers": {
-          "Access-Control-Allow-Headers": "Content-Type, Authorization",
-          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-          "Access-Control-Allow-Origin": "*",
-          "Content-Length": "138547",
-          "Content-Type": "text/html; charset=utf-8",
-          "Date": "Sun, 25 Oct 2026 19:29:19 GMT",
-          "Server": "BaseHTTP/0.6 Python/3.12.0"
-        },
-        "resourceIPAddressSpace": "Local",
-        "statusCode": 200,
-        "headersText": "HTTP/1.0 200 OK\r\nServer: BaseHTTP/0.6 Python/3.12.0\r\nDate: Sun, 25 Oct 2026 19:29:19 GMT\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: 138547\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\r\nAccess-Control-Allow-Headers: Content-Type, Authorization\r\n\r\n",
-        "cookiePartitionKey": {
-          "topLevelSite": "https://vestorin.com",
-          "hasCrossSiteAncestor": false
-        },
-        "cookiePartitionKeyOpaque": false,
-        "exemptedCookies": []
-      }
-    },
-    {
       "method": "Network.responseReceived",
       "params": {
-        "requestId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "loaderId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "timestamp": 437091.138689,
+        "requestId": "0F8CA8CC816080285F06AC38F2058360",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "timestamp": 1157643.86533,
         "type": "Document",
         "response": {
           "url": "https://app-staging.vestorin.com:8443/",
@@ -315,13 +1040,13 @@
             "Access-Control-Allow-Origin": "*",
             "Content-Length": "138547",
             "Content-Type": "text/html; charset=utf-8",
-            "Date": "Sun, 25 Oct 2026 19:29:19 GMT",
+            "Date": "Tue, 03 Nov 2026 03:38:37 GMT",
             "Server": "BaseHTTP/0.6 Python/3.12.0"
           },
           "mimeType": "text/html",
           "charset": "utf-8",
           "connectionReused": false,
-          "connectionId": 161,
+          "connectionId": 125,
           "remoteIPAddress": "100.77.188.3",
           "remotePort": 8443,
           "fromDiskCache": false,
@@ -329,27 +1054,27 @@
           "fromPrefetchCache": false,
           "encodedDataLength": 297,
           "timing": {
-            "requestTime": 437091.120077,
+            "requestTime": 1157643.829958,
             "proxyStart": -1,
             "proxyEnd": -1,
             "dnsStart": 0,
-            "dnsEnd": 0.159,
-            "connectStart": 0.2,
-            "connectEnd": 8.553,
-            "sslStart": 1.055,
-            "sslEnd": 8.547,
+            "dnsEnd": 0,
+            "connectStart": 0,
+            "connectEnd": 13.057,
+            "sslStart": 0,
+            "sslEnd": 13.035,
             "workerStart": -1,
             "workerReady": -1,
             "workerFetchStart": -1,
             "workerRespondWithSettled": -1,
-            "sendStart": 8.631,
-            "sendEnd": 8.673,
+            "sendStart": 13.161,
+            "sendEnd": 13.207,
             "pushStart": 0,
             "pushEnd": 0,
-            "receiveHeadersStart": 17.974,
-            "receiveHeadersEnd": 18.045
+            "receiveHeadersStart": 18.782,
+            "receiveHeadersEnd": 18.921
           },
-          "responseTime": 1792956559159.726,
+          "responseTime": 1793677117842.598,
           "protocol": "http/1.0",
           "alternateProtocolUsage": "unspecifiedReason",
           "securityState": "secure",
@@ -396,7 +1121,32 @@
           }
         },
         "hasExtraInfo": true,
-        "frameId": "741B5C2F8D7BDDFA667B27206A9C5F12"
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898"
+      }
+    },
+    {
+      "method": "Network.responseReceivedExtraInfo",
+      "params": {
+        "requestId": "0F8CA8CC816080285F06AC38F2058360",
+        "blockedCookies": [],
+        "headers": {
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Origin": "*",
+          "Content-Length": "138547",
+          "Content-Type": "text/html; charset=utf-8",
+          "Date": "Tue, 03 Nov 2026 03:38:37 GMT",
+          "Server": "BaseHTTP/0.6 Python/3.12.0"
+        },
+        "resourceIPAddressSpace": "Local",
+        "statusCode": 200,
+        "headersText": "HTTP/1.0 200 OK\r\nServer: BaseHTTP/0.6 Python/3.12.0\r\nDate: Tue, 03 Nov 2026 03:38:37 GMT\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: 138547\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\r\nAccess-Control-Allow-Headers: Content-Type, Authorization\r\n\r\n",
+        "cookiePartitionKey": {
+          "topLevelSite": "https://vestorin.com",
+          "hasCrossSiteAncestor": false
+        },
+        "cookiePartitionKeyOpaque": false,
+        "exemptedCookies": []
       }
     },
     {
@@ -411,8 +1161,8 @@
       "method": "Page.frameNavigated",
       "params": {
         "frame": {
-          "id": "741B5C2F8D7BDDFA667B27206A9C5F12",
-          "loaderId": "2D39333F816CE3ECC807CCE8A7C02425",
+          "id": "75B6F8B424A752E9B45F65EB906FA898",
+          "loaderId": "0F8CA8CC816080285F06AC38F2058360",
           "url": "https://app-staging.vestorin.com:8443/",
           "domainAndRegistry": "vestorin.com",
           "securityOrigin": "https://app-staging.vestorin.com:8443",
@@ -435,19 +1185,51 @@
       "params": {}
     },
     {
+      "method": "Security.visibleSecurityStateChanged",
+      "params": {
+        "visibleSecurityState": {
+          "securityState": "secure",
+          "certificateSecurityState": {
+            "protocol": "TLS 1.3",
+            "keyExchange": "",
+            "keyExchangeGroup": "X25519",
+            "cipher": "AES_256_GCM",
+            "certificate": [
+              "MIIDzzCCA1SgAwIBAgISBR7sTaE+vakmqoonauKAW3ghMAoGCCqGSM49BAMDMDMxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQDEwNZRTEwHhcNMjYxMDI1MTY0NjQ1WhcNMjcwMTIzMTY0NjQ0WjAjMSEwHwYDVQQDExhhcHAtc3RhZ2luZy52ZXN0b3Jpbi5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAT20hZZwMQkFlp722Cnt4dz+OHRZyHQY8M89vWPtoe+PPBm25JERErqxrIb9hA91oOVuo5SHN901BBVH+WKdInko4ICVjCCAlIwDgYDVR0PAQH/BAQDAgeAMBMGA1UdJQQMMAoGCCsGAQUFBwMBMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFEJSNFTZl6rOrztoBSXETXYyoicDMB8GA1UdIwQYMBaAFLsgykcL/tflnPmPCSqjjDdFsbzYMDMGCCsGAQUFBwEBBCcwJTAjBggrBgEFBQcwAoYXaHR0cDovL3llMS5pLmxlbmNyLm9yZy8wUwYDVR0RBEwwSoIYYXBwLXN0YWdpbmcudmVzdG9yaW4uY29tghhycGMtc3RhZ2luZy52ZXN0b3Jpbi5jb22CFHN0YWdpbmcudmVzdG9yaW4uY29tMBMGA1UdIAQMMAowCAYGZ4EMAQIBMC4GA1UdHwQnMCUwI6AhoB+GHWh0dHA6Ly95ZTEuYy5sZW5jci5vcmcvMzQuY3JsMIIBDAYKKwYBBAHWeQIEAgSB/QSB+gD4AHYAHJ9oLOn68EVpUPgbloqH3dsyENhM5siy44JSSsTPWZ8AAAGhdCqpCAAABAMARzBFAiAnzgDdMojbLyZT5sa0csbFs3bW0LtTPWkNIRWvn7bL3wIhAIrr46NeyRi74nzlAyQkmS30AVbFZ5goQP6YNvT+Aqp6AH4AGouda43XkdHNBUnttgNV1ga2T60w23H+eI8Px8j7xLEAAAGhdCquxAAIAAAFAA1tr64EAwBHMEUCIG0O5OIzbot8BotBeYyGKBRXEzq2YREU6cL8bZRKxfJLAiEAkSw3lJaJQjI4Ij8rEP6IB/ZTjP92RXCJ9oNLFlMEU0swCgYIKoZIzj0EAwMDaQAwZgIxAL2sr5q0+YFiIdT65Osaaj7TY8vekfY1rq9N8CJTlUEQCn5PkOISumAtDhBCxXz1qAIxAIF9O94kMSc/wwLV199RSXhO1Yolp1v8HJFDi+QstAY+FKrZaChfGfThP5hz7c+l9A==",
+              "MIICizCCAhGgAwIBAgIQXd1w3TH4AchcGGp6BLgK/jAKBggqhkjOPQQDAzAuMQswCQYDVQQGEwJVUzENMAsGA1UEChMESVNSRzEQMA4GA1UEAxMHUm9vdCBZRTAeFw0yNTA5MDMwMDAwMDBaFw0yODA5MDIyMzU5NTlaMDMxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQDEwNZRTEwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAAQHZVB1/mimla2hfSurylScjPMZaOJXLz/NnAc2sylm8WDyhU9Ccp+zASQi5vSwGGJjSGklkD9fdPR8GpyDIOIjCEfrnbt/v+ZSEPLLEGbaM6EccDbN7p9xteIm2Avf+ryjge4wgeswDgYDVR0PAQH/BAQDAgGGMBMGA1UdJQQMMAoGCCsGAQUFBwMBMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFLsgykcL/tflnPmPCSqjjDdFsbzYMB8GA1UdIwQYMBaAFKPIJlqOoUzQNWP8myPIOq5W809WMDIGCCsGAQUFBwEBBCYwJDAiBggrBgEFBQcwAoYWaHR0cDovL3llLmkubGVuY3Iub3JnLzATBgNVHSAEDDAKMAgGBmeBDAECATAnBgNVHR8EIDAeMBygGqAYhhZodHRwOi8veWUuYy5sZW5jci5vcmcvMAoGCCqGSM49BAMDA2gAMGUCMQDgjUEahFT/h3DRakqiPZpLvPgfZwkt6K2EOMmh1nvEzl83eMLYcod4GCl3b0J1Nn0CMBNYmEQJb4CEG5WoOe7aRn/LVKu6saHmHEynI7ysIPd8zQsK1HdmhlHKlw9Z5GpGvA==",
+              "MIICpjCCAiugAwIBAgIRAIchZfw0tuX7qK3Vs3BftTowCgYIKoZIzj0EAwMwTzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2VhcmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDIwHhcNMjYwNTEzMDAwMDAwWhcNMzIwOTAyMjM1OTU5WjAuMQswCQYDVQQGEwJVUzENMAsGA1UEChMESVNSRzEQMA4GA1UEAxMHUm9vdCBZRTB2MBAGByqGSM49AgEGBSuBBAAiA2IABDwS/6vhrcVqcbBo+wgdI3fwn9x7DNJJOY/lTOti0vkwuRN87RhEhTH17E7XyFjWsPYhIPt/wzOqxTd2b+4ZJNy9ID04YywF9U5zasDVyGSNErVNtz8uSGh5izW87j77GaOB6zCB6DAOBgNVHQ8BAf8EBAMCAQYwEwYDVR0lBAwwCgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUo8gmWo6hTNA1Y/ybI8g6rlbzT1YwHwYDVR0jBBgwFoAUfEKWrt5LSDv6kviejM9ti6lyN5UwMgYIKwYBBQUHAQEEJjAkMCIGCCsGAQUFBzAChhZodHRwOi8veDIuaS5sZW5jci5vcmcvMBMGA1UdIAQMMAowCAYGZ4EMAQIBMCcGA1UdHwQgMB4wHKAaoBiGFmh0dHA6Ly94Mi5jLmxlbmNyLm9yZy8wCgYIKoZIzj0EAwMDaQAwZgIxAMU19WCtmxVND8UHBZRoma49Z7jPs64Dma0eTu1OChVbB/2J7GV3nvYKAx54uk1G9QIxAO0miLVJu8PLNiXXXkiE/gsK3CTRTF/aeo4bMX42Zw40csRU6AC26hSW1/IWaas6dg==",
+              "MIICGzCCAaGgAwIBAgIQQdKd0XLq7qeAwSxs6S+HUjAKBggqhkjOPQQDAzBPMQswCQYDVQQGEwJVUzEpMCcGA1UEChMgSW50ZXJuZXQgU2VjdXJpdHkgUmVzZWFyY2ggR3JvdXAxFTATBgNVBAMTDElTUkcgUm9vdCBYMjAeFw0yMDA5MDQwMDAwMDBaFw00MDA5MTcxNjAwMDBaME8xCzAJBgNVBAYTAlVTMSkwJwYDVQQKEyBJbnRlcm5ldCBTZWN1cml0eSBSZXNlYXJjaCBHcm91cDEVMBMGA1UEAxMMSVNSRyBSb290IFgyMHYwEAYHKoZIzj0CAQYFK4EEACIDYgAEzZvVn4CDCuwJSvMWSj5cz3es3mcFDR0HttwW+1qLFNvicWDEukWVEYmO6gbf9yoWHKS5xcUy4APgHoIYOIvXRdgKam7mAHf7AlF9ItgKbppbd9/w+kHsOdx1ymgHDB/qo0IwQDAOBgNVHQ8BAf8EBAMCAQYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUfEKWrt5LSDv6kviejM9ti6lyN5UwCgYIKoZIzj0EAwMDaAAwZQIwe3lORlCEwkSHRhtFcP9Ymd70/aTSVaYgLXTWNLxBo1BfASdWtL4ndQavEi51mI38AjEAi/V3bNTIZargCyzuFJ0nN6T5U6VR5CmD1/iQMVtCnwr1/q4AaOeMSQ+2b1tbFfLn"
+            ],
+            "subjectName": "app-staging.vestorin.com",
+            "issuer": "YE1",
+            "validFrom": 1792946805,
+            "validTo": 1800722804,
+            "certificateHasWeakSignature": false,
+            "certificateHasSha1Signature": false,
+            "modernSSL": true,
+            "obsoleteSslProtocol": false,
+            "obsoleteSslKeyExchange": false,
+            "obsoleteSslCipher": false,
+            "obsoleteSslSignature": false
+          },
+          "securityStateIssueIds": []
+        }
+      }
+    },
+    {
       "method": "Network.dataReceived",
       "params": {
-        "requestId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "timestamp": 437091.140775,
-        "dataLength": 16384,
+        "requestId": "0F8CA8CC816080285F06AC38F2058360",
+        "timestamp": 1157643.874606,
+        "dataLength": 138547,
         "encodedDataLength": 0
       }
     },
     {
       "method": "Network.requestWillBeSent",
       "params": {
-        "requestId": "72157.2",
-        "loaderId": "2D39333F816CE3ECC807CCE8A7C02425",
+        "requestId": "10113.2",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
         "documentURL": "https://app-staging.vestorin.com:8443/",
         "request": {
           "url": "https://cdn.tailwindcss.com/3.4.17",
@@ -455,8 +1237,8 @@
           "headers": {
             "sec-ch-ua-platform": "\"macOS\"",
             "Referer": "https://app-staging.vestorin.com:8443/",
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-            "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
             "sec-ch-ua-mobile": "?0"
           },
           "mixedContentType": "none",
@@ -464,8 +1246,8 @@
           "referrerPolicy": "strict-origin-when-cross-origin",
           "isSameSite": false
         },
-        "timestamp": 437091.141088,
-        "wallTime": 1792956559.162793,
+        "timestamp": 1157643.877754,
+        "wallTime": 1793677117.872182,
         "initiator": {
           "type": "parser",
           "url": "https://app-staging.vestorin.com:8443/",
@@ -474,7 +1256,7 @@
         },
         "redirectHasExtraInfo": false,
         "type": "Script",
-        "frameId": "741B5C2F8D7BDDFA667B27206A9C5F12",
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898",
         "hasUserGesture": false,
         "renderBlockingBehavior": "Blocking"
       }
@@ -482,8 +1264,8 @@
     {
       "method": "Network.requestWillBeSent",
       "params": {
-        "requestId": "72157.3",
-        "loaderId": "2D39333F816CE3ECC807CCE8A7C02425",
+        "requestId": "10113.3",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
         "documentURL": "https://app-staging.vestorin.com:8443/",
         "request": {
           "url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
@@ -491,8 +1273,8 @@
           "headers": {
             "sec-ch-ua-platform": "\"macOS\"",
             "Referer": "https://app-staging.vestorin.com:8443/",
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-            "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
             "sec-ch-ua-mobile": "?0"
           },
           "mixedContentType": "none",
@@ -500,8 +1282,8 @@
           "referrerPolicy": "strict-origin-when-cross-origin",
           "isSameSite": false
         },
-        "timestamp": 437091.141268,
-        "wallTime": 1792956559.16295,
+        "timestamp": 1157643.878943,
+        "wallTime": 1793677117.872814,
         "initiator": {
           "type": "parser",
           "url": "https://app-staging.vestorin.com:8443/",
@@ -510,41 +1292,16 @@
         },
         "redirectHasExtraInfo": false,
         "type": "Stylesheet",
-        "frameId": "741B5C2F8D7BDDFA667B27206A9C5F12",
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898",
         "hasUserGesture": false,
         "renderBlockingBehavior": "Blocking"
       }
     },
     {
-      "method": "Runtime.executionContextCreated",
-      "params": {
-        "context": {
-          "id": 1,
-          "origin": "https://app-staging.vestorin.com:8443",
-          "name": "",
-          "uniqueId": "-1115880616578022914.-2308292061496090406",
-          "auxData": {
-            "isDefault": true,
-            "type": "default",
-            "frameId": "741B5C2F8D7BDDFA667B27206A9C5F12"
-          }
-        }
-      }
-    },
-    {
-      "method": "Network.dataReceived",
-      "params": {
-        "requestId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "timestamp": 437091.143042,
-        "dataLength": 32768,
-        "encodedDataLength": 0
-      }
-    },
-    {
       "method": "Network.requestWillBeSent",
       "params": {
-        "requestId": "72157.5",
-        "loaderId": "2D39333F816CE3ECC807CCE8A7C02425",
+        "requestId": "10113.4",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
         "documentURL": "https://app-staging.vestorin.com:8443/",
         "request": {
           "url": "https://app-staging.vestorin.com:8443/assets/vestorin-mark.svg",
@@ -552,8 +1309,8 @@
           "headers": {
             "sec-ch-ua-platform": "\"macOS\"",
             "Referer": "https://app-staging.vestorin.com:8443/",
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-            "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
             "sec-ch-ua-mobile": "?0"
           },
           "mixedContentType": "none",
@@ -561,8 +1318,8 @@
           "referrerPolicy": "strict-origin-when-cross-origin",
           "isSameSite": true
         },
-        "timestamp": 437091.143279,
-        "wallTime": 1792956559.164971,
+        "timestamp": 1157643.879028,
+        "wallTime": 1793677117.872896,
         "initiator": {
           "type": "parser",
           "url": "https://app-staging.vestorin.com:8443/",
@@ -571,67 +1328,38 @@
         },
         "redirectHasExtraInfo": false,
         "type": "Image",
-        "frameId": "741B5C2F8D7BDDFA667B27206A9C5F12",
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898",
         "hasUserGesture": false
       }
     },
     {
-      "method": "Network.dataReceived",
+      "method": "Runtime.executionContextCreated",
       "params": {
-        "requestId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "timestamp": 437091.147332,
-        "dataLength": 32768,
-        "encodedDataLength": 0
-      }
-    },
-    {
-      "method": "Network.dataReceived",
-      "params": {
-        "requestId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "timestamp": 437091.147841,
-        "dataLength": 16384,
-        "encodedDataLength": 0
-      }
-    },
-    {
-      "method": "Network.dataReceived",
-      "params": {
-        "requestId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "timestamp": 437091.149216,
-        "dataLength": 16384,
-        "encodedDataLength": 0
-      }
-    },
-    {
-      "method": "Network.dataReceived",
-      "params": {
-        "requestId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "timestamp": 437091.149753,
-        "dataLength": 16384,
-        "encodedDataLength": 0
-      }
-    },
-    {
-      "method": "Network.dataReceived",
-      "params": {
-        "requestId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "timestamp": 437091.15518,
-        "dataLength": 7475,
-        "encodedDataLength": 0
+        "context": {
+          "id": 2,
+          "origin": "https://app-staging.vestorin.com:8443",
+          "name": "",
+          "uniqueId": "-5312166888501961207.6818945357021046549",
+          "auxData": {
+            "isDefault": true,
+            "type": "default",
+            "frameId": "75B6F8B424A752E9B45F65EB906FA898"
+          }
+        }
       }
     },
     {
       "method": "Network.loadingFinished",
       "params": {
-        "requestId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "timestamp": 437091.155186,
+        "requestId": "0F8CA8CC816080285F06AC38F2058360",
+        "timestamp": 1157643.86979,
         "encodedDataLength": 138844
       }
     },
     {
       "method": "Network.requestWillBeSentExtraInfo",
       "params": {
-        "requestId": "72157.5",
+        "requestId": "10113.4",
         "associatedCookies": [],
         "headers": {
           "Accept": "image/jxl,image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
@@ -643,13 +1371,13 @@
           "Sec-Fetch-Dest": "image",
           "Sec-Fetch-Mode": "no-cors",
           "Sec-Fetch-Site": "same-origin",
-          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-          "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+          "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
           "sec-ch-ua-mobile": "?0",
           "sec-ch-ua-platform": "\"macOS\""
         },
         "connectTiming": {
-          "requestTime": 437091.146989
+          "requestTime": 1157643.89035
         },
         "clientSecurityState": {
           "initiatorIsSecureContext": true,
@@ -662,7 +1390,7 @@
     {
       "method": "Network.responseReceivedExtraInfo",
       "params": {
-        "requestId": "72157.5",
+        "requestId": "10113.4",
         "blockedCookies": [],
         "headers": {
           "Access-Control-Allow-Headers": "Content-Type, Authorization",
@@ -670,12 +1398,12 @@
           "Access-Control-Allow-Origin": "*",
           "Content-Length": "2050",
           "Content-Type": "image/svg+xml",
-          "Date": "Sun, 25 Oct 2026 19:29:19 GMT",
+          "Date": "Tue, 03 Nov 2026 03:38:37 GMT",
           "Server": "BaseHTTP/0.6 Python/3.12.0"
         },
         "resourceIPAddressSpace": "Local",
         "statusCode": 200,
-        "headersText": "HTTP/1.0 200 OK\r\nServer: BaseHTTP/0.6 Python/3.12.0\r\nDate: Sun, 25 Oct 2026 19:29:19 GMT\r\nContent-Type: image/svg+xml\r\nContent-Length: 2050\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\r\nAccess-Control-Allow-Headers: Content-Type, Authorization\r\n\r\n",
+        "headersText": "HTTP/1.0 200 OK\r\nServer: BaseHTTP/0.6 Python/3.12.0\r\nDate: Tue, 03 Nov 2026 03:38:37 GMT\r\nContent-Type: image/svg+xml\r\nContent-Length: 2050\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\r\nAccess-Control-Allow-Headers: Content-Type, Authorization\r\n\r\n",
         "cookiePartitionKey": {
           "topLevelSite": "https://vestorin.com",
           "hasCrossSiteAncestor": false
@@ -687,9 +1415,9 @@
     {
       "method": "Network.responseReceived",
       "params": {
-        "requestId": "72157.5",
-        "loaderId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "timestamp": 437091.16576,
+        "requestId": "10113.4",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "timestamp": 1157643.898191,
         "type": "Image",
         "response": {
           "url": "https://app-staging.vestorin.com:8443/assets/vestorin-mark.svg",
@@ -699,15 +1427,15 @@
             "Access-Control-Allow-Headers": "Content-Type, Authorization",
             "Access-Control-Allow-Origin": "*",
             "Content-Length": "2050",
-            "Date": "Sun, 25 Oct 2026 19:29:19 GMT",
+            "Date": "Tue, 03 Nov 2026 03:38:37 GMT",
             "Content-Type": "image/svg+xml",
             "Server": "BaseHTTP/0.6 Python/3.12.0",
             "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
           },
           "mimeType": "image/svg+xml",
           "charset": "",
-          "connectionReused": false,
-          "connectionId": 184,
+          "connectionReused": true,
+          "connectionId": 139,
           "remoteIPAddress": "100.77.188.3",
           "remotePort": 8443,
           "fromDiskCache": false,
@@ -715,27 +1443,27 @@
           "fromPrefetchCache": false,
           "encodedDataLength": 284,
           "timing": {
-            "requestTime": 437091.146989,
+            "requestTime": 1157643.89035,
             "proxyStart": -1,
             "proxyEnd": -1,
-            "dnsStart": 0.078,
-            "dnsEnd": 0.082,
-            "connectStart": 0.082,
-            "connectEnd": 10.483,
-            "sslStart": 4.996,
-            "sslEnd": 10.479,
+            "dnsStart": -1,
+            "dnsEnd": -1,
+            "connectStart": -1,
+            "connectEnd": -1,
+            "sslStart": -1,
+            "sslEnd": -1,
             "workerStart": -1,
             "workerReady": -1,
             "workerFetchStart": -1,
             "workerRespondWithSettled": -1,
-            "sendStart": 10.535,
-            "sendEnd": 10.569,
+            "sendStart": 0.196,
+            "sendEnd": 0.247,
             "pushStart": 0,
             "pushEnd": 0,
-            "receiveHeadersStart": 18.351,
-            "receiveHeadersEnd": 18.412
+            "receiveHeadersStart": 3.552,
+            "receiveHeadersEnd": 3.615
           },
-          "responseTime": 1792956559187.014,
+          "responseTime": 1793677117887.759,
           "protocol": "http/1.0",
           "alternateProtocolUsage": "unspecifiedReason",
           "securityState": "secure",
@@ -782,14 +1510,14 @@
           }
         },
         "hasExtraInfo": true,
-        "frameId": "741B5C2F8D7BDDFA667B27206A9C5F12"
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898"
       }
     },
     {
       "method": "Network.dataReceived",
       "params": {
-        "requestId": "72157.5",
-        "timestamp": 437091.166051,
+        "requestId": "10113.4",
+        "timestamp": 1157643.898224,
         "dataLength": 2050,
         "encodedDataLength": 0
       }
@@ -797,8 +1525,8 @@
     {
       "method": "Network.dataReceived",
       "params": {
-        "requestId": "72157.5",
-        "timestamp": 437091.167442,
+        "requestId": "10113.4",
+        "timestamp": 1157643.917302,
         "dataLength": 0,
         "encodedDataLength": 2050
       }
@@ -806,15 +1534,15 @@
     {
       "method": "Network.loadingFinished",
       "params": {
-        "requestId": "72157.5",
-        "timestamp": 437091.166103,
+        "requestId": "10113.4",
+        "timestamp": 1157643.894283,
         "encodedDataLength": 2334
       }
     },
     {
       "method": "Network.requestWillBeSentExtraInfo",
       "params": {
-        "requestId": "72157.2",
+        "requestId": "10113.2",
         "associatedCookies": [],
         "headers": {
           ":authority": "cdn.tailwindcss.com",
@@ -826,17 +1554,17 @@
           "accept-language": "en-US,en;q=0.9",
           "priority": "u=1",
           "referer": "https://app-staging.vestorin.com:8443/",
-          "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+          "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
           "sec-ch-ua-mobile": "?0",
           "sec-ch-ua-platform": "\"macOS\"",
           "sec-fetch-dest": "script",
           "sec-fetch-mode": "no-cors",
           "sec-fetch-site": "cross-site",
           "sec-fetch-storage-access": "active",
-          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36"
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
         },
         "connectTiming": {
-          "requestTime": 437091.146446
+          "requestTime": 1157643.887651
         },
         "clientSecurityState": {
           "initiatorIsSecureContext": true,
@@ -847,9 +1575,41 @@
       }
     },
     {
+      "method": "Network.responseReceivedExtraInfo",
+      "params": {
+        "requestId": "10113.2",
+        "blockedCookies": [],
+        "headers": {
+          "age": "503239",
+          "cache-control": "max-age=31536000",
+          "cf-cache-status": "HIT",
+          "cf-ray": "a54858e40beaa230-SJC",
+          "content-encoding": "br",
+          "content-type": "text/javascript",
+          "date": "Tue, 03 Nov 2026 03:38:38 GMT",
+          "last-modified": "Fri, 30 Oct 2026 08:01:39 GMT",
+          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=VQgCaS%2FPIIGYzdWhKzrL6HmsPPqvc9mO%2Bt8m4o%2BqO9CKZX5FfUsfj2nJMZAbkKkurgUt5h2KrtMls2RAGiogKHhYofwRsewXqw1VcpUVVKFA%2BYhHyFyY7hxel7yKWROFMMxRTIQ%3D\"}]}",
+          "server": "cloudflare",
+          "strict-transport-security": "max-age=63072000",
+          "vary": "accept-encoding",
+          "x-vercel-cache": "MISS",
+          "x-vercel-id": "sfo1::iad1::xcg4q-1793173878123-6b08b9485756"
+        },
+        "resourceIPAddressSpace": "Public",
+        "statusCode": 200,
+        "cookiePartitionKey": {
+          "topLevelSite": "https://vestorin.com",
+          "hasCrossSiteAncestor": true
+        },
+        "cookiePartitionKeyOpaque": false,
+        "exemptedCookies": []
+      }
+    },
+    {
       "method": "Network.requestWillBeSentExtraInfo",
       "params": {
-        "requestId": "72157.3",
+        "requestId": "10113.3",
         "associatedCookies": [],
         "headers": {
           ":authority": "fonts.googleapis.com",
@@ -861,21 +1621,22 @@
           "accept-language": "en-US,en;q=0.9",
           "priority": "u=0",
           "referer": "https://app-staging.vestorin.com:8443/",
-          "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+          "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
           "sec-ch-ua-mobile": "?0",
           "sec-ch-ua-platform": "\"macOS\"",
           "sec-fetch-dest": "style",
           "sec-fetch-mode": "no-cors",
           "sec-fetch-site": "cross-site",
           "sec-fetch-storage-access": "active",
-          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
           "x-browser-channel": "stable",
           "x-browser-copyright": "Copyright 2026 Google LLC. All Rights Reserved.",
-          "x-browser-validation": "eHEhJRDRehyPLwKtc5EyWWP3xEA=",
-          "x-browser-year": "2026"
+          "x-browser-validation": "p0ryEJ6LCa7iMn63FawDjO0pVio=",
+          "x-browser-year": "2026",
+          "x-sec-ch-ua-not-a-border": "tarcwegybzfgtxdgdzdwrcgabxbdybvy"
         },
         "connectTiming": {
-          "requestTime": 437091.146697
+          "requestTime": 1157643.889726
         },
         "clientSecurityState": {
           "initiatorIsSecureContext": true,
@@ -886,230 +1647,11 @@
       }
     },
     {
-      "method": "Network.responseReceivedExtraInfo",
-      "params": {
-        "requestId": "72157.2",
-        "blockedCookies": [],
-        "headers": {
-          "age": "644739",
-          "cache-control": "max-age=31536000",
-          "cf-cache-status": "HIT",
-          "cf-ray": "a503a1205c20c67f-SJC",
-          "content-encoding": "br",
-          "content-type": "text/javascript",
-          "date": "Sun, 25 Oct 2026 19:29:19 GMT",
-          "last-modified": "Wed, 21 Oct 2026 12:51:37 GMT",
-          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
-          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=gH%2FjY%2FvXwN3fJgI0QuAGblFurcCqWx3d8dIEGx8NTa98uzNODwwQz8HaK5R2nJjRxmdX5Tu9IQLse0uD1tQAmPWtWb3y1RsWwKSYp1BjkKPXDnmTyqy%2FE%2F3ZQ3Y8KeAyAVLBj8A%3D\"}]}",
-          "server": "cloudflare",
-          "strict-transport-security": "max-age=63072000",
-          "vary": "accept-encoding",
-          "x-vercel-cache": "MISS",
-          "x-vercel-id": "sfo1::iad1::pbtfw-1792311819203-09e7b3fb3adf"
-        },
-        "resourceIPAddressSpace": "Public",
-        "statusCode": 200,
-        "cookiePartitionKey": {
-          "topLevelSite": "https://vestorin.com",
-          "hasCrossSiteAncestor": true
-        },
-        "cookiePartitionKeyOpaque": false,
-        "exemptedCookies": []
-      }
-    },
-    {
-      "method": "Network.responseReceivedExtraInfo",
-      "params": {
-        "requestId": "72157.3",
-        "blockedCookies": [],
-        "headers": {
-          "access-control-allow-origin": "*",
-          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
-          "cache-control": "private, max-age=86400, stale-while-revalidate=604800",
-          "content-encoding": "gzip",
-          "content-type": "text/css; charset=utf-8",
-          "cross-origin-opener-policy": "same-origin-allow-popups",
-          "cross-origin-resource-policy": "cross-origin",
-          "date": "Sun, 25 Oct 2026 19:29:19 GMT",
-          "expires": "Sun, 25 Oct 2026 19:29:19 GMT",
-          "last-modified": "Sun, 25 Oct 2026 19:28:08 GMT",
-          "link": "<https://fonts.gstatic.com>; rel=preconnect; crossorigin",
-          "server": "ESF",
-          "strict-transport-security": "max-age=31536000",
-          "timing-allow-origin": "*",
-          "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site",
-          "x-content-type-options": "nosniff",
-          "x-frame-options": "SAMEORIGIN",
-          "x-xss-protection": "0"
-        },
-        "resourceIPAddressSpace": "Public",
-        "statusCode": 200,
-        "cookiePartitionKey": {
-          "topLevelSite": "https://vestorin.com",
-          "hasCrossSiteAncestor": true
-        },
-        "cookiePartitionKeyOpaque": false,
-        "exemptedCookies": []
-      }
-    },
-    {
       "method": "Network.responseReceived",
       "params": {
-        "requestId": "72157.3",
-        "loaderId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "timestamp": 437091.44253,
-        "type": "Stylesheet",
-        "response": {
-          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
-          "status": 200,
-          "statusText": "",
-          "headers": {
-            "content-encoding": "gzip",
-            "x-content-type-options": "nosniff",
-            "expires": "Sun, 25 Oct 2026 19:29:19 GMT",
-            "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
-            "date": "Sun, 25 Oct 2026 19:29:19 GMT",
-            "content-type": "text/css; charset=utf-8",
-            "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site",
-            "last-modified": "Sun, 25 Oct 2026 19:28:08 GMT",
-            "x-frame-options": "SAMEORIGIN",
-            "strict-transport-security": "max-age=31536000",
-            "link": "<https://fonts.gstatic.com>; rel=preconnect; crossorigin",
-            "cache-control": "private, max-age=86400, stale-while-revalidate=604800",
-            "timing-allow-origin": "*",
-            "cross-origin-opener-policy": "same-origin-allow-popups",
-            "cross-origin-resource-policy": "cross-origin",
-            "access-control-allow-origin": "*",
-            "x-xss-protection": "0",
-            "server": "ESF"
-          },
-          "mimeType": "text/css",
-          "charset": "utf-8",
-          "connectionReused": false,
-          "connectionId": 190,
-          "remoteIPAddress": "142.251.108.95",
-          "remotePort": 443,
-          "fromDiskCache": false,
-          "fromServiceWorker": false,
-          "fromPrefetchCache": false,
-          "encodedDataLength": 446,
-          "timing": {
-            "requestTime": 437091.146697,
-            "proxyStart": -1,
-            "proxyEnd": -1,
-            "dnsStart": 0.048,
-            "dnsEnd": 4.699,
-            "connectStart": 4.741,
-            "connectEnd": 152.737,
-            "sslStart": 36.758,
-            "sslEnd": 152.733,
-            "workerStart": -1,
-            "workerReady": -1,
-            "workerFetchStart": -1,
-            "workerRespondWithSettled": -1,
-            "sendStart": 152.815,
-            "sendEnd": 152.914,
-            "pushStart": 0,
-            "pushEnd": 0,
-            "receiveHeadersStart": 294.841,
-            "receiveHeadersEnd": 294.955
-          },
-          "responseTime": 1792956559463.239,
-          "protocol": "h2",
-          "alternateProtocolUsage": "unspecifiedReason",
-          "securityState": "secure",
-          "securityDetails": {
-            "protocol": "TLS 1.3",
-            "keyExchange": "",
-            "keyExchangeGroup": "X25519MLKEM768",
-            "cipher": "AES_256_GCM",
-            "certificateId": 0,
-            "subjectName": "upload.video.google.com",
-            "sanList": [
-              "upload.video.google.com",
-              "*.clients.google.com",
-              "*.docs.google.com",
-              "*.drive.google.com",
-              "*.gdata.youtube.com",
-              "*.googleapis.com",
-              "*.photos.google.com",
-              "*.youtube-3rd-party.com",
-              "upload.google.com",
-              "*.upload.google.com",
-              "upload.youtube.com",
-              "*.upload.youtube.com",
-              "uploads.stage.gdata.youtube.com",
-              "bg-call-donation.goog",
-              "bg-call-donation-alpha.goog",
-              "bg-call-donation-canary.goog",
-              "bg-call-donation-dev.goog"
-            ],
-            "issuer": "WE2",
-            "validFrom": 1790620812,
-            "validTo": 1797878411,
-            "signedCertificateTimestampList": [
-              {
-                "status": "Verified",
-                "origin": "Embedded in certificate",
-                "logDescription": "DigiCert 'Sphinx2026h2'",
-                "logId": "944E4387FAECC1EF81F3192426A8186501C7D35F3802013F72677D55372E19D8",
-                "timestamp": 1790624413589,
-                "hashAlgorithm": "SHA-256",
-                "signatureAlgorithm": "ECDSA",
-                "signatureData": "3045022076CE7FA770D1DE0E8B884E18E0FAF54892664439B0B8A2B79EAFFB434A622937022100F944262CBE0CC7E14429939C2041BE8347CFBB575E5B3EA39C80705FFE9EE5D8"
-              },
-              {
-                "status": "Verified",
-                "origin": "Embedded in certificate",
-                "logDescription": "Google 'Xenon2026h2' log",
-                "logId": "D809553B944F7AFFC816196F944F85ABB0F8FC5E8755260F15D12E72BB454B14",
-                "timestamp": 1790624413647,
-                "hashAlgorithm": "SHA-256",
-                "signatureAlgorithm": "ECDSA",
-                "signatureData": "3045022100FCE4CA84AA0FBC2710842B74011088831618AE87BBCA001EF101C89CD494A7F00220627CC8560E2112D14DB513FA4E846F325B10526FBBED75E5EA63C2091FDAEE89"
-              }
-            ],
-            "certificateTransparencyCompliance": "compliant",
-            "serverSignatureAlgorithm": 1027,
-            "encryptedClientHello": false
-          }
-        },
-        "hasExtraInfo": true,
-        "frameId": "741B5C2F8D7BDDFA667B27206A9C5F12"
-      }
-    },
-    {
-      "method": "Network.dataReceived",
-      "params": {
-        "requestId": "72157.3",
-        "timestamp": 437091.442698,
-        "dataLength": 17591,
-        "encodedDataLength": 0
-      }
-    },
-    {
-      "method": "Network.dataReceived",
-      "params": {
-        "requestId": "72157.3",
-        "timestamp": 437091.442781,
-        "dataLength": 0,
-        "encodedDataLength": 1008
-      }
-    },
-    {
-      "method": "Network.loadingFinished",
-      "params": {
-        "requestId": "72157.3",
-        "timestamp": 437091.441931,
-        "encodedDataLength": 1454
-      }
-    },
-    {
-      "method": "Network.responseReceived",
-      "params": {
-        "requestId": "72157.2",
-        "loaderId": "2D39333F816CE3ECC807CCE8A7C02425",
-        "timestamp": 437091.47301,
+        "requestId": "10113.2",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "timestamp": 1157644.068176,
         "type": "Script",
         "response": {
           "url": "https://cdn.tailwindcss.com/3.4.17",
@@ -1122,48 +1664,48 @@
             "content-encoding": "br",
             "x-vercel-cache": "MISS",
             "cf-cache-status": "HIT",
-            "age": "644739",
-            "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=gH%2FjY%2FvXwN3fJgI0QuAGblFurcCqWx3d8dIEGx8NTa98uzNODwwQz8HaK5R2nJjRxmdX5Tu9IQLse0uD1tQAmPWtWb3y1RsWwKSYp1BjkKPXDnmTyqy%2FE%2F3ZQ3Y8KeAyAVLBj8A%3D\"}]}",
-            "last-modified": "Wed, 21 Oct 2026 12:51:37 GMT",
-            "cf-ray": "a503a1205c20c67f-SJC",
-            "date": "Sun, 25 Oct 2026 19:29:19 GMT",
+            "age": "503239",
+            "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=VQgCaS%2FPIIGYzdWhKzrL6HmsPPqvc9mO%2Bt8m4o%2BqO9CKZX5FfUsfj2nJMZAbkKkurgUt5h2KrtMls2RAGiogKHhYofwRsewXqw1VcpUVVKFA%2BYhHyFyY7hxel7yKWROFMMxRTIQ%3D\"}]}",
+            "last-modified": "Fri, 30 Oct 2026 08:01:39 GMT",
+            "cf-ray": "a54858e40beaa230-SJC",
+            "date": "Tue, 03 Nov 2026 03:38:38 GMT",
             "content-type": "text/javascript",
             "vary": "accept-encoding",
             "server": "cloudflare",
-            "x-vercel-id": "sfo1::iad1::pbtfw-1792311819203-09e7b3fb3adf"
+            "x-vercel-id": "sfo1::iad1::xcg4q-1793173878123-6b08b9485756"
           },
           "mimeType": "text/javascript",
           "charset": "",
           "connectionReused": false,
-          "connectionId": 193,
+          "connectionId": 203,
           "remoteIPAddress": "104.26.2.143",
           "remotePort": 443,
           "fromDiskCache": false,
           "fromServiceWorker": false,
           "fromPrefetchCache": false,
-          "encodedDataLength": 506,
+          "encodedDataLength": 507,
           "timing": {
-            "requestTime": 437091.146446,
+            "requestTime": 1157643.887651,
             "proxyStart": -1,
             "proxyEnd": -1,
-            "dnsStart": 0.111,
-            "dnsEnd": 5.3,
-            "connectStart": 5.316,
-            "connectEnd": 123.449,
-            "sslStart": 21.312,
-            "sslEnd": 123.444,
+            "dnsStart": 1.875,
+            "dnsEnd": 10.794,
+            "connectStart": 55.857,
+            "connectEnd": 125.584,
+            "sslStart": 82.7,
+            "sslEnd": 125.573,
             "workerStart": -1,
             "workerReady": -1,
             "workerFetchStart": -1,
             "workerRespondWithSettled": -1,
-            "sendStart": 123.579,
-            "sendEnd": 123.653,
+            "sendStart": 125.777,
+            "sendEnd": 125.879,
             "pushStart": 0,
             "pushEnd": 0,
-            "receiveHeadersStart": 290.975,
-            "receiveHeadersEnd": 291.18
+            "receiveHeadersStart": 147.774,
+            "receiveHeadersEnd": 148.166
           },
-          "responseTime": 1792956559459.118,
+          "responseTime": 1793677118029.31,
           "protocol": "h2",
           "alternateProtocolUsage": "unspecifiedReason",
           "securityState": "secure",
@@ -1209,60 +1751,113 @@
           }
         },
         "hasExtraInfo": true,
-        "frameId": "741B5C2F8D7BDDFA667B27206A9C5F12"
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898"
       }
     },
     {
       "method": "Network.dataReceived",
       "params": {
-        "requestId": "72157.2",
-        "timestamp": 437091.473055,
-        "dataLength": 95915,
+        "requestId": "10113.2",
+        "timestamp": 1157644.068227,
+        "dataLength": 2929,
         "encodedDataLength": 0
       }
     },
     {
       "method": "Network.dataReceived",
       "params": {
-        "requestId": "72157.2",
-        "timestamp": 437091.473059,
-        "dataLength": 135130,
+        "requestId": "10113.2",
+        "timestamp": 1157644.068229,
+        "dataLength": 96363,
         "encodedDataLength": 0
       }
     },
     {
       "method": "Network.dataReceived",
       "params": {
-        "requestId": "72157.2",
-        "timestamp": 437091.47306,
-        "dataLength": 91204,
+        "requestId": "10113.2",
+        "timestamp": 1157644.06823,
+        "dataLength": 44383,
         "encodedDataLength": 0
       }
     },
     {
       "method": "Network.dataReceived",
       "params": {
-        "requestId": "72157.2",
-        "timestamp": 437091.473062,
-        "dataLength": 85030,
+        "requestId": "10113.2",
+        "timestamp": 1157644.068232,
+        "dataLength": 86428,
         "encodedDataLength": 0
       }
     },
     {
       "method": "Network.dataReceived",
       "params": {
-        "requestId": "72157.2",
-        "timestamp": 437091.473156,
+        "requestId": "10113.2",
+        "timestamp": 1157644.068233,
+        "dataLength": 91025,
+        "encodedDataLength": 0
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.2",
+        "timestamp": 1157644.068703,
+        "dataLength": 86151,
+        "encodedDataLength": 0
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.2",
+        "timestamp": 1157644.068934,
         "dataLength": 0,
-        "encodedDataLength": 126507
+        "encodedDataLength": 126516
       }
     },
     {
       "method": "Network.loadingFinished",
       "params": {
-        "requestId": "72157.2",
-        "timestamp": 437091.466146,
-        "encodedDataLength": 127013
+        "requestId": "10113.2",
+        "timestamp": 1157644.060362,
+        "encodedDataLength": 127023
+      }
+    },
+    {
+      "method": "Network.responseReceivedExtraInfo",
+      "params": {
+        "requestId": "10113.3",
+        "blockedCookies": [],
+        "headers": {
+          "access-control-allow-origin": "*",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+          "cache-control": "private, max-age=86400, stale-while-revalidate=604800",
+          "content-encoding": "gzip",
+          "content-type": "text/css; charset=utf-8",
+          "cross-origin-opener-policy": "same-origin-allow-popups",
+          "cross-origin-resource-policy": "cross-origin",
+          "date": "Tue, 03 Nov 2026 03:38:38 GMT",
+          "expires": "Tue, 03 Nov 2026 03:38:38 GMT",
+          "last-modified": "Tue, 03 Nov 2026 03:38:38 GMT",
+          "link": "<https://fonts.gstatic.com>; rel=preconnect; crossorigin",
+          "server": "ESF",
+          "strict-transport-security": "max-age=31536000",
+          "timing-allow-origin": "*",
+          "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site",
+          "x-content-type-options": "nosniff",
+          "x-frame-options": "SAMEORIGIN",
+          "x-xss-protection": "0"
+        },
+        "resourceIPAddressSpace": "Public",
+        "statusCode": 200,
+        "cookiePartitionKey": {
+          "topLevelSite": "https://vestorin.com",
+          "hasCrossSiteAncestor": true
+        },
+        "cookiePartitionKeyOpaque": false,
+        "exemptedCookies": []
       }
     },
     {
@@ -1275,8 +1870,8 @@
             "value": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
           }
         ],
-        "executionContextId": 1,
-        "timestamp": 1792956559533.769,
+        "executionContextId": 2,
+        "timestamp": 1793677118121.974,
         "stackTrace": {
           "callFrames": [
             {
@@ -1298,10 +1893,162 @@
       }
     },
     {
+      "method": "Network.responseReceived",
+      "params": {
+        "requestId": "10113.3",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "timestamp": 1157644.129645,
+        "type": "Stylesheet",
+        "response": {
+          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
+          "status": 200,
+          "statusText": "",
+          "headers": {
+            "content-encoding": "gzip",
+            "x-content-type-options": "nosniff",
+            "expires": "Tue, 03 Nov 2026 03:38:38 GMT",
+            "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+            "date": "Tue, 03 Nov 2026 03:38:38 GMT",
+            "content-type": "text/css; charset=utf-8",
+            "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site",
+            "last-modified": "Tue, 03 Nov 2026 03:38:38 GMT",
+            "x-frame-options": "SAMEORIGIN",
+            "strict-transport-security": "max-age=31536000",
+            "link": "<https://fonts.gstatic.com>; rel=preconnect; crossorigin",
+            "cache-control": "private, max-age=86400, stale-while-revalidate=604800",
+            "timing-allow-origin": "*",
+            "cross-origin-opener-policy": "same-origin-allow-popups",
+            "cross-origin-resource-policy": "cross-origin",
+            "access-control-allow-origin": "*",
+            "x-xss-protection": "0",
+            "server": "ESF"
+          },
+          "mimeType": "text/css",
+          "charset": "utf-8",
+          "connectionReused": false,
+          "connectionId": 200,
+          "remoteIPAddress": "142.251.108.95",
+          "remotePort": 443,
+          "fromDiskCache": false,
+          "fromServiceWorker": false,
+          "fromPrefetchCache": false,
+          "encodedDataLength": 449,
+          "timing": {
+            "requestTime": 1157643.889726,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": 0.07,
+            "dnsEnd": 13.457,
+            "connectStart": 52.341,
+            "connectEnd": 146.597,
+            "sslStart": 92.303,
+            "sslEnd": 146.593,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 146.698,
+            "sendEnd": 146.817,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 227.575,
+            "receiveHeadersEnd": 227.719
+          },
+          "responseTime": 1793677118111.188,
+          "protocol": "h2",
+          "alternateProtocolUsage": "unspecifiedReason",
+          "securityState": "secure",
+          "securityDetails": {
+            "protocol": "TLS 1.3",
+            "keyExchange": "",
+            "keyExchangeGroup": "X25519MLKEM768",
+            "cipher": "AES_256_GCM",
+            "certificateId": 0,
+            "subjectName": "upload.video.google.com",
+            "sanList": [
+              "upload.video.google.com",
+              "*.clients.google.com",
+              "*.docs.google.com",
+              "*.drive.google.com",
+              "*.gdata.youtube.com",
+              "*.googleapis.com",
+              "*.photos.google.com",
+              "*.youtube-3rd-party.com",
+              "upload.google.com",
+              "*.upload.google.com",
+              "upload.youtube.com",
+              "*.upload.youtube.com",
+              "uploads.stage.gdata.youtube.com",
+              "bg-call-donation.goog",
+              "bg-call-donation-alpha.goog",
+              "bg-call-donation-canary.goog",
+              "bg-call-donation-dev.goog"
+            ],
+            "issuer": "WE2",
+            "validFrom": 1791400151,
+            "validTo": 1798657750,
+            "signedCertificateTimestampList": [
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "Google 'Argon2026h2' log",
+                "logId": "D76D7D10D1A7F577C2C7E95FD700BFF982C9335A65E1D0B3017317C0C8C56977",
+                "timestamp": 1791403752139,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "3044022022A6243CD46AA42E965BB06F0821AD616C5A1FAB9511A5A8C88836DF272CEEE602203532F97C839C08777914E9E4F25A946FBB4FD78535BE5302A87C0CE61566B5BD"
+              },
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "TrustAsia 'HETU2027'",
+                "logId": "EDDAEB815C63213449B47BE5077905ABD0D93147C27AC5146B3BC58E43E9B6C7",
+                "timestamp": 1791403752173,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "304502206E061AA7A7B776FE44082DF437E81D4AD9767CD2FD013BB3BDCED19ABD045431022100DD0D8E953D516FBD0A1688C484103A6363560D920463E5E5597424C8924AD164"
+              }
+            ],
+            "certificateTransparencyCompliance": "compliant",
+            "serverSignatureAlgorithm": 1027,
+            "encryptedClientHello": false
+          }
+        },
+        "hasExtraInfo": true,
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898"
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.3",
+        "timestamp": 1157644.129683,
+        "dataLength": 17591,
+        "encodedDataLength": 0
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.3",
+        "timestamp": 1157644.129765,
+        "dataLength": 0,
+        "encodedDataLength": 1008
+      }
+    },
+    {
+      "method": "Network.loadingFinished",
+      "params": {
+        "requestId": "10113.3",
+        "timestamp": 1157644.118172,
+        "encodedDataLength": 1457
+      }
+    },
+    {
       "method": "Network.requestWillBeSent",
       "params": {
-        "requestId": "72157.41",
-        "loaderId": "2D39333F816CE3ECC807CCE8A7C02425",
+        "requestId": "10113.41",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
         "documentURL": "https://app-staging.vestorin.com:8443/",
         "request": {
           "url": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwgknk-4.woff2",
@@ -1310,8 +2057,8 @@
             "Origin": "https://app-staging.vestorin.com:8443",
             "sec-ch-ua-platform": "\"macOS\"",
             "Referer": "https://fonts.googleapis.com/",
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-            "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
             "sec-ch-ua-mobile": "?0"
           },
           "mixedContentType": "none",
@@ -1319,15 +2066,15 @@
           "referrerPolicy": "strict-origin-when-cross-origin",
           "isSameSite": false
         },
-        "timestamp": 437091.59464,
-        "wallTime": 1792956559.61633,
+        "timestamp": 1157644.245043,
+        "wallTime": 1793677118.238927,
         "initiator": {
           "type": "parser",
           "url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
         },
         "redirectHasExtraInfo": false,
         "type": "Font",
-        "frameId": "741B5C2F8D7BDDFA667B27206A9C5F12",
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898",
         "hasUserGesture": false,
         "renderBlockingBehavior": "NonBlocking"
       }
@@ -1335,8 +2082,8 @@
     {
       "method": "Network.requestWillBeSent",
       "params": {
-        "requestId": "72157.14",
-        "loaderId": "2D39333F816CE3ECC807CCE8A7C02425",
+        "requestId": "10113.14",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
         "documentURL": "https://app-staging.vestorin.com:8443/",
         "request": {
           "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2",
@@ -1345,8 +2092,8 @@
             "Origin": "https://app-staging.vestorin.com:8443",
             "sec-ch-ua-platform": "\"macOS\"",
             "Referer": "https://fonts.googleapis.com/",
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
-            "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
             "sec-ch-ua-mobile": "?0"
           },
           "mixedContentType": "none",
@@ -1354,15 +2101,15 @@
           "referrerPolicy": "strict-origin-when-cross-origin",
           "isSameSite": false
         },
-        "timestamp": 437091.594714,
-        "wallTime": 1792956559.61639,
+        "timestamp": 1157644.24514,
+        "wallTime": 1793677118.239001,
         "initiator": {
           "type": "parser",
           "url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
         },
         "redirectHasExtraInfo": false,
         "type": "Font",
-        "frameId": "741B5C2F8D7BDDFA667B27206A9C5F12",
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898",
         "hasUserGesture": false,
         "renderBlockingBehavior": "NonBlocking"
       }
@@ -1370,7 +2117,7 @@
     {
       "method": "Network.requestWillBeSentExtraInfo",
       "params": {
-        "requestId": "72157.41",
+        "requestId": "10113.41",
         "associatedCookies": [],
         "headers": {
           ":authority": "fonts.gstatic.com",
@@ -1383,20 +2130,21 @@
           "origin": "https://app-staging.vestorin.com:8443",
           "priority": "u=0",
           "referer": "https://fonts.googleapis.com/",
-          "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+          "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
           "sec-ch-ua-mobile": "?0",
           "sec-ch-ua-platform": "\"macOS\"",
           "sec-fetch-dest": "font",
           "sec-fetch-mode": "cors",
           "sec-fetch-site": "cross-site",
-          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
           "x-browser-channel": "stable",
           "x-browser-copyright": "Copyright 2026 Google LLC. All Rights Reserved.",
-          "x-browser-validation": "eHEhJRDRehyPLwKtc5EyWWP3xEA=",
-          "x-browser-year": "2026"
+          "x-browser-validation": "p0ryEJ6LCa7iMn63FawDjO0pVio=",
+          "x-browser-year": "2026",
+          "x-sec-ch-ua-not-a-border": "tarcwegybzfgtxdgdzdwrcgabxbdybvy"
         },
         "connectTiming": {
-          "requestTime": 437091.664768
+          "requestTime": 1157644.31792
         },
         "clientSecurityState": {
           "initiatorIsSecureContext": true,
@@ -1409,7 +2157,7 @@
     {
       "method": "Network.requestWillBeSentExtraInfo",
       "params": {
-        "requestId": "72157.14",
+        "requestId": "10113.14",
         "associatedCookies": [],
         "headers": {
           ":authority": "fonts.gstatic.com",
@@ -1422,20 +2170,21 @@
           "origin": "https://app-staging.vestorin.com:8443",
           "priority": "u=0",
           "referer": "https://fonts.googleapis.com/",
-          "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+          "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
           "sec-ch-ua-mobile": "?0",
           "sec-ch-ua-platform": "\"macOS\"",
           "sec-fetch-dest": "font",
           "sec-fetch-mode": "cors",
           "sec-fetch-site": "cross-site",
-          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
           "x-browser-channel": "stable",
           "x-browser-copyright": "Copyright 2026 Google LLC. All Rights Reserved.",
-          "x-browser-validation": "eHEhJRDRehyPLwKtc5EyWWP3xEA=",
-          "x-browser-year": "2026"
+          "x-browser-validation": "p0ryEJ6LCa7iMn63FawDjO0pVio=",
+          "x-browser-year": "2026",
+          "x-sec-ch-ua-not-a-border": "tarcwegybzfgtxdgdzdwrcgabxbdybvy"
         },
         "connectTiming": {
-          "requestTime": 437091.665027
+          "requestTime": 1157644.318145
         },
         "clientSecurityState": {
           "initiatorIsSecureContext": true,
@@ -1446,8 +2195,1539 @@
       }
     },
     {
-      "method": "Page.frameResized",
-      "params": {}
+      "method": "Network.responseReceivedExtraInfo",
+      "params": {
+        "requestId": "10113.14",
+        "blockedCookies": [],
+        "headers": {
+          "accept-ranges": "bytes",
+          "access-control-allow-origin": "*",
+          "age": "2400",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+          "cache-control": "public, max-age=31536000",
+          "content-length": "48432",
+          "content-security-policy-report-only": "require-trusted-types-for 'script'; report-uri https://csp.withgoogle.com/csp/apps-themes",
+          "content-type": "font/woff2",
+          "cross-origin-opener-policy": "same-origin; report-to=\"apps-themes\"",
+          "cross-origin-resource-policy": "cross-origin",
+          "date": "Tue, 03 Nov 2026 02:58:38 GMT",
+          "expires": "Wed, 03 Nov 2027 02:58:38 GMT",
+          "last-modified": "Tue, 09 Sep 2025 18:40:32 GMT",
+          "report-to": "{\"group\":\"apps-themes\",\"max_age\":2592000,\"endpoints\":[{\"url\":\"https://csp.withgoogle.com/csp/report-to/apps-themes\"}]}",
+          "server": "sffe",
+          "timing-allow-origin": "*",
+          "x-content-type-options": "nosniff",
+          "x-xss-protection": "0"
+        },
+        "resourceIPAddressSpace": "Public",
+        "statusCode": 200,
+        "cookiePartitionKey": {
+          "topLevelSite": "https://vestorin.com",
+          "hasCrossSiteAncestor": true
+        },
+        "cookiePartitionKeyOpaque": false,
+        "exemptedCookies": []
+      }
+    },
+    {
+      "method": "Page.domContentEventFired",
+      "params": {
+        "timestamp": 1157644.336595
+      }
+    },
+    {
+      "method": "Network.responseReceivedExtraInfo",
+      "params": {
+        "requestId": "10113.41",
+        "blockedCookies": [],
+        "headers": {
+          "accept-ranges": "bytes",
+          "access-control-allow-origin": "*",
+          "age": "2609",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+          "cache-control": "public, max-age=31536000",
+          "content-length": "31340",
+          "content-security-policy-report-only": "require-trusted-types-for 'script'; report-uri https://csp.withgoogle.com/csp/apps-themes",
+          "content-type": "font/woff2",
+          "cross-origin-opener-policy": "same-origin; report-to=\"apps-themes\"",
+          "cross-origin-resource-policy": "cross-origin",
+          "date": "Tue, 03 Nov 2026 02:55:09 GMT",
+          "expires": "Wed, 03 Nov 2027 02:55:09 GMT",
+          "last-modified": "Wed, 10 Sep 2025 16:54:17 GMT",
+          "report-to": "{\"group\":\"apps-themes\",\"max_age\":2592000,\"endpoints\":[{\"url\":\"https://csp.withgoogle.com/csp/report-to/apps-themes\"}]}",
+          "server": "sffe",
+          "timing-allow-origin": "*",
+          "x-content-type-options": "nosniff",
+          "x-xss-protection": "0"
+        },
+        "resourceIPAddressSpace": "Public",
+        "statusCode": 200,
+        "cookiePartitionKey": {
+          "topLevelSite": "https://vestorin.com",
+          "hasCrossSiteAncestor": true
+        },
+        "cookiePartitionKeyOpaque": false,
+        "exemptedCookies": []
+      }
+    },
+    {
+      "method": "Network.responseReceived",
+      "params": {
+        "requestId": "10113.14",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "timestamp": 1157644.370122,
+        "type": "Font",
+        "response": {
+          "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2",
+          "status": 200,
+          "statusText": "",
+          "headers": {
+            "age": "2400",
+            "report-to": "{\"group\":\"apps-themes\",\"max_age\":2592000,\"endpoints\":[{\"url\":\"https://csp.withgoogle.com/csp/report-to/apps-themes\"}]}",
+            "x-content-type-options": "nosniff",
+            "expires": "Wed, 03 Nov 2027 02:58:38 GMT",
+            "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+            "date": "Tue, 03 Nov 2026 02:58:38 GMT",
+            "last-modified": "Tue, 09 Sep 2025 18:40:32 GMT",
+            "content-type": "font/woff2",
+            "cache-control": "public, max-age=31536000",
+            "timing-allow-origin": "*",
+            "cross-origin-opener-policy": "same-origin; report-to=\"apps-themes\"",
+            "cross-origin-resource-policy": "cross-origin",
+            "content-security-policy-report-only": "require-trusted-types-for 'script'; report-uri https://csp.withgoogle.com/csp/apps-themes",
+            "accept-ranges": "bytes",
+            "access-control-allow-origin": "*",
+            "content-length": "48432",
+            "x-xss-protection": "0",
+            "server": "sffe"
+          },
+          "mimeType": "font/woff2",
+          "charset": "",
+          "connectionReused": true,
+          "connectionId": 234,
+          "remoteIPAddress": "142.251.218.131",
+          "remotePort": 443,
+          "fromDiskCache": false,
+          "fromServiceWorker": false,
+          "fromPrefetchCache": false,
+          "encodedDataLength": 522,
+          "timing": {
+            "requestTime": 1157644.318145,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": -1,
+            "dnsEnd": -1,
+            "connectStart": -1,
+            "connectEnd": -1,
+            "sslStart": -1,
+            "sslEnd": -1,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 0.167,
+            "sendEnd": 0.328,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 24.145,
+            "receiveHeadersEnd": 24.302
+          },
+          "responseTime": 1793677118336.169,
+          "protocol": "h2",
+          "alternateProtocolUsage": "unspecifiedReason",
+          "securityState": "secure",
+          "securityDetails": {
+            "protocol": "TLS 1.3",
+            "keyExchange": "",
+            "keyExchangeGroup": "X25519MLKEM768",
+            "cipher": "AES_128_GCM",
+            "certificateId": 0,
+            "subjectName": "*.gstatic.com",
+            "sanList": [
+              "*.gstatic.com",
+              "gstatic.com",
+              "*.metric.gstatic.com"
+            ],
+            "issuer": "WE2",
+            "validFrom": 1791400150,
+            "validTo": 1798657749,
+            "signedCertificateTimestampList": [
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "Google 'Argon2026h2' log",
+                "logId": "D76D7D10D1A7F577C2C7E95FD700BFF982C9335A65E1D0B3017317C0C8C56977",
+                "timestamp": 1791403751262,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "304402200A83496197EE688A3573EBF7D89915CB623F8A596C1BE97FE7EE896C052731BD0220642C5C4621C32E09897018AED5EEAC75D3895665BF4BBB305B2A54D0C8DC1863"
+              },
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "IPng Networks 'Halloumi2026h2a'",
+                "logId": "26E3646E58692123BC343F4724359B3792CD245A88D815D39333FD9918AB4723",
+                "timestamp": 1791403748400,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "3045022100AC015F2A8323588CC1610C32A0F4AE01B961FFB074FE169091994C836B7FA995022047B864119263D28764E77FE445B26772C9719AB12B2061B28F3BB29B869C1F9C"
+              }
+            ],
+            "certificateTransparencyCompliance": "compliant",
+            "serverSignatureAlgorithm": 1027,
+            "encryptedClientHello": false
+          }
+        },
+        "hasExtraInfo": true,
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898"
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.14",
+        "timestamp": 1157644.370151,
+        "dataLength": 17896,
+        "encodedDataLength": 0
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.14",
+        "timestamp": 1157644.370152,
+        "dataLength": 6890,
+        "encodedDataLength": 0
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.14",
+        "timestamp": 1157644.370153,
+        "dataLength": 23646,
+        "encodedDataLength": 0
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.14",
+        "timestamp": 1157644.370343,
+        "dataLength": 0,
+        "encodedDataLength": 48459
+      }
+    },
+    {
+      "method": "Network.loadingFinished",
+      "params": {
+        "requestId": "10113.14",
+        "timestamp": 1157644.36688,
+        "encodedDataLength": 48981
+      }
+    },
+    {
+      "method": "Network.responseReceived",
+      "params": {
+        "requestId": "10113.41",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "timestamp": 1157644.393008,
+        "type": "Font",
+        "response": {
+          "url": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwgknk-4.woff2",
+          "status": 200,
+          "statusText": "",
+          "headers": {
+            "age": "2609",
+            "report-to": "{\"group\":\"apps-themes\",\"max_age\":2592000,\"endpoints\":[{\"url\":\"https://csp.withgoogle.com/csp/report-to/apps-themes\"}]}",
+            "x-content-type-options": "nosniff",
+            "expires": "Wed, 03 Nov 2027 02:55:09 GMT",
+            "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+            "date": "Tue, 03 Nov 2026 02:55:09 GMT",
+            "last-modified": "Wed, 10 Sep 2025 16:54:17 GMT",
+            "content-type": "font/woff2",
+            "cache-control": "public, max-age=31536000",
+            "timing-allow-origin": "*",
+            "cross-origin-opener-policy": "same-origin; report-to=\"apps-themes\"",
+            "cross-origin-resource-policy": "cross-origin",
+            "content-security-policy-report-only": "require-trusted-types-for 'script'; report-uri https://csp.withgoogle.com/csp/apps-themes",
+            "accept-ranges": "bytes",
+            "access-control-allow-origin": "*",
+            "content-length": "31340",
+            "x-xss-protection": "0",
+            "server": "sffe"
+          },
+          "mimeType": "font/woff2",
+          "charset": "",
+          "connectionReused": false,
+          "connectionId": 234,
+          "remoteIPAddress": "142.251.218.131",
+          "remotePort": 443,
+          "fromDiskCache": false,
+          "fromServiceWorker": false,
+          "fromPrefetchCache": false,
+          "encodedDataLength": 107,
+          "timing": {
+            "requestTime": 1157644.31792,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": -1,
+            "dnsEnd": -1,
+            "connectStart": -1,
+            "connectEnd": -1,
+            "sslStart": -1,
+            "sslEnd": -1,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 0.326,
+            "sendEnd": 0.552,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 49.098,
+            "receiveHeadersEnd": 49.29
+          },
+          "responseTime": 1793677118360.89,
+          "protocol": "h2",
+          "alternateProtocolUsage": "unspecifiedReason",
+          "securityState": "secure",
+          "securityDetails": {
+            "protocol": "TLS 1.3",
+            "keyExchange": "",
+            "keyExchangeGroup": "X25519MLKEM768",
+            "cipher": "AES_128_GCM",
+            "certificateId": 0,
+            "subjectName": "*.gstatic.com",
+            "sanList": [
+              "*.gstatic.com",
+              "gstatic.com",
+              "*.metric.gstatic.com"
+            ],
+            "issuer": "WE2",
+            "validFrom": 1791400150,
+            "validTo": 1798657749,
+            "signedCertificateTimestampList": [
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "Google 'Argon2026h2' log",
+                "logId": "D76D7D10D1A7F577C2C7E95FD700BFF982C9335A65E1D0B3017317C0C8C56977",
+                "timestamp": 1791403751262,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "304402200A83496197EE688A3573EBF7D89915CB623F8A596C1BE97FE7EE896C052731BD0220642C5C4621C32E09897018AED5EEAC75D3895665BF4BBB305B2A54D0C8DC1863"
+              },
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "IPng Networks 'Halloumi2026h2a'",
+                "logId": "26E3646E58692123BC343F4724359B3792CD245A88D815D39333FD9918AB4723",
+                "timestamp": 1791403748400,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "3045022100AC015F2A8323588CC1610C32A0F4AE01B961FFB074FE169091994C836B7FA995022047B864119263D28764E77FE445B26772C9719AB12B2061B28F3BB29B869C1F9C"
+              }
+            ],
+            "certificateTransparencyCompliance": "compliant",
+            "serverSignatureAlgorithm": 1027,
+            "encryptedClientHello": false
+          }
+        },
+        "hasExtraInfo": true,
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898"
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.41",
+        "timestamp": 1157644.393047,
+        "dataLength": 19274,
+        "encodedDataLength": 0
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.41",
+        "timestamp": 1157644.393049,
+        "dataLength": 12066,
+        "encodedDataLength": 0
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.41",
+        "timestamp": 1157644.393167,
+        "dataLength": 0,
+        "encodedDataLength": 31358
+      }
+    },
+    {
+      "method": "Network.loadingFinished",
+      "params": {
+        "requestId": "10113.41",
+        "timestamp": 1157644.374025,
+        "encodedDataLength": 31465
+      }
+    },
+    {
+      "method": "Page.loadEventFired",
+      "params": {
+        "timestamp": 1157644.39326
+      }
+    },
+    {
+      "method": "Page.frameStoppedLoading",
+      "params": {
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898"
+      }
+    },
+    {
+      "method": "Network.requestWillBeSent",
+      "params": {
+        "requestId": "10113.54",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "documentURL": "https://app-staging.vestorin.com:8443/",
+        "request": {
+          "url": "https://app-staging.vestorin.com:8443/favicon.ico",
+          "method": "GET",
+          "headers": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "https://app-staging.vestorin.com:8443/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "mixedContentType": "none",
+          "initialPriority": "High",
+          "referrerPolicy": "strict-origin-when-cross-origin",
+          "isSameSite": true
+        },
+        "timestamp": 1157644.405523,
+        "wallTime": 1793677118.399393,
+        "initiator": {
+          "type": "other"
+        },
+        "redirectHasExtraInfo": false,
+        "type": "Other",
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898",
+        "hasUserGesture": false
+      }
+    },
+    {
+      "method": "Network.requestWillBeSentExtraInfo",
+      "params": {
+        "requestId": "10113.54",
+        "associatedCookies": [],
+        "headers": {
+          "Accept": "image/jxl,image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Connection": "keep-alive",
+          "Host": "app-staging.vestorin.com:8443",
+          "Referer": "https://app-staging.vestorin.com:8443/",
+          "Sec-Fetch-Dest": "image",
+          "Sec-Fetch-Mode": "no-cors",
+          "Sec-Fetch-Site": "same-origin",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+          "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"macOS\""
+        },
+        "connectTiming": {
+          "requestTime": 1157644.405793
+        },
+        "clientSecurityState": {
+          "initiatorIsSecureContext": true,
+          "initiatorIPAddressSpace": "Local",
+          "localNetworkAccessRequestPolicy": "PermissionBlock"
+        },
+        "siteHasCookieInOtherPartition": false
+      }
+    },
+    {
+      "method": "Network.responseReceivedExtraInfo",
+      "params": {
+        "requestId": "10113.54",
+        "blockedCookies": [],
+        "headers": {
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Origin": "*",
+          "Content-Length": "22",
+          "Content-Type": "application/json; charset=utf-8",
+          "Date": "Tue, 03 Nov 2026 03:38:38 GMT",
+          "Server": "BaseHTTP/0.6 Python/3.12.0"
+        },
+        "resourceIPAddressSpace": "Local",
+        "statusCode": 404,
+        "headersText": "HTTP/1.0 404 Not Found\r\nServer: BaseHTTP/0.6 Python/3.12.0\r\nDate: Tue, 03 Nov 2026 03:38:38 GMT\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 22\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\r\nAccess-Control-Allow-Headers: Content-Type, Authorization\r\n\r\n",
+        "cookiePartitionKey": {
+          "topLevelSite": "https://vestorin.com",
+          "hasCrossSiteAncestor": false
+        },
+        "cookiePartitionKeyOpaque": false,
+        "exemptedCookies": []
+      }
+    },
+    {
+      "method": "Network.responseReceived",
+      "params": {
+        "requestId": "10113.54",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "timestamp": 1157644.415554,
+        "type": "Other",
+        "response": {
+          "url": "https://app-staging.vestorin.com:8443/favicon.ico",
+          "status": 404,
+          "statusText": "Not Found",
+          "headers": {
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            "Access-Control-Allow-Origin": "*",
+            "Content-Length": "22",
+            "Date": "Tue, 03 Nov 2026 03:38:38 GMT",
+            "Content-Type": "application/json; charset=utf-8",
+            "Server": "BaseHTTP/0.6 Python/3.12.0",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+          },
+          "mimeType": "application/json",
+          "charset": "utf-8",
+          "connectionReused": false,
+          "connectionId": 309,
+          "remoteIPAddress": "100.77.188.3",
+          "remotePort": 8443,
+          "fromDiskCache": false,
+          "fromServiceWorker": false,
+          "fromPrefetchCache": false,
+          "encodedDataLength": 307,
+          "timing": {
+            "requestTime": 1157644.405793,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": 0.152,
+            "dnsEnd": 0.156,
+            "connectStart": 0.156,
+            "connectEnd": 6.593,
+            "sslStart": 0.961,
+            "sslEnd": 6.588,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 6.662,
+            "sendEnd": 6.703,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 9.345,
+            "receiveHeadersEnd": 9.402
+          },
+          "responseTime": 1793677118408.989,
+          "protocol": "http/1.0",
+          "alternateProtocolUsage": "unspecifiedReason",
+          "securityState": "secure",
+          "securityDetails": {
+            "protocol": "TLS 1.3",
+            "keyExchange": "",
+            "keyExchangeGroup": "X25519",
+            "cipher": "AES_256_GCM",
+            "certificateId": 0,
+            "subjectName": "app-staging.vestorin.com",
+            "sanList": [
+              "app-staging.vestorin.com",
+              "rpc-staging.vestorin.com",
+              "staging.vestorin.com"
+            ],
+            "issuer": "YE1",
+            "validFrom": 1792946805,
+            "validTo": 1800722804,
+            "signedCertificateTimestampList": [
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "Sectigo 'Tiger2027h1'",
+                "logId": "1C9F682CE9FAF0456950F81B968A87DDDB3210D84CE6C8B2E382524AC4CF599F",
+                "timestamp": 1792950315272,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "3045022027CE00DD3288DB2F2653E6C6B472C6C5B376D6D0BB533D690D2115AF9FB6CBDF0221008AEBE3A35EC918BBE27CE5032424992DF40156C567982840FE9836F4FE02AA7A"
+              },
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "IPng Networks 'Gouda2027h1'",
+                "logId": "1A8B9D6B8DD791D1CD0549EDB60355D606B64FAD30DB71FE788F0FC7C8FBC4B1",
+                "timestamp": 1792950316740,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "304502206D0EE4E2336E8B7C068B41798C86281457133AB6611114E9C2FC6D944AC5F24B022100912C37949689423238223F2B10FE8807F6538CFF76457089F6834B165304534B"
+              }
+            ],
+            "certificateTransparencyCompliance": "compliant",
+            "serverSignatureAlgorithm": 1027,
+            "encryptedClientHello": false
+          }
+        },
+        "hasExtraInfo": true,
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898"
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.54",
+        "timestamp": 1157644.415588,
+        "dataLength": 22,
+        "encodedDataLength": 0
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.54",
+        "timestamp": 1157644.415654,
+        "dataLength": 0,
+        "encodedDataLength": 22
+      }
+    },
+    {
+      "method": "Network.loadingFinished",
+      "params": {
+        "requestId": "10113.54",
+        "timestamp": 1157644.41541,
+        "encodedDataLength": 329
+      }
+    },
+    {
+      "method": "Network.requestWillBeSent",
+      "params": {
+        "requestId": "10113.55",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "documentURL": "https://app-staging.vestorin.com:8443/",
+        "request": {
+          "url": "https://app-staging.vestorin.com:8443/api/v1/challenge?address=0x69661b8a422f49791F9Dcb918D7B9099d2E6cfAA",
+          "method": "GET",
+          "headers": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "https://app-staging.vestorin.com:8443/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "mixedContentType": "none",
+          "initialPriority": "High",
+          "referrerPolicy": "strict-origin-when-cross-origin",
+          "isSameSite": true
+        },
+        "timestamp": 1157648.597817,
+        "wallTime": 1793677122.591935,
+        "initiator": {
+          "type": "script",
+          "stack": {
+            "callFrames": [
+              {
+                "functionName": "",
+                "scriptId": "5",
+                "url": "https://app-staging.vestorin.com:8443/",
+                "lineNumber": 2231,
+                "columnNumber": 29
+              },
+              {
+                "functionName": "",
+                "scriptId": "14",
+                "url": "",
+                "lineNumber": 0,
+                "columnNumber": 43
+              }
+            ]
+          }
+        },
+        "redirectHasExtraInfo": false,
+        "type": "Fetch",
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898",
+        "hasUserGesture": false
+      }
+    },
+    {
+      "method": "Network.requestWillBeSentExtraInfo",
+      "params": {
+        "requestId": "10113.55",
+        "associatedCookies": [],
+        "headers": {
+          "Accept": "*/*",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Connection": "keep-alive",
+          "Host": "app-staging.vestorin.com:8443",
+          "Referer": "https://app-staging.vestorin.com:8443/",
+          "Sec-Fetch-Dest": "empty",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Site": "same-origin",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+          "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"macOS\""
+        },
+        "connectTiming": {
+          "requestTime": 1157648.599056
+        },
+        "clientSecurityState": {
+          "initiatorIsSecureContext": true,
+          "initiatorIPAddressSpace": "Local",
+          "localNetworkAccessRequestPolicy": "PermissionBlock"
+        },
+        "siteHasCookieInOtherPartition": false
+      }
+    },
+    {
+      "method": "Network.responseReceivedExtraInfo",
+      "params": {
+        "requestId": "10113.55",
+        "blockedCookies": [],
+        "headers": {
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Origin": "*",
+          "Content-Length": "384",
+          "Content-Type": "application/json; charset=utf-8",
+          "Date": "Tue, 03 Nov 2026 03:38:42 GMT",
+          "Server": "BaseHTTP/0.6 Python/3.12.0"
+        },
+        "resourceIPAddressSpace": "Local",
+        "statusCode": 200,
+        "headersText": "HTTP/1.0 200 OK\r\nServer: BaseHTTP/0.6 Python/3.12.0\r\nDate: Tue, 03 Nov 2026 03:38:42 GMT\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 384\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\r\nAccess-Control-Allow-Headers: Content-Type, Authorization\r\n\r\n",
+        "cookiePartitionKey": {
+          "topLevelSite": "https://vestorin.com",
+          "hasCrossSiteAncestor": false
+        },
+        "cookiePartitionKeyOpaque": false,
+        "exemptedCookies": []
+      }
+    },
+    {
+      "method": "Network.responseReceived",
+      "params": {
+        "requestId": "10113.55",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "timestamp": 1157648.619607,
+        "type": "Fetch",
+        "response": {
+          "url": "https://app-staging.vestorin.com:8443/api/v1/challenge?address=0x69661b8a422f49791F9Dcb918D7B9099d2E6cfAA",
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            "Access-Control-Allow-Origin": "*",
+            "Content-Length": "384",
+            "Date": "Tue, 03 Nov 2026 03:38:42 GMT",
+            "Content-Type": "application/json; charset=utf-8",
+            "Server": "BaseHTTP/0.6 Python/3.12.0",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+          },
+          "mimeType": "application/json",
+          "charset": "utf-8",
+          "connectionReused": false,
+          "connectionId": 375,
+          "remoteIPAddress": "100.77.188.3",
+          "remotePort": 8443,
+          "fromDiskCache": false,
+          "fromServiceWorker": false,
+          "fromPrefetchCache": false,
+          "encodedDataLength": 301,
+          "timing": {
+            "requestTime": 1157648.599056,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": 1.028,
+            "dnsEnd": 1.039,
+            "connectStart": 1.039,
+            "connectEnd": 11.641,
+            "sslStart": 3.34,
+            "sslEnd": 11.635,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 11.769,
+            "sendEnd": 11.85,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 19.858,
+            "receiveHeadersEnd": 19.95
+          },
+          "responseTime": 1793677122612.71,
+          "protocol": "http/1.0",
+          "alternateProtocolUsage": "unspecifiedReason",
+          "securityState": "secure",
+          "securityDetails": {
+            "protocol": "TLS 1.3",
+            "keyExchange": "",
+            "keyExchangeGroup": "X25519",
+            "cipher": "AES_256_GCM",
+            "certificateId": 0,
+            "subjectName": "app-staging.vestorin.com",
+            "sanList": [
+              "app-staging.vestorin.com",
+              "rpc-staging.vestorin.com",
+              "staging.vestorin.com"
+            ],
+            "issuer": "YE1",
+            "validFrom": 1792946805,
+            "validTo": 1800722804,
+            "signedCertificateTimestampList": [
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "Sectigo 'Tiger2027h1'",
+                "logId": "1C9F682CE9FAF0456950F81B968A87DDDB3210D84CE6C8B2E382524AC4CF599F",
+                "timestamp": 1792950315272,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "3045022027CE00DD3288DB2F2653E6C6B472C6C5B376D6D0BB533D690D2115AF9FB6CBDF0221008AEBE3A35EC918BBE27CE5032424992DF40156C567982840FE9836F4FE02AA7A"
+              },
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "IPng Networks 'Gouda2027h1'",
+                "logId": "1A8B9D6B8DD791D1CD0549EDB60355D606B64FAD30DB71FE788F0FC7C8FBC4B1",
+                "timestamp": 1792950316740,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "304502206D0EE4E2336E8B7C068B41798C86281457133AB6611114E9C2FC6D944AC5F24B022100912C37949689423238223F2B10FE8807F6538CFF76457089F6834B165304534B"
+              }
+            ],
+            "certificateTransparencyCompliance": "compliant",
+            "serverSignatureAlgorithm": 1027,
+            "encryptedClientHello": false
+          }
+        },
+        "hasExtraInfo": true,
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898"
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.55",
+        "timestamp": 1157648.620012,
+        "dataLength": 384,
+        "encodedDataLength": 384
+      }
+    },
+    {
+      "method": "Network.loadingFinished",
+      "params": {
+        "requestId": "10113.55",
+        "timestamp": 1157648.619406,
+        "encodedDataLength": 685
+      }
+    },
+    {
+      "method": "Network.requestWillBeSent",
+      "params": {
+        "requestId": "10113.56",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "documentURL": "https://app-staging.vestorin.com:8443/",
+        "request": {
+          "url": "https://app-staging.vestorin.com:8443/api/v1/claim",
+          "method": "POST",
+          "headers": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "https://app-staging.vestorin.com:8443/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
+            "Content-Type": "application/json",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "postData": "{\"address\":\"0x69661b8a422f49791F9Dcb918D7B9099d2E6cfAA\",\"dosageVST\":21000000,\"challenge\":\"0x69661b8a422f49791f9dcb918d7b9099d2e6cfaa|158243|12|1793677122|525ab964da45bc8094832612eb75d612512be30c664eb000c33a1272620ad42c\",\"ranks\":[4,3,2,1,0],\"wheelPair\":[1,0],\"nonce\":\"6239\"}",
+          "hasPostData": true,
+          "postDataEntries": [
+            {
+              "bytes": "eyJhZGRyZXNzIjoiMHg2OTY2MWI4YTQyMmY0OTc5MUY5RGNiOTE4RDdCOTA5OWQyRTZjZkFBIiwiZG9zYWdlVlNUIjoyMTAwMDAwMCwiY2hhbGxlbmdlIjoiMHg2OTY2MWI4YTQyMmY0OTc5MWY5ZGNiOTE4ZDdiOTA5OWQyZTZjZmFhfDE1ODI0M3wxMnwxNzkzNjc3MTIyfDUyNWFiOTY0ZGE0NWJjODA5NDgzMjYxMmViNzVkNjEyNTEyYmUzMGM2NjRlYjAwMGMzM2ExMjcyNjIwYWQ0MmMiLCJyYW5rcyI6WzQsMywyLDEsMF0sIndoZWVsUGFpciI6WzEsMF0sIm5vbmNlIjoiNjIzOSJ9"
+            }
+          ],
+          "mixedContentType": "none",
+          "initialPriority": "High",
+          "referrerPolicy": "strict-origin-when-cross-origin",
+          "isSameSite": true
+        },
+        "timestamp": 1157648.660871,
+        "wallTime": 1793677122.654711,
+        "initiator": {
+          "type": "script",
+          "stack": {
+            "callFrames": [
+              {
+                "functionName": "",
+                "scriptId": "5",
+                "url": "https://app-staging.vestorin.com:8443/",
+                "lineNumber": 2241,
+                "columnNumber": 33
+              }
+            ]
+          }
+        },
+        "redirectHasExtraInfo": false,
+        "type": "Fetch",
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898",
+        "hasUserGesture": false
+      }
+    },
+    {
+      "method": "Network.requestWillBeSentExtraInfo",
+      "params": {
+        "requestId": "10113.56",
+        "associatedCookies": [],
+        "headers": {
+          "Accept": "*/*",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Connection": "keep-alive",
+          "Content-Length": "273",
+          "Content-Type": "application/json",
+          "Host": "app-staging.vestorin.com:8443",
+          "Origin": "https://app-staging.vestorin.com:8443",
+          "Referer": "https://app-staging.vestorin.com:8443/",
+          "Sec-Fetch-Dest": "empty",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Site": "same-origin",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+          "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"macOS\""
+        },
+        "connectTiming": {
+          "requestTime": 1157648.661228
+        },
+        "clientSecurityState": {
+          "initiatorIsSecureContext": true,
+          "initiatorIPAddressSpace": "Local",
+          "localNetworkAccessRequestPolicy": "PermissionBlock"
+        },
+        "siteHasCookieInOtherPartition": false
+      }
+    },
+    {
+      "method": "Network.responseReceivedExtraInfo",
+      "params": {
+        "requestId": "10113.56",
+        "blockedCookies": [],
+        "headers": {
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Origin": "*",
+          "Content-Length": "615",
+          "Content-Type": "application/json; charset=utf-8",
+          "Date": "Tue, 03 Nov 2026 03:38:42 GMT",
+          "Server": "BaseHTTP/0.6 Python/3.12.0"
+        },
+        "resourceIPAddressSpace": "Local",
+        "statusCode": 200,
+        "headersText": "HTTP/1.0 200 OK\r\nServer: BaseHTTP/0.6 Python/3.12.0\r\nDate: Tue, 03 Nov 2026 03:38:42 GMT\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 615\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\r\nAccess-Control-Allow-Headers: Content-Type, Authorization\r\n\r\n",
+        "cookiePartitionKey": {
+          "topLevelSite": "https://vestorin.com",
+          "hasCrossSiteAncestor": false
+        },
+        "cookiePartitionKeyOpaque": false,
+        "exemptedCookies": []
+      }
+    },
+    {
+      "method": "Network.responseReceived",
+      "params": {
+        "requestId": "10113.56",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "timestamp": 1157648.788673,
+        "type": "Fetch",
+        "response": {
+          "url": "https://app-staging.vestorin.com:8443/api/v1/claim",
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            "Access-Control-Allow-Origin": "*",
+            "Content-Length": "615",
+            "Date": "Tue, 03 Nov 2026 03:38:42 GMT",
+            "Content-Type": "application/json; charset=utf-8",
+            "Server": "BaseHTTP/0.6 Python/3.12.0",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+          },
+          "mimeType": "application/json",
+          "charset": "utf-8",
+          "connectionReused": false,
+          "connectionId": 383,
+          "remoteIPAddress": "100.77.188.3",
+          "remotePort": 8443,
+          "fromDiskCache": false,
+          "fromServiceWorker": false,
+          "fromPrefetchCache": false,
+          "encodedDataLength": 301,
+          "timing": {
+            "requestTime": 1157648.661228,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": 0.145,
+            "dnsEnd": 0.15,
+            "connectStart": 0.15,
+            "connectEnd": 7.189,
+            "sslStart": 1.422,
+            "sslEnd": 7.185,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 7.256,
+            "sendEnd": 7.313,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 124.917,
+            "receiveHeadersEnd": 125.065
+          },
+          "responseTime": 1793677122779.94,
+          "protocol": "http/1.0",
+          "alternateProtocolUsage": "unspecifiedReason",
+          "securityState": "secure",
+          "securityDetails": {
+            "protocol": "TLS 1.3",
+            "keyExchange": "",
+            "keyExchangeGroup": "X25519",
+            "cipher": "AES_256_GCM",
+            "certificateId": 0,
+            "subjectName": "app-staging.vestorin.com",
+            "sanList": [
+              "app-staging.vestorin.com",
+              "rpc-staging.vestorin.com",
+              "staging.vestorin.com"
+            ],
+            "issuer": "YE1",
+            "validFrom": 1792946805,
+            "validTo": 1800722804,
+            "signedCertificateTimestampList": [
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "Sectigo 'Tiger2027h1'",
+                "logId": "1C9F682CE9FAF0456950F81B968A87DDDB3210D84CE6C8B2E382524AC4CF599F",
+                "timestamp": 1792950315272,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "3045022027CE00DD3288DB2F2653E6C6B472C6C5B376D6D0BB533D690D2115AF9FB6CBDF0221008AEBE3A35EC918BBE27CE5032424992DF40156C567982840FE9836F4FE02AA7A"
+              },
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "IPng Networks 'Gouda2027h1'",
+                "logId": "1A8B9D6B8DD791D1CD0549EDB60355D606B64FAD30DB71FE788F0FC7C8FBC4B1",
+                "timestamp": 1792950316740,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "304502206D0EE4E2336E8B7C068B41798C86281457133AB6611114E9C2FC6D944AC5F24B022100912C37949689423238223F2B10FE8807F6538CFF76457089F6834B165304534B"
+              }
+            ],
+            "certificateTransparencyCompliance": "compliant",
+            "serverSignatureAlgorithm": 1027,
+            "encryptedClientHello": false
+          }
+        },
+        "hasExtraInfo": true,
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898"
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.56",
+        "timestamp": 1157648.789395,
+        "dataLength": 615,
+        "encodedDataLength": 615
+      }
+    },
+    {
+      "method": "Network.loadingFinished",
+      "params": {
+        "requestId": "10113.56",
+        "timestamp": 1157648.787102,
+        "encodedDataLength": 916
+      }
+    },
+    {
+      "method": "Network.requestWillBeSentExtraInfo",
+      "params": {
+        "requestId": "10113.57",
+        "associatedCookies": [],
+        "headers": {
+          "Accept": "*/*",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Connection": "keep-alive",
+          "Content-Length": "63",
+          "Content-Type": "application/json",
+          "Host": "app-staging.vestorin.com:8443",
+          "Origin": "https://app-staging.vestorin.com:8443",
+          "Referer": "https://app-staging.vestorin.com:8443/",
+          "Sec-Fetch-Dest": "empty",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Site": "same-origin",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+          "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"macOS\""
+        },
+        "connectTiming": {
+          "requestTime": 1157648.79062
+        },
+        "clientSecurityState": {
+          "initiatorIsSecureContext": true,
+          "initiatorIPAddressSpace": "Local",
+          "localNetworkAccessRequestPolicy": "PermissionBlock"
+        },
+        "siteHasCookieInOtherPartition": false
+      }
+    },
+    {
+      "method": "Network.responseReceivedExtraInfo",
+      "params": {
+        "requestId": "10113.57",
+        "blockedCookies": [],
+        "headers": {
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Origin": "*",
+          "Content-Length": "48",
+          "Content-Type": "application/json; charset=utf-8",
+          "Date": "Tue, 03 Nov 2026 03:38:42 GMT",
+          "Server": "BaseHTTP/0.6 Python/3.12.0"
+        },
+        "resourceIPAddressSpace": "Local",
+        "statusCode": 200,
+        "headersText": "HTTP/1.0 200 OK\r\nServer: BaseHTTP/0.6 Python/3.12.0\r\nDate: Tue, 03 Nov 2026 03:38:42 GMT\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 48\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\r\nAccess-Control-Allow-Headers: Content-Type, Authorization\r\n\r\n",
+        "cookiePartitionKey": {
+          "topLevelSite": "https://vestorin.com",
+          "hasCrossSiteAncestor": false
+        },
+        "cookiePartitionKeyOpaque": false,
+        "exemptedCookies": []
+      }
+    },
+    {
+      "method": "Network.requestWillBeSent",
+      "params": {
+        "requestId": "10113.57",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "documentURL": "https://app-staging.vestorin.com:8443/",
+        "request": {
+          "url": "https://app-staging.vestorin.com:8443/",
+          "method": "POST",
+          "headers": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "https://app-staging.vestorin.com:8443/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
+            "Content-Type": "application/json",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "postData": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"eth_blockNumber\",\"params\":[]}",
+          "hasPostData": true,
+          "postDataEntries": [
+            {
+              "bytes": "eyJqc29ucnBjIjoiMi4wIiwiaWQiOjEsIm1ldGhvZCI6ImV0aF9ibG9ja051bWJlciIsInBhcmFtcyI6W119"
+            }
+          ],
+          "mixedContentType": "none",
+          "initialPriority": "High",
+          "referrerPolicy": "strict-origin-when-cross-origin",
+          "isSameSite": true
+        },
+        "timestamp": 1157648.790377,
+        "wallTime": 1793677122.784205,
+        "initiator": {
+          "type": "script",
+          "stack": {
+            "callFrames": [
+              {
+                "functionName": "callStagingRpc",
+                "scriptId": "5",
+                "url": "https://app-staging.vestorin.com:8443/",
+                "lineNumber": 1789,
+                "columnNumber": 26
+              },
+              {
+                "functionName": "pollChainStatusAndBalance",
+                "scriptId": "5",
+                "url": "https://app-staging.vestorin.com:8443/",
+                "lineNumber": 1812,
+                "columnNumber": 27
+              },
+              {
+                "functionName": "",
+                "scriptId": "5",
+                "url": "https://app-staging.vestorin.com:8443/",
+                "lineNumber": 2275,
+                "columnNumber": 16
+              }
+            ]
+          }
+        },
+        "redirectHasExtraInfo": false,
+        "type": "Fetch",
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898",
+        "hasUserGesture": false
+      }
+    },
+    {
+      "method": "Network.responseReceived",
+      "params": {
+        "requestId": "10113.57",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "timestamp": 1157648.817072,
+        "type": "Fetch",
+        "response": {
+          "url": "https://app-staging.vestorin.com:8443/",
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            "Access-Control-Allow-Origin": "*",
+            "Content-Length": "48",
+            "Date": "Tue, 03 Nov 2026 03:38:42 GMT",
+            "Content-Type": "application/json; charset=utf-8",
+            "Server": "BaseHTTP/0.6 Python/3.12.0",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+          },
+          "mimeType": "application/json",
+          "charset": "utf-8",
+          "connectionReused": false,
+          "connectionId": 391,
+          "remoteIPAddress": "100.77.188.3",
+          "remotePort": 8443,
+          "fromDiskCache": false,
+          "fromServiceWorker": false,
+          "fromPrefetchCache": false,
+          "encodedDataLength": 300,
+          "timing": {
+            "requestTime": 1157648.79062,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": 0.103,
+            "dnsEnd": 0.107,
+            "connectStart": 0.107,
+            "connectEnd": 3.852,
+            "sslStart": 0.939,
+            "sslEnd": 3.848,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 3.924,
+            "sendEnd": 3.984,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 6.985,
+            "receiveHeadersEnd": 7.054
+          },
+          "responseTime": 1793677122791.399,
+          "protocol": "http/1.0",
+          "alternateProtocolUsage": "unspecifiedReason",
+          "securityState": "secure",
+          "securityDetails": {
+            "protocol": "TLS 1.3",
+            "keyExchange": "",
+            "keyExchangeGroup": "X25519",
+            "cipher": "AES_256_GCM",
+            "certificateId": 0,
+            "subjectName": "app-staging.vestorin.com",
+            "sanList": [
+              "app-staging.vestorin.com",
+              "rpc-staging.vestorin.com",
+              "staging.vestorin.com"
+            ],
+            "issuer": "YE1",
+            "validFrom": 1792946805,
+            "validTo": 1800722804,
+            "signedCertificateTimestampList": [
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "Sectigo 'Tiger2027h1'",
+                "logId": "1C9F682CE9FAF0456950F81B968A87DDDB3210D84CE6C8B2E382524AC4CF599F",
+                "timestamp": 1792950315272,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "3045022027CE00DD3288DB2F2653E6C6B472C6C5B376D6D0BB533D690D2115AF9FB6CBDF0221008AEBE3A35EC918BBE27CE5032424992DF40156C567982840FE9836F4FE02AA7A"
+              },
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "IPng Networks 'Gouda2027h1'",
+                "logId": "1A8B9D6B8DD791D1CD0549EDB60355D606B64FAD30DB71FE788F0FC7C8FBC4B1",
+                "timestamp": 1792950316740,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "304502206D0EE4E2336E8B7C068B41798C86281457133AB6611114E9C2FC6D944AC5F24B022100912C37949689423238223F2B10FE8807F6538CFF76457089F6834B165304534B"
+              }
+            ],
+            "certificateTransparencyCompliance": "compliant",
+            "serverSignatureAlgorithm": 1027,
+            "encryptedClientHello": false
+          }
+        },
+        "hasExtraInfo": true,
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898"
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.57",
+        "timestamp": 1157648.817371,
+        "dataLength": 48,
+        "encodedDataLength": 48
+      }
+    },
+    {
+      "method": "Network.loadingFinished",
+      "params": {
+        "requestId": "10113.57",
+        "timestamp": 1157648.797954,
+        "encodedDataLength": 348
+      }
+    },
+    {
+      "method": "Network.requestWillBeSentExtraInfo",
+      "params": {
+        "requestId": "10113.58",
+        "associatedCookies": [],
+        "headers": {
+          "Accept": "*/*",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Connection": "keep-alive",
+          "Content-Length": "115",
+          "Content-Type": "application/json",
+          "Host": "app-staging.vestorin.com:8443",
+          "Origin": "https://app-staging.vestorin.com:8443",
+          "Referer": "https://app-staging.vestorin.com:8443/",
+          "Sec-Fetch-Dest": "empty",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Site": "same-origin",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+          "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"macOS\""
+        },
+        "connectTiming": {
+          "requestTime": 1157648.819156
+        },
+        "clientSecurityState": {
+          "initiatorIsSecureContext": true,
+          "initiatorIPAddressSpace": "Local",
+          "localNetworkAccessRequestPolicy": "PermissionBlock"
+        },
+        "siteHasCookieInOtherPartition": false
+      }
+    },
+    {
+      "method": "Network.responseReceivedExtraInfo",
+      "params": {
+        "requestId": "10113.58",
+        "blockedCookies": [],
+        "headers": {
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Origin": "*",
+          "Content-Length": "44",
+          "Content-Type": "application/json; charset=utf-8",
+          "Date": "Tue, 03 Nov 2026 03:38:42 GMT",
+          "Server": "BaseHTTP/0.6 Python/3.12.0"
+        },
+        "resourceIPAddressSpace": "Local",
+        "statusCode": 200,
+        "headersText": "HTTP/1.0 200 OK\r\nServer: BaseHTTP/0.6 Python/3.12.0\r\nDate: Tue, 03 Nov 2026 03:38:42 GMT\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 44\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\r\nAccess-Control-Allow-Headers: Content-Type, Authorization\r\n\r\n",
+        "cookiePartitionKey": {
+          "topLevelSite": "https://vestorin.com",
+          "hasCrossSiteAncestor": false
+        },
+        "cookiePartitionKeyOpaque": false,
+        "exemptedCookies": []
+      }
+    },
+    {
+      "method": "Network.requestWillBeSent",
+      "params": {
+        "requestId": "10113.58",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "documentURL": "https://app-staging.vestorin.com:8443/",
+        "request": {
+          "url": "https://app-staging.vestorin.com:8443/",
+          "method": "POST",
+          "headers": {
+            "sec-ch-ua-platform": "\"macOS\"",
+            "Referer": "https://app-staging.vestorin.com:8443/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\"",
+            "Content-Type": "application/json",
+            "sec-ch-ua-mobile": "?0"
+          },
+          "postData": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"eth_getBalance\",\"params\":[\"0x69661b8a422f49791F9Dcb918D7B9099d2E6cfAA\",\"latest\"]}",
+          "hasPostData": true,
+          "postDataEntries": [
+            {
+              "bytes": "eyJqc29ucnBjIjoiMi4wIiwiaWQiOjEsIm1ldGhvZCI6ImV0aF9nZXRCYWxhbmNlIiwicGFyYW1zIjpbIjB4Njk2NjFiOGE0MjJmNDk3OTFGOURjYjkxOEQ3QjkwOTlkMkU2Y2ZBQSIsImxhdGVzdCJdfQ=="
+            }
+          ],
+          "mixedContentType": "none",
+          "initialPriority": "High",
+          "referrerPolicy": "strict-origin-when-cross-origin",
+          "isSameSite": true
+        },
+        "timestamp": 1157648.818896,
+        "wallTime": 1793677122.812719,
+        "initiator": {
+          "type": "script",
+          "stack": {
+            "callFrames": [
+              {
+                "functionName": "callStagingRpc",
+                "scriptId": "5",
+                "url": "https://app-staging.vestorin.com:8443/",
+                "lineNumber": 1789,
+                "columnNumber": 26
+              },
+              {
+                "functionName": "pollChainStatusAndBalance",
+                "scriptId": "5",
+                "url": "https://app-staging.vestorin.com:8443/",
+                "lineNumber": 1832,
+                "columnNumber": 29
+              }
+            ]
+          }
+        },
+        "redirectHasExtraInfo": false,
+        "type": "Fetch",
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898",
+        "hasUserGesture": false
+      }
+    },
+    {
+      "method": "Network.responseReceived",
+      "params": {
+        "requestId": "10113.58",
+        "loaderId": "0F8CA8CC816080285F06AC38F2058360",
+        "timestamp": 1157648.831621,
+        "type": "Fetch",
+        "response": {
+          "url": "https://app-staging.vestorin.com:8443/",
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            "Access-Control-Allow-Origin": "*",
+            "Content-Length": "44",
+            "Date": "Tue, 03 Nov 2026 03:38:42 GMT",
+            "Content-Type": "application/json; charset=utf-8",
+            "Server": "BaseHTTP/0.6 Python/3.12.0",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+          },
+          "mimeType": "application/json",
+          "charset": "utf-8",
+          "connectionReused": false,
+          "connectionId": 399,
+          "remoteIPAddress": "100.77.188.3",
+          "remotePort": 8443,
+          "fromDiskCache": false,
+          "fromServiceWorker": false,
+          "fromPrefetchCache": false,
+          "encodedDataLength": 300,
+          "timing": {
+            "requestTime": 1157648.819156,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": 0.113,
+            "dnsEnd": 0.118,
+            "connectStart": 0.118,
+            "connectEnd": 4.786,
+            "sslStart": 0.904,
+            "sslEnd": 4.78,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 4.868,
+            "sendEnd": 4.91,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 7.642,
+            "receiveHeadersEnd": 7.702
+          },
+          "responseTime": 1793677122820.592,
+          "protocol": "http/1.0",
+          "alternateProtocolUsage": "unspecifiedReason",
+          "securityState": "secure",
+          "securityDetails": {
+            "protocol": "TLS 1.3",
+            "keyExchange": "",
+            "keyExchangeGroup": "X25519",
+            "cipher": "AES_256_GCM",
+            "certificateId": 0,
+            "subjectName": "app-staging.vestorin.com",
+            "sanList": [
+              "app-staging.vestorin.com",
+              "rpc-staging.vestorin.com",
+              "staging.vestorin.com"
+            ],
+            "issuer": "YE1",
+            "validFrom": 1792946805,
+            "validTo": 1800722804,
+            "signedCertificateTimestampList": [
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "Sectigo 'Tiger2027h1'",
+                "logId": "1C9F682CE9FAF0456950F81B968A87DDDB3210D84CE6C8B2E382524AC4CF599F",
+                "timestamp": 1792950315272,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "3045022027CE00DD3288DB2F2653E6C6B472C6C5B376D6D0BB533D690D2115AF9FB6CBDF0221008AEBE3A35EC918BBE27CE5032424992DF40156C567982840FE9836F4FE02AA7A"
+              },
+              {
+                "status": "Verified",
+                "origin": "Embedded in certificate",
+                "logDescription": "IPng Networks 'Gouda2027h1'",
+                "logId": "1A8B9D6B8DD791D1CD0549EDB60355D606B64FAD30DB71FE788F0FC7C8FBC4B1",
+                "timestamp": 1792950316740,
+                "hashAlgorithm": "SHA-256",
+                "signatureAlgorithm": "ECDSA",
+                "signatureData": "304502206D0EE4E2336E8B7C068B41798C86281457133AB6611114E9C2FC6D944AC5F24B022100912C37949689423238223F2B10FE8807F6538CFF76457089F6834B165304534B"
+              }
+            ],
+            "certificateTransparencyCompliance": "compliant",
+            "serverSignatureAlgorithm": 1027,
+            "encryptedClientHello": false
+          }
+        },
+        "hasExtraInfo": true,
+        "frameId": "75B6F8B424A752E9B45F65EB906FA898"
+      }
+    },
+    {
+      "method": "Network.dataReceived",
+      "params": {
+        "requestId": "10113.58",
+        "timestamp": 1157648.83178,
+        "dataLength": 44,
+        "encodedDataLength": 44
+      }
+    },
+    {
+      "method": "Network.loadingFinished",
+      "params": {
+        "requestId": "10113.58",
+        "timestamp": 1157648.827113,
+        "encodedDataLength": 344
+      }
     }
   ]
 }

@@ -175,7 +175,7 @@ def generate_markdown_report(metrics: Dict[str, Any], balance_vst: Optional[floa
     report = f"""# Staging Faucet Claim Rate & Abuse Mitigation Report
 **Target Faucet Address**: `{FAUCET_ADDRESS}`
 **Report Generated**: `{datetime.datetime.now(datetime.timezone.utc).isoformat()}`
-**Decision D1 Status**: GATED & UNTAPPED (Tailnet-Only Reachability per MIN-227 Acceptance Criteria)
+**Decision D1 Status**: AUTHORIZED by Principal Pavel Cherkashin (2026-10-25 10:16 PDT; tailnet-only restriction lifted). Host reachability remains on Tailnet IP (`100.77.188.3`); multi-layered abuse defenses, adaptive difficulty, and velocity monitoring deployed in readiness for public edge exposure.
 
 ---
 
